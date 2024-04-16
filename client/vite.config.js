@@ -9,5 +9,15 @@ export default defineConfig({
   },
   server: {
     compress: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+        onProxyReq(proxyReq, req, _res) {
+          console.log('Proxy request:', req.method, req.url);
+        },
+      },
+    },
   },
 });

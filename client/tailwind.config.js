@@ -34,6 +34,7 @@ export default {
       colors: {
         darkGray: '#121212',
         mainGreen: '#003e29',
+        secondaryGreen: '#016346',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
