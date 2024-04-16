@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import burger from '../assets/burger.svg';
 import burgerwhite from '../assets/burgerwhite.svg';
 
 const links = [
@@ -48,8 +47,8 @@ export const Navbar = () => {
           <ul
             className={`  md:flex ${
               isOpen
-                ? 'fixed bg-mainGreen h-screen top-14 -translate-y-2 right-0 w-full flex flex-col items-center justify-center text-3xl animate-fadeIn '
-                : 'hidden space-x-5 ml-auto'
+                ? 'z-20 fixed bg-mainGreen h-screen top-14 -translate-y-2 right-0 w-full flex flex-col items-center justify-center text-3xl animate-fadeIn '
+                : 'hidden space-x-5 ml-auto z-10'
             }`}
           >
             {links.map((link) => (
