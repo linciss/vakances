@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
+
 import { NewsCard } from '../../components/common/NewsCard';
 
-const Home = () => {
-  const [articles, setArticles] = useState([]);
+import { ArticlesContext } from '../../context/ArticlesContext';
 
-  useEffect(() => {
-    axios
-      .get('/api/news')
-      .then((response) => {
-        setArticles(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+const Home = () => {
+  const articles = useContext(ArticlesContext);
 
   return (
     <div className="container mt-8 m-auto">
