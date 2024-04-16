@@ -3,7 +3,7 @@ import React from 'react';
 
 export const NewsCard = ({ article }) => {
   return (
-    <div className="mb-8 shadow-xl p-4 cursor-pointer">
+    <div className="mb-8 shadow-xl p-4 cursor-pointer bg-white">
       <img
         src={
           article.urlToImage ||

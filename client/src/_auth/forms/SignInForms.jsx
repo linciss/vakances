@@ -27,7 +27,7 @@ const SignInForms = () => {
         (errors.password && errors.password.type === 'required') ? (
           <div
             role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center"
+            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
           >
             Lūdzu aizpildiet visus laukus!
           </div>
@@ -36,7 +36,7 @@ const SignInForms = () => {
         (errors.password && errors.password.type === 'maxLength') ? (
           <div
             role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center"
+            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
           >
             Maksimālo simbolu skatis pārsniegts!
           </div>

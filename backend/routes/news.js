@@ -12,6 +12,7 @@ const router = express.Router();
 // };
 
 router.get('/', async (req, res) => {
+  console.log('news route hit!');
   try {
     const articles = await News.find();
     res.status(200).send(articles);
