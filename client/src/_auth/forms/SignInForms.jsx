@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../context/AuthContext';
 
 const SignInForms = () => {
   const {
@@ -8,9 +9,11 @@ const SignInForms = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const { login, error } = useContext(AuthContext);
 
-  console.log(errors);
+  const onSubmit = (data) => {
+    login(data);
+  };
 
   return (
     <div className="m-auto md:w-3/4 lg:w-1/2 mt-20">
@@ -39,6 +42,14 @@ const SignInForms = () => {
             className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
           >
             Maksimālo simbolu skatis pārsniegts!
+          </div>
+        ) : null}
+        {error ? (
+          <div
+            role="alert"
+            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
+          >
+            {error}
           </div>
         ) : null}
         <div>

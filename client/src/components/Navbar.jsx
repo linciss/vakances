@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import burgerwhite from '../assets/burgerwhite.svg';
+import { AuthContext } from '../context/AuthContext';
+import { LogOutButton } from './common/LogOutButton';
 
 const links = [
   {
@@ -19,14 +21,11 @@ const links = [
     path: '/about',
     text: 'PAR MUMS',
   },
-  {
-    path: '/login',
-    text: 'PIESLĒGTIES',
-  },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, logout } = useContext(AuthContext);
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
@@ -62,6 +61,18 @@ export const Navbar = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              {isAuthenticated ? (
+                <LogOutButton logout={logout} />
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-white font-semibold text-sm relative after:bg-lime-700 after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300  cursor-pointer tracking-widest text-center"
+                >
+                  LOGIN
+                </Link>
+              )}
+            </li>
           </ul>
         </nav>
       </div>
