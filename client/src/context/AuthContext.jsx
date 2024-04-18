@@ -9,19 +9,25 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get('/api/auth/user')
+      .get('/api/auth/user-authentication')
       .then((res) => {
+        if (res.status !== 200) {
+          return;
+        }
         setUser(res.data);
         setIsAuthenticated(true);
+        setFetching(false);
         console.log('authenticated');
       })
       .catch((err) => {
         console.log(err);
+        setFetching(false);
       });
   }, []);
 
@@ -29,15 +35,17 @@ export const AuthProvider = ({ children }) => {
     axios
       .post('/api/auth/login', data)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 200 && res.data) {
           setUser(res.data);
           setIsAuthenticated(true);
           navigate('/');
+          setFetching(false);
         }
       })
       .catch((err) => {
         console.log(err.response.data);
         setError(err.response.data);
+        setFetching(false);
       });
   };
 
@@ -47,6 +55,7 @@ export const AuthProvider = ({ children }) => {
       .then((res) => {
         setUser(null);
         setIsAuthenticated(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -55,7 +64,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, logout, error }}
+      value={{
+        user,
+        isAuthenticated,
+        login,
+        logout,
+        error,
+        fetching,
+      }}
     >
       {children}
     </AuthContext.Provider>
