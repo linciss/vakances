@@ -62,7 +62,7 @@ router.get('/logout', (req, res) => {
 });
 
 // check whether user is authenticated
-router.get('/user', requireAuth, (req, res) => {
+router.get('/user-authentication', requireAuth, (req, res) => {
   console.log('user is authenticated!');
   res.status(200).json(req.session.user);
 });
