@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import burgerwhite from '../assets/burgerwhite.svg';
 import { AuthContext } from '../context/AuthContext';
-import { LogOutButton } from './common/LogOutButton';
+import userIcon from '../assets/user-icon.svg';
 
 const links = [
   {
@@ -23,12 +23,36 @@ const links = [
   },
 ];
 
+const navbarClassnames = [
+  'text-white',
+  'font-semibold',
+  'text-sm',
+  'relative',
+  'after:bg-lime-700',
+  'after:absolute',
+  'after:h-1',
+  'after:w-0',
+  'after:bottom-0',
+  'after:left-0',
+  'hover:after:w-full',
+  'after:transition-all',
+  'after:duration-300',
+  'cursor-pointer',
+  'tracking-widest',
+  'text-center',
+];
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profilePressed, setProfilePressed] = useState(false);
   const { isAuthenticated, logout } = useContext(AuthContext);
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleProfile = () => {
+    setProfilePressed(!profilePressed);
   };
 
   return (
@@ -54,7 +78,7 @@ export const Navbar = () => {
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className=" text-white font-semibold text-sm relative after:bg-lime-700 after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300  cursor-pointer tracking-widest text-center"
+                  className={navbarClassnames.join(' ')}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.text}
@@ -63,14 +87,29 @@ export const Navbar = () => {
             ))}
             <li>
               {isAuthenticated ? (
-                <LogOutButton logout={logout} />
+                // <LogOutButton logout={logout} />
+                <img
+                  src={userIcon}
+                  className="w-6 h-6 cursor-pointer"
+                  onClick={handleProfile}
+                />
               ) : (
-                <Link
-                  to="/login"
-                  className="text-white font-semibold text-sm relative after:bg-lime-700 after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300  cursor-pointer tracking-widest text-center"
-                >
+                <Link to="/login" className={navbarClassnames.join(' ')}>
                   LOGIN
                 </Link>
+              )}
+              {profilePressed && (
+                <div className="absolute top-14 bg-mainGreen text-center h-20 w-32 -translate-x-12 ">
+                  <button
+                    className={navbarClassnames.join(' ')}
+                    onClick={() => {
+                      logout();
+                      handleProfile();
+                    }}
+                  >
+                    LOGOUT
+                  </button>
+                </div>
               )}
             </li>
           </ul>
