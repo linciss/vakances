@@ -6,6 +6,7 @@ import { AuthLayout } from './_auth/AuthLayout';
 import { SignInForms } from './_auth/forms/index';
 import { ArticlesProvider } from './context/ArticlesContext';
 import { AuthProvider } from './context/AuthContext';
+import { PrivateRoutes } from './_auth/PrivateRoutes';
 
 function App() {
   return (
@@ -23,6 +24,11 @@ function App() {
               <Route path="/vacancies" element={<Vacancies />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+
+              {/* PRIVATE ROUTES */}
+              <Route element={<PrivateRoutes />}>
+                <Route path="/profile" element={<div>Profile</div>} />
+              </Route>
             </Routes>
           </ArticlesProvider>
         </div>

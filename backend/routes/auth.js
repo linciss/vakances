@@ -6,8 +6,6 @@ import { requireAdmin, requireAuth } from '../auth/authMiddleWare.js';
 const router = express.Router();
 const saltRounds = 10;
 
-// MIDDLEWARE TO CHECK IF USER IS AUTHENTICATED
-
 // LOGIN AND REGISTER AND SO ON
 
 // need to authorise user later :)) PLEASE DONT FORGET
