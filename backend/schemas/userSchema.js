@@ -10,6 +10,14 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: 'moderator',
+  },
+  timeCreated: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const User = mongoose.model('User', userSchema, 'users');
