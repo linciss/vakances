@@ -1,13 +1,28 @@
-export const requireAuth = (req, res, next) => {
-  const { user } = req.session;
+import { User } from '../schemas/userSchema.js';
 
-  if (!user) {
+export const requireAuth = async (req, res, next) => {
+  const { user } = req.session;
+  if (req.session && user) {
+    const checkUser = await User.findOne({
+      username: user.username,
+    });
+    if (!checkUser) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+      return res.status(401).send('Jūs neesat autorizējies!');
+    }
+  } else {
     return res.status(401).send('Jūs neesat autorizējies!');
   }
+
   next();
 };
 
 export const requireAdmin = (req, res, next) => {
+  console.log('requireAdmin middleware hit');
   const { user } = req.session;
 
   if (!user) return res.status(401).send('Jūs neesat autorizējies!');
