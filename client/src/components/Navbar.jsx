@@ -117,10 +117,10 @@ export const Navbar = () => {
                   <div className="py-2 grid grid-cols-1">
                     <header>
                       <h1 className="text-white text-md font-semibold">
-                        {user.username}
+                        {user.username || ''}
                       </h1>
                       <p className="text-white text-sm font-semibold">
-                        {user.role}
+                        {user.role || ''}
                       </p>
                     </header>
                     <hr className="border-white my-2 " />
