@@ -13,9 +13,9 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get('/api/auth/user-authentication')
+  const checkAuthenticated = async () => {
+    await axios
+      .get('/api/auth/user-authentication', { withCredentials: true })
       .then((res) => {
         if (res.status !== 200) {
           return;
@@ -23,12 +23,16 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data);
         setIsAuthenticated(true);
         setFetching(false);
-        console.log('authenticated');
+        return true;
       })
+      // eslint-disable-next-line no-unused-vars
       .catch((err) => {
-        console.log(err);
         setFetching(false);
       });
+  };
+
+  useEffect(() => {
+    checkAuthenticated();
   }, []);
 
   const login = (data) => {
@@ -43,7 +47,6 @@ export const AuthProvider = ({ children }) => {
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
         setError(err.response.data);
         setFetching(false);
       });
@@ -52,14 +55,16 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     axios
       .get('/api/auth/logout')
+      // eslint-disable-next-line no-unused-vars
       .then((res) => {
-        setUser(null);
-        setIsAuthenticated(false);
-        window.location.reload();
+        if (res.status === 200) {
+          setUser(null);
+          setIsAuthenticated(false);
+          window.location.reload();
+        }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      // eslint-disable-next-line no-unused-vars
+      .catch((err) => {});
   };
 
   return (
@@ -71,6 +76,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         error,
         fetching,
+        checkAuthenticated,
       }}
     >
       {children}
