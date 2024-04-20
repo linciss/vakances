@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import burgerwhite from '../assets/burgerwhite.svg';
 import { AuthContext } from '../context/AuthContext';
 import userIcon from '../assets/user-icon.svg';
+import axios from 'axios';
 
 const links = [
   {
@@ -56,7 +57,7 @@ const navbarClassnames = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
@@ -64,6 +65,31 @@ export const Navbar = () => {
 
   const handleProfileMenu = () => {
     setProfileMenu(!profileMenu);
+  };
+
+  const handleLogout = async () => {
+    await axios
+      .get('/api/auth/logout')
+      // eslint-disable-next-line no-unused-vars
+      .catch((err) => {
+        return;
+      })
+      .then((res) => {
+        if (!res || !res.statusText === 'OK' || res.status >= 400) {
+          return;
+        }
+      })
+      .then(() => {
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...Object.keys(prevUser).reduce(
+            (acc, key) => ({ ...acc, [key]: null }),
+            {}
+          ),
+          isLoggedIn: false,
+        }));
+        return;
+      });
   };
 
   return (
@@ -101,7 +127,7 @@ export const Navbar = () => {
               </li>
             ))}
             <li>
-              {isAuthenticated ? (
+              {user.isLoggedIn ? (
                 <img
                   src={userIcon}
                   className="w-6 h-6 cursor-pointer"
@@ -138,7 +164,7 @@ export const Navbar = () => {
                       <button
                         className={navbarClassnames.join(' ')}
                         onClick={() => {
-                          logout();
+                          handleLogout();
                           handleProfileMenu();
                         }}
                       >
