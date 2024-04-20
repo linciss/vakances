@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import auth from './routes/auth.js';
+import rateLimiter from './controllers/rateLimiter.js';
 
 app.use(express.json());
 app.use(
@@ -25,6 +26,11 @@ app.use(
       mongoUrl: process.env.MONGO_URI,
       dbName: process.env.DB_NAME,
     }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: false,
+      httpOnly: true,
+    },
   })
 );
 
