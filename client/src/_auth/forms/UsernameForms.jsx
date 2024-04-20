@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const UsernameForms = () => {
   const {
@@ -11,12 +13,69 @@ const UsernameForms = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { error, success, changeUsername } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    changeUsername(data);
+
+    await axios
+      .put('/api/auth/change-username', data)
+      .catch((err) => {
+        if (err.response.status === 401) {
+          const responseData = err.response.data;
+          if (responseData.error === 'username_is_the_same') {
+            setError(
+              'Jaunais lietotājvārds nedrīkst būt tāds pats kā iepriekšējais!'
+            );
+            return;
+          } else if (responseData.error === 'fill_all_fields') {
+            setError('Lūdzu aizpildiet visus laukus!');
+            return;
+          } else if (responseData.error === 'incorrect_password') {
+            setError('Nepareiza parole!');
+            return;
+          } else if (responseData.error === 'user_exists') {
+            setError('Lietotājs ar šādu lietotājvārdu jau eksistē!');
+            return;
+          } else {
+            setUser((prevUser) => ({
+              ...prevUser,
+              ...Object.keys(prevUser).reduce(
+                (acc, key) => ({ ...acc, [key]: null }),
+                {}
+              ),
+              isLoggedIn: false,
+            }));
+            navigate('/login');
+            return;
+          }
+        }
+        setError(err.response.data);
+        navigate('/');
+        setSuccess(null);
+      })
+      .then((res) => {
+        if (!res || !res.status === 200) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setUser(data);
+        setSuccess('Lietotājvārds mainīts!');
+        setTimeout(() => {
+          navigate('/');
+          setSuccess(null);
+        }, 1000);
+        setError(null);
+      });
     setTimeout(() => {
       setIsSubmitting(false);
     }, 2000);
@@ -52,6 +111,16 @@ const UsernameForms = () => {
             Maksimālo simbolu skatis pārsniegts!
           </div>
         ) : null}
+        {errors.newUsername && errors.newUsername.type === 'minLength' ? (
+          <div className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn">
+            Miniālais simbolu skaits lietotājvārdā ir 3!
+          </div>
+        ) : null}
+        {errors.password && errors.password.type === 'minLength' ? (
+          <div className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn">
+            Parole ir pārāk īsa!
+          </div>
+        ) : null}
         {error ? (
           <div
             role="alert"
@@ -84,6 +153,7 @@ const UsernameForms = () => {
             {...register('newUsername', {
               required: true,
               maxLength: 20,
+              minLength: 3,
             })}
           />
         </div>
@@ -113,7 +183,7 @@ const UsernameForms = () => {
           disabled={isSubmitting}
           className=" text-white font-bold py-4 rounded-md bg-secondaryGreen transition-all duration-200 hover:animate-pulse"
         >
-          Mainīt paroli
+          Mainīt lietotājvārdu
         </button>
       </form>
     </div>

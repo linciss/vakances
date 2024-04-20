@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PasswordForms = () => {
   const {
@@ -8,15 +10,67 @@ const PasswordForms = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const { error, success, changePassword } = useContext(AuthContext);
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    changePassword(data);
+    await axios
+      .put('/api/auth/change-password', data)
+      .catch((err) => {
+        if (err.response.status === 401) {
+          const responseData = err.response.data;
+          if (responseData.error === 'incorrect_password') {
+            setError('Nepareiza parole!');
+            return;
+          } else if (responseData.error === 'passwords_do_not_match') {
+            setError('Paroles nesakrīt!');
+            return;
+          } else if (responseData.error === 'passwords_are_the_same') {
+            setError('Jaunā parole nedrīkst būt tāda pati kā iepriekšējā!');
+            return;
+          } else if (responseData.error === 'fill_all_fields') {
+            setError('Lūdzu aizpildiet visus laukus!');
+            return;
+          } else {
+            setUser((prevUser) => ({
+              ...prevUser,
+              ...Object.keys(prevUser).reduce(
+                (acc, key) => ({ ...acc, [key]: null }),
+                {}
+              ),
+              isLoggedIn: false,
+            }));
+            navigate('/login');
+            return;
+          }
+        }
+        setError(err.response.data);
+        navigate('/');
+        setSuccess(null);
+        return;
+      })
+      .then((res) => {
+        if (!res || !res.status === 200) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setSuccess('Parole nomainīta veiksmīgi!');
+        setTimeout(() => {
+          navigate('/');
+          setSuccess(null);
+        }, 1000);
+        setError(null);
+      });
     setTimeout(() => {
       setIsSubmitting(false);
     }, 2000);
@@ -56,6 +110,18 @@ const PasswordForms = () => {
             Maksimālo simbolu skatis pārsniegts!
           </div>
         ) : null}
+
+        {(errors.newPassword && errors.newPassword.type === 'minLength') ||
+        (errors.newPasswordVerify &&
+          errors.newPasswordVerify.type === 'maxLminLengthength') ? (
+          <div
+            role="alert"
+            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
+          >
+            Parolei jāsatur vismaz 6 simboli!
+          </div>
+        ) : null}
+
         {error ? (
           <div
             role="alert"
@@ -135,7 +201,7 @@ const PasswordForms = () => {
           disabled={isSubmitting}
           className=" text-white font-bold py-4 rounded-md bg-secondaryGreen transition-all duration-200 hover:animate-pulse"
         >
-          Mainīt paroli
+          {isSubmitting ? 'Maina...' : 'Mainīt paroli'}
         </button>
       </form>
     </div>

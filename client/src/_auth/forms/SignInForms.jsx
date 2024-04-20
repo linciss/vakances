@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignInForms = () => {
   const {
@@ -9,10 +11,32 @@ const SignInForms = () => {
     formState: { errors },
   } = useForm();
 
-  const { login, error } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    login(data);
+  const { setUser } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+
+  const onSubmit = async (data) => {
+    await axios
+      .post('/api/auth/login', data)
+      .catch((err) => {
+        setError(err.response.data);
+        return;
+      })
+      .then((res) => {
+        if (!res || !res.statusText === 'OK' || res.status >= 400) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setUser(data);
+
+        navigate('/profile');
+      });
   };
 
   return (
