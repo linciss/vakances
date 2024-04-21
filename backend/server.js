@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import auth from './routes/auth.js';
-import rateLimiter from './controllers/rateLimiter.js';
+import ExpressMongoSanitize from 'express-mongo-sanitize';
 
 app.use(express.json());
 app.use(
@@ -31,6 +31,12 @@ app.use(
       secure: false,
       httpOnly: true,
     },
+  })
+);
+
+app.use(
+  ExpressMongoSanitize({
+    replaceWith: '_',
   })
 );
 
