@@ -14,6 +14,7 @@ const PasswordForms = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const { setUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -23,34 +24,25 @@ const PasswordForms = () => {
       .put('/api/auth/change-password', data)
       .catch((err) => {
         if (err.response.status === 401) {
-          const responseData = err.response.data;
-          if (responseData.error === 'incorrect_password') {
-            setError('Nepareiza parole!');
-            return;
-          } else if (responseData.error === 'passwords_do_not_match') {
-            setError('Paroles nesakrīt!');
-            return;
-          } else if (responseData.error === 'passwords_are_the_same') {
-            setError('Jaunā parole nedrīkst būt tāda pati kā iepriekšējā!');
-            return;
-          } else if (responseData.error === 'fill_all_fields') {
-            setError('Lūdzu aizpildiet visus laukus!');
-            return;
-          } else {
-            setUser((prevUser) => ({
-              ...prevUser,
-              ...Object.keys(prevUser).reduce(
-                (acc, key) => ({ ...acc, [key]: null }),
-                {}
-              ),
-              isLoggedIn: false,
-            }));
-            navigate('/login');
-            return;
-          }
+          console.log(err.response.data);
+          setError(err.response.data);
+          return;
+        } else if (err.response.status === 429) {
+          setError('Pārāk daudz pieprasījumu! Lūdzu mēģiniet vēlāk!');
+          return;
+        } else if (err.response.status === 400) {
+          setError('Parolēm jābūt no 6 līdz 20 simbolu garām!');
+          return;
         }
-        setError(err.response.data);
-        navigate('/');
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...Object.keys(prevUser).reduce(
+            (acc, key) => ({ ...acc, [key]: null }),
+            {}
+          ),
+          isLoggedIn: false,
+        }));
+        navigate('/login');
         setSuccess(null);
         return;
       })
@@ -87,41 +79,6 @@ const PasswordForms = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-20 rounded-md"
       >
-        {/* ERROR HANDLING!!!! */}
-        {(errors.currPassword && errors.currPassword.type === 'required') ||
-        (errors.newPassword && errors.newPassword.type === 'required') ||
-        (errors.newPasswordVerify &&
-          errors.newPasswordVerify.type === 'required') ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            Lūdzu aizpildiet visus laukus!
-          </div>
-        ) : null}
-        {(errors.currPassword && errors.currPassword.type === 'maxLength') ||
-        (errors.newPassword && errors.newPassword.type === 'maxLength') ||
-        (errors.newPasswordVerify &&
-          errors.newPasswordVerify.type === 'maxLength') ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            Maksimālo simbolu skatis pārsniegts!
-          </div>
-        ) : null}
-
-        {(errors.newPassword && errors.newPassword.type === 'minLength') ||
-        (errors.newPasswordVerify &&
-          errors.newPasswordVerify.type === 'maxLminLengthength') ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            Parolei jāsatur vismaz 6 simboli!
-          </div>
-        ) : null}
-
         {error ? (
           <div
             role="alert"
@@ -146,29 +103,18 @@ const PasswordForms = () => {
           >
             Pašreizējā parole
           </label>
+          {errors.currPassword && errors.currPassword.type === 'minLength' ? (
+            <div className="text-red-500 text-xs">
+              Miniālais simbolu skaits ir 6!
+            </div>
+          ) : null}
           <input
             id="currPassword"
             aria-invalid={errors.currPassword ? 'true' : 'false'}
             type="password"
             maxLength={30}
             className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('currPassword', { required: true, maxLength: 20 })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="newPassword"
-            className={`text-white text-lg font-semibold`}
-          >
-            Jaunā parole
-          </label>
-          <input
-            id="newPassword"
-            type="password"
-            aria-invalid={errors.newPassword ? 'true' : 'false'}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('newPassword', {
+            {...register('currPassword', {
               required: true,
               maxLength: 20,
               minLength: 6,
@@ -181,8 +127,39 @@ const PasswordForms = () => {
             htmlFor="newPassword"
             className={`text-white text-lg font-semibold`}
           >
+            Jaunā parole
+          </label>
+          {errors.newPassword && errors.newPassword.type === 'minLength' ? (
+            <div className="text-red-500 text-xs">
+              Miniālais simbolu skaits ir 6!
+            </div>
+          ) : null}
+          <input
+            id="newPassword"
+            type="password"
+            aria-invalid={errors.newPassword ? 'true' : 'false'}
+            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
+            {...register('newPassword', {
+              required: true,
+              maxLength: 20,
+              minLength: 1,
+            })}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="newPasswordVerify"
+            className={`text-white text-lg font-semibold`}
+          >
             Jaunā parole atkārtoti
           </label>
+          {errors.newPasswordVerify &&
+          errors.newPasswordVerify.type === 'minLength' ? (
+            <div className="text-red-500 text-xs">
+              Miniālais simbolu skaits ir 6!
+            </div>
+          ) : null}
           <input
             id="newPasswordVerify"
             type="password"

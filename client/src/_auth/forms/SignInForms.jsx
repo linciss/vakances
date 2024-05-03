@@ -23,6 +23,9 @@ const SignInForms = () => {
         if (err.response.status === 401) {
           setError(err.response.data);
           return;
+        } else if (err.response.status === 429) {
+          setError('Pārāk daudz pieprasījumu! Lūdzu mēģiniet vēlāk!');
+          return;
         }
         setError('Minimālais simbolu skaits nav sasniegts!');
         console.log(err);
@@ -83,7 +86,7 @@ const SignInForms = () => {
             } w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border  rounded-md`}
             {...register('username', {
               required: true,
-              maxLength: 30,
+              maxLength: 20,
               minLength: 3,
             })}
           />
