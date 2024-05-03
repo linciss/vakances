@@ -8,7 +8,10 @@ import {
   attemptRegister,
 } from '../controllers/authController.js';
 import limiter from '../controllers/rateLimiter.js';
-import { validateAuthentication } from '../validation/validate.js';
+import {
+  validateAuthentication,
+  validateChangePassword,
+} from '../validation/validate.js';
 
 const router = express.Router();
 
@@ -27,7 +30,13 @@ router.post('/login', validateAuthentication, limiter(10), attemptLogin);
 
 router.get('/logout', attemptLogout);
 
-router.put('/change-password', requireAuth, limiter(5), attemptChangePassword);
+router.put(
+  '/change-password',
+  validateChangePassword,
+  requireAuth,
+  limiter(5),
+  attemptChangePassword
+);
 
 router.put('/change-username', requireAuth, attemptChangeUsername);
 

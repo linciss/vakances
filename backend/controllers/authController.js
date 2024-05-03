@@ -4,10 +4,11 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 export const attemptLogin = async (req, res) => {
+  console.log(req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(401).send('Nepareizs lietotājvārds vai parole!');
+    return res.status(401).send('Lūdzu aizpildiet visus laukus!');
   }
 
   try {
@@ -95,7 +96,7 @@ export const attemptChangePassword = async (req, res) => {
   const { user } = req.session;
 
   if (!currPassword || !newPassword || !newPasswordVerify) {
-    return res.status(401).send('fill_all_fields');
+    return res.status(401).send('Lūdzu aizpildiet visus laukus!');
   }
 
   try {
@@ -104,15 +105,15 @@ export const attemptChangePassword = async (req, res) => {
     const match = await bcrypt.compare(currPassword, dbUser.password);
 
     if (!match) {
-      return res.status(401).send({ error: 'incorrect_password' });
+      return res.status(401).send('Nepareiza parole!');
     }
 
     if (currPassword === newPassword) {
-      return res.status(401).send({ error: 'passwords_are_the_same' });
+      return res.status(401).send('Paroles ir vienādas!');
     }
 
     if (newPassword !== newPasswordVerify) {
-      return res.status(401).send({ error: 'passwords_do_not_match' });
+      return res.status(401).send('Paroles nesakrīt!');
     }
 
     const hash = await bcrypt.hash(newPassword, saltRounds);
