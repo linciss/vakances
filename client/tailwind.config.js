@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import daisyui from 'daisyui';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
@@ -192,6 +193,6 @@ export default {
       },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [daisyui],
 };
 export const plugins = [tailwindcssAnimate];
