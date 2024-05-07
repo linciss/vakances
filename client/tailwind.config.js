@@ -192,6 +192,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };
 export const plugins = [tailwindcssAnimate];
