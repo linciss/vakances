@@ -98,7 +98,7 @@ export const Navbar = () => {
         <Link
           to="/"
           className="text-white text-3xl font-bold"
-          onClick={handleOpen}
+          // onClick={handleOpen}
         >
           <h1 className="">IT ir spēks</h1>
         </Link>

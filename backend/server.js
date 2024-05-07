@@ -13,7 +13,11 @@ import rateLimiter from './controllers/rateLimiter.js';
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'http://localhost:8080'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:8080',
+      'https://scaling-zebra-5gvq4455546h4747-5173.app.github.dev',
+    ],
   })
 );
 app.use(helmet());
