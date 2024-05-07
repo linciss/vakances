@@ -6,7 +6,31 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   daisyui: {
-    themes: ['light', 'forest'],
+    themes: [
+      'light',
+      'forest',
+      {
+        mytheme: {
+          primary: '#00ff00',
+
+          secondary: '#00ff00',
+
+          accent: '#00ffff',
+
+          neutral: '#19362D',
+
+          'base-100': '#DAE2DF',
+
+          info: '#0000ff',
+
+          success: '#00ff00',
+
+          warning: '#00ff00',
+
+          error: '#ff0000',
+        },
+      },
+    ],
   },
   theme: {
     container: {
