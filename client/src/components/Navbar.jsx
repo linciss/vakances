@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import burgerwhite from '../assets/burgerwhite.svg';
-import { AuthContext } from '../context/AuthContext';
+import React, { useContext } from 'react';
+
 import userIcon from '../assets/user-icon.svg';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
 const links = [
   {
@@ -35,37 +35,8 @@ const authLinks = [
   },
 ];
 
-const navbarClassnames = [
-  'text-white',
-  'font-semibold',
-  'text-sm',
-  'relative',
-  'after:bg-lime-700',
-  'after:absolute',
-  'after:h-1',
-  'after:w-0',
-  'after:bottom-0',
-  'after:left-0',
-  'hover:after:w-full',
-  'after:transition-all',
-  'after:duration-300',
-  'cursor-pointer',
-  'tracking-widest',
-  'text-center',
-];
-
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [profileMenu, setProfileMenu] = useState(false);
   const { user, setUser } = useContext(AuthContext);
-
-  const handleOpen = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleProfileMenu = () => {
-    setProfileMenu(!profileMenu);
-  };
 
   const handleLogout = async () => {
     await axios
@@ -93,91 +64,107 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="max-h-16 h-16 bg-mainGreen flex items-center px-10 shadow-lg sticky top-0">
-      <div className="flex  justify-between max-w-[1440px] w-full m-auto ">
-        <Link
-          to="/"
-          className="text-white text-3xl font-bold"
-          // onClick={handleOpen}
-        >
-          <h1 className="">IT ir spēks</h1>
-        </Link>
-        <nav className="items-center flex">
-          <img
-            src={burgerwhite}
-            className="h-10 w-10 block md:hidden"
-            onClick={handleOpen}
-          />
-          <ul
-            className={`  md:flex  ${
-              isOpen
-                ? 'z-20 fixed bg-mainGreen h-screen top-14 -translate-y-2 right-0 w-full flex flex-col items-center justify-center text-3xl animate-fadeIn '
-                : 'hidden space-x-5 ml-auto z-10'
-            }`}
-          >
+    <div className=" bg-neutral sticky top-0 text-white px-10 ">
+      <div className="navbar  max-w-[1440px] w-full m-auto">
+        <div className="navbar-start">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral rounded-box w-52"
+            >
+              <li>
+                <a>Item 1</a>
+              </li>
+              <li>
+                <a>Parent</a>
+                <ul className="p-2">
+                  <li>
+                    <a>Submenu 1</a>
+                  </li>
+                  <li>
+                    <a>Submenu 2</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a>Item 3</a>
+              </li>
+            </ul>
+          </div>
+          <Link to="/" className="text-3xl font-bold">
+            IT ir spēks
+          </Link>
+        </div>
+        <div className="navbar-end hidden md:flex">
+          <ul className="menu menu-horizontal ">
             {links.map((link) => (
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className={navbarClassnames.join(' ')}
-                  onClick={() => setIsOpen(false)}
+                  className="text-white cursor-pointer tracking-widest text-center font-semibold"
                 >
                   {link.text}
                 </Link>
               </li>
             ))}
+          </ul>
+        </div>
+        {user.isLoggedIn ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img alt="Avatar" src={userIcon} />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral rounded-box w-52"
+            >
+              {authLinks.map((link) => (
+                <li key={link.path}>
+                  <Link to={link.path} className="text-white">
+                    {link.text}
+                  </Link>
+                </li>
+              ))}
+              <li onClick={handleLogout}>
+                <a className="text-white">LOGOUT</a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <ul className="menu menu-horizontal">
             <li>
-              {user.isLoggedIn ? (
-                <img
-                  src={userIcon}
-                  className="w-6 h-6 cursor-pointer"
-                  onClick={handleProfileMenu}
-                />
-              ) : (
-                <Link to="/login" className={navbarClassnames.join(' ')}>
-                  LOGIN
-                </Link>
-              )}
-              {profileMenu && (
-                <div className="fixed top-7 bg-secondaryGreen text-center w-36 -translate-x-40 z-40 rounded-md animate-fadeIn transition-all ">
-                  <div className="py-2 grid grid-cols-1">
-                    <header>
-                      <h1 className="text-white text-md font-semibold">
-                        {user.username || ''}
-                      </h1>
-                      <p className="text-white text-sm font-semibold">
-                        {user.role || ''}
-                      </p>
-                    </header>
-                    <hr className="border-white my-2 " />
-                    <ul className="">
-                      {authLinks.map((link) => (
-                        <Link
-                          to={link.path}
-                          className={navbarClassnames.join(' ')}
-                          onClick={() => handleProfileMenu()}
-                          key={link.path}
-                        >
-                          {link.text}
-                        </Link>
-                      ))}
-                      <button
-                        className={navbarClassnames.join(' ')}
-                        onClick={() => {
-                          handleLogout();
-                          handleProfileMenu();
-                        }}
-                      >
-                        LOGOUT
-                      </button>
-                    </ul>
-                  </div>
-                </div>
-              )}
+              <Link
+                to="/login"
+                className="text-white cursor-pointer tracking-widest text-center font-semibold"
+              >
+                LOGIN
+              </Link>
             </li>
           </ul>
-        </nav>
+        )}
       </div>
-    </header>
+    </div>
   );
 };
