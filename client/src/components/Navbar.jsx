@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import userIcon from '../assets/user-icon.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
@@ -19,8 +19,8 @@ const links = [
     text: 'KONTAKTI',
   },
   {
-    path: '/about',
-    text: 'PAR MUMS',
+    path: '/news',
+    text: 'ZIŅAS',
   },
 ];
 
@@ -37,6 +37,9 @@ const authLinks = [
 
 export const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
+
+  const { pathname } = useLocation();
+  const path = pathname.split('/')[1];
 
   const handleLogout = async () => {
     await axios
@@ -64,8 +67,8 @@ export const Navbar = () => {
   };
 
   return (
-    <div className=" bg-neutral sticky top-0 text-white px-10 ">
-      <div className="navbar  max-w-[1440px] w-full m-auto">
+    <div className=" bg-neutral sticky top-0 text-white px-10 z-10 ">
+      <div className="navbar  max-w-[1440px] w-full m-auto ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
@@ -112,28 +115,33 @@ export const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-end hidden md:flex">
-          <ul className="menu menu-horizontal ">
+          <ul className="menu menu-horizontal gap-6">
             {links.map((link) => (
-              <li key={link.path}>
-                <Link
-                  to={link.path}
-                  className="text-white cursor-pointer tracking-widest text-center font-semibold"
-                >
-                  {link.text}
-                </Link>
-              </li>
+              <Link
+                to={link.path}
+                className={`text-white cursor-pointer tracking-widest text-center font-semibold relative 
+               ${
+                 path === link.path.slice(1)
+                   ? 'after:absolute after:-bottom-2 after:left-0 after:w-full after:h-1 after:bg-base-100 after:rounded-t-md  after:animate-fadeIn'
+                   : ''
+               }
+             `}
+                key={link.path}
+              >
+                {link.text}
+              </Link>
             ))}
           </ul>
         </div>
         {user.isLoggedIn ? (
-          <div className="dropdown dropdown-end">
+          <div className="md:dropdown dropdown-end hidden ">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="Avatar" src={userIcon} />
+                <img alt="Tailwind CSS Navbar component" src={userIcon} />
               </div>
             </div>
             <ul
@@ -153,7 +161,7 @@ export const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <ul className="menu menu-horizontal">
+          <ul className="menu menu-horizontal hidden md:flex ">
             <li>
               <Link
                 to="/login"

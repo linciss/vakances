@@ -10,7 +10,7 @@ function App() {
     <AuthProvider>
       <main className="bg-base-100 min-h-screen">
         <Navbar />
-        <div className="m-auto max-w-[1280px] ">
+        <div className="m-auto ">
           <ArticlesProvider>
             <Views />
           </ArticlesProvider>
