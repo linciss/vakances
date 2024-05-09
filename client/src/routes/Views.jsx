@@ -6,7 +6,7 @@ import {
   SignInForms,
   UsernameForms,
 } from '../_auth/forms/index';
-import { Home, About, Contact, Vacancies, Profile } from '../_root/pages/index';
+import { Home, Contact, Vacancies, Profile, News } from '../_root/pages/index';
 import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';
 
@@ -20,7 +20,7 @@ export const Views = () => {
       </Route>
       <Route path="/" exact element={<Home />} />
       <Route path="/vacancies" element={<Vacancies />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/news" element={<News />} />
       <Route path="/contact" element={<Contact />} />
 
       {/* PRIVATE ROUTES */}

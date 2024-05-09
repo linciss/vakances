@@ -1,9 +1,29 @@
 /** @type {import('tailwindcss').Config} */
+import daisyui from 'daisyui';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
+  daisyui: {
+    themes: [
+      'light',
+      'forest',
+      {
+        mytheme: {
+          primary: '#00ff00',
+          secondary: '#00ff00',
+          accent: '#00ffff',
+          neutral: '#19362D',
+          'base-100': '#DAE2DF',
+          info: '#0000ff',
+          success: '#00ff00',
+          warning: '#00ff00',
+          error: '#ff0000',
+        },
+      },
+    ],
+  },
   theme: {
     container: {
       center: true,
@@ -179,7 +199,7 @@ export default {
       },
       animation: {
         fadeInBottom: 'fadeInBottom 1s ease-in',
-        fadeIn: 'fadeIn 0.5s ease-in',
+        fadeIn: 'fadeIn 0.2s ease-in',
         fadeOut: 'fadeOut 0.5s ease-out',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
@@ -192,6 +212,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [daisyui],
 };
 export const plugins = [tailwindcssAnimate];
