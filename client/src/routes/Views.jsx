@@ -30,8 +30,8 @@ export const Views = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/change-password" element={<PasswordForms />} />
         <Route path="/profile/change-username" element={<UsernameForms />} />
-        <Route path="/admin" element={<AdminPanel />}>
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route element={<AdminPanel />}>
+          <Route path="/admin/*" element={<Dashboard />} />
           <Route path="/admin/vacancies" element={<div>sssss</div>} />
         </Route>
       </Route>

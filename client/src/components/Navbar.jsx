@@ -30,7 +30,7 @@ const authLinks = [
     text: 'PROFILS',
   },
   {
-    path: '/admin',
+    path: '/admin/dashboard',
     text: 'ADMINA PANELIS',
   },
 ];

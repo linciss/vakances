@@ -41,8 +41,8 @@ const SignInForms = () => {
           return;
         }
         setUser(data);
+        navigate('/');
       });
-    navigate('/');
   };
 
   return (
