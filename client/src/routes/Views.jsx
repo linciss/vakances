@@ -9,6 +9,7 @@ import {
 import { Home, Contact, Vacancies, Profile, News } from '../_root/pages/index';
 import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';
+import { AdminPanel } from '../_root/private/AdminPanel';
 
 export const Views = () => {
   const { user } = useContext(AuthContext);
@@ -28,6 +29,7 @@ export const Views = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/change-password" element={<PasswordForms />} />
         <Route path="/profile/change-username" element={<UsernameForms />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Route>
     </Routes>
   );

@@ -41,13 +41,12 @@ const SignInForms = () => {
           return;
         }
         setUser(data);
-
-        navigate('/profile');
       });
+    navigate('/');
   };
 
   return (
-    <div className="m-auto md:w-3/4 lg:w-1/2 mt-20">
+    <div className="m-auto md:w-3/4 lg:w-1/2 mt-10">
       <div className="m-auto">
         <h1 className=" text-5xl md:text-7xl font-bold text-center">
           Pieslēdzies
@@ -55,7 +54,7 @@ const SignInForms = () => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-20 rounded-md"
+        className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-10 rounded-md"
       >
         {error ? (
           <div
