@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import userIcon from '../assets/user-icon.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
@@ -37,6 +37,7 @@ const authLinks = [
 
 export const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const { pathname } = useLocation();
   const path = pathname.split('/')[1];
@@ -62,14 +63,16 @@ export const Navbar = () => {
           ),
           isLoggedIn: false,
         }));
+        navigate('/');
+        window.location.reload();
         return;
       });
   };
 
   return (
     <div className=" bg-neutral sticky top-0 text-white px-10 z-10 ">
-      <div className="navbar  max-w-[1440px] w-full m-auto ">
-        <div className="navbar-start">
+      <div className="navbar max-w-[1440px] w-full m-auto ">
+        <div className="navbar-start sm:w-3/6 w-full">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
               <svg
@@ -110,11 +113,11 @@ export const Navbar = () => {
               </li>
             </ul>
           </div>
-          <Link to="/" className="text-3xl font-bold">
+          <Link to="/" className="text-4xl font-bold">
             IT ir spēks
           </Link>
         </div>
-        <div className="navbar-end hidden md:flex">
+        <div className="navbar-end hidden md:flex w-full">
           <ul className="menu menu-horizontal gap-6">
             {links.map((link) => (
               <Link
@@ -141,7 +144,7 @@ export const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="Tailwind CSS Navbar component" src={userIcon} />
+                <img alt="user icon" src={userIcon} />
               </div>
             </div>
             <ul
