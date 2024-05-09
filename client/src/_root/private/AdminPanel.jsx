@@ -1,30 +1,12 @@
 import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 export const AdminPanel = () => {
   return (
     <div className="drawer md:drawer-open ">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col gap-8 w-full container mt-10">
-        <h1 className="text-6xl font-bold"></h1>
-        <div className="stats stats-vertical lg:stats-horizontal shadow">
-          <div className="stat bg-base-300 py-8">
-            <div className="stat-title text-lg">Vakances</div>
-            <div className="stat-value">31K</div>
-            <div className="stat-desc text-lg">Jan 1st - Feb 1st</div>
-          </div>
-
-          <div className="stat bg-base-300 py-8">
-            <div className="stat-title text-lg">New Users</div>
-            <div className="stat-value">4,200</div>
-            <div className="stat-desc text-lg">↗︎ 400 (22%)</div>
-          </div>
-
-          <div className="stat bg-base-300 py-8">
-            <div className="stat-title text-lg">New Registers</div>
-            <div className="stat-value">1,200</div>
-            <div className="stat-desc text-lg">↘︎ 90 (14%)</div>
-          </div>
-        </div>
+        <Outlet />
 
         {/* <label
           htmlFor="my-drawer-2"
@@ -39,13 +21,17 @@ export const AdminPanel = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full  bg-neutral text-white">
+        <ul className="menu p-4 w-80 min-h-full bg-neutral text-white gap-6">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1</a>
+            <Link to="/admin/dashboard" className="text-2xl btn btn-neutral">
+              Dashboard
+            </Link>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <Link to="/admin/vacancies" className="text-2xl  btn btn-neutral">
+              Vakances
+            </Link>
           </li>
         </ul>
       </div>
