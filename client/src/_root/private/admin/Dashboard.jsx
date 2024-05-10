@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AdminContext } from '../../../context/AdminContext';
 
 export const Dashboard = () => {
+  const applicationCount = useContext(AdminContext);
+
   return (
     <>
       <h1 className="text-6xl font-bold">Dashboard</h1>
@@ -8,7 +11,7 @@ export const Dashboard = () => {
         {/* STATS */}
         <div className="stat bg-base-300 py-8 gap-2">
           <div className="stat-title text-xl">Vakances</div>
-          <div className="stat-value">31K</div>
+          <div className="stat-value">{applicationCount}</div>
           <div className="stat-desc text-lg">Jan 1st - Feb 1st</div>
         </div>
 

@@ -168,7 +168,7 @@ export const Navbar = () => {
             <li>
               <Link
                 to="/login"
-                className="text-white cursor-pointer tracking-widest text-center font-semibold"
+                className="text-white cursor-pointer tracking-widest text-center font-semibold btn btn-neutral"
               >
                 LOGIN
               </Link>

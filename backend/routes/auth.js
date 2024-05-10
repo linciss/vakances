@@ -11,7 +11,7 @@ import limiter from '../controllers/rateLimiter.js';
 import {
   validateAuthentication,
   validateChangePassword,
-} from '../validation/validate.js';
+} from '../validation/validateAuth.js';
 
 const router = express.Router();
 
