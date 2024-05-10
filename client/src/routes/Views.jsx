@@ -11,6 +11,9 @@ import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';
 import { AdminPanel } from '../_root/private/AdminPanel';
 import { Dashboard } from '../_root/private/admin/Dashboard';
+import { Applications } from '../_root/private/admin/Applications';
+import { VacancyForm } from '../_root/private/admin/VacancyForm';
+import { Vacancy } from '../_root/pages/Vacancy';
 
 export const Views = () => {
   const { user } = useContext(AuthContext);
@@ -22,6 +25,7 @@ export const Views = () => {
       </Route>
       <Route path="/" exact element={<Home />} />
       <Route path="/vacancies" element={<Vacancies />} />
+      <Route path="/vacancies/:id" element={<Vacancy />} />
       <Route path="/news" element={<News />} />
       <Route path="/contact" element={<Contact />} />
 
@@ -32,7 +36,8 @@ export const Views = () => {
         <Route path="/profile/change-username" element={<UsernameForms />} />
         <Route element={<AdminPanel />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/vacancies" element={<div>sssss</div>} />
+          <Route path="/admin/applications" element={<Applications />} />
+          <Route path="/admin/new-vacancy" element={<VacancyForm />} />
         </Route>
       </Route>
     </Routes>
