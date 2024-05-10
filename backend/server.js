@@ -9,6 +9,7 @@ import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import auth from './routes/auth.js';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
+import vacancy from './routes/vacancy.js';
 
 app.use(express.json());
 app.use(
@@ -46,6 +47,7 @@ app.use(
 
 app.use('/api/news', newsRouter);
 app.use('/api/auth', auth);
+app.use('/api/vacancies', vacancy);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
