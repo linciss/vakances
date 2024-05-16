@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-export const VacancyForm = () => {
+const VacancyForm = () => {
   const {
     register,
     handleSubmit,
@@ -174,3 +174,5 @@ export const VacancyForm = () => {
     </>
   );
 };
+
+export default VacancyForm;

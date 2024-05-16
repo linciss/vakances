@@ -1,3 +1,4 @@
+import { Timestamp } from 'mongodb';
 import mongoose, { Schema } from 'mongoose';
 
 const vacancySchema = new Schema({
@@ -33,6 +34,19 @@ const vacancySchema = new Schema({
     type: String,
     required: true,
   },
+  timeCreated: {
+    type: Date,
+    default: Date.now,
+  },
+  timeEdited: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+vacancySchema.pre('save', function (next) {
+  this.timeEdited = Date.now();
+  next();
 });
 
 export const Vacancy = mongoose.model('Vacancy', vacancySchema, 'vacancies');

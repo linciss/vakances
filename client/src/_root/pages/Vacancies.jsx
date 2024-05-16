@@ -1,30 +1,9 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { VacancyContext } from '../../context/VacancyContext';
 
 const Vacancies = () => {
-  const [vacancies, setVacancies] = useState([]);
-
-  const getVacancies = async () => {
-    axios
-      .get('/api/vacancies/all')
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((res) => {
-        if (!res || !res.status === 200) {
-          return;
-        }
-        return res.data;
-      })
-      .then((data) => {
-        setVacancies(data);
-      });
-  };
-
-  useEffect(() => {
-    getVacancies();
-  }, []);
+  const vacancies = useContext(VacancyContext);
 
   return (
     <div className="container max-w-[1280px]">
@@ -33,7 +12,7 @@ const Vacancies = () => {
           return (
             <Link
               to={`/vacancies/${vacancy._id}`}
-              key={vacancy.id}
+              key={vacancy._id}
               className="btn btn-primary"
             >
               {vacancy.title}

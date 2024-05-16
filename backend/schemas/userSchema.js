@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  timeEdited: {
+    type: Date,
+    default: Date.now,
+  },
   UUID: {
     type: String,
     required: false,
@@ -31,6 +35,9 @@ userSchema.pre('save', function (next) {
   if (!this.UUID) {
     this.UUID = uuidv4();
   }
+
+  this.timeEdited = Date.now();
+
   next();
 });
 

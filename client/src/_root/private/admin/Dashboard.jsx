@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AdminContext } from '../../../context/AdminContext';
 
-export const Dashboard = () => {
+const Dashboard = () => {
   const applicationCount = useContext(AdminContext);
 
   return (
@@ -32,3 +32,5 @@ export const Dashboard = () => {
     </>
   );
 };
+
+export default Dashboard;

@@ -1,28 +1,29 @@
-import axios from 'axios';
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export const Applications = () => {
+const Applications = () => {
   const [applications, setApplications] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get('/api/vacancies/get')
-      .catch((err) => {
-        console.error(err);
-      })
-      .then((res) => {
-        if (!res || !res.status === 200) {
-          return;
-        }
-        return res.data;
-      })
-      .then((data) => {
-        if (!data) {
-          return;
-        }
-        setApplications(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/vacancies/get')
+  //     .catch((err) => {
+  //       console.error(err);
+  //     })
+  //     .then((res) => {
+  //       if (!res || !res.status === 200) {
+  //         return;
+  //       }
+  //       return res.data;
+  //     })
+  //     .then((data) => {
+  //       if (!data) {
+  //         return;
+  //       }
+  //       setApplications(data);
+  //     });
+  // }, []);
 
   return (
     <div className="overflow-x-auto">
@@ -53,3 +54,5 @@ export const Applications = () => {
     </div>
   );
 };
+
+export default Applications;

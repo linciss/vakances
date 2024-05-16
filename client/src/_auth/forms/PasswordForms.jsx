@@ -9,6 +9,7 @@ const PasswordForms = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -66,6 +67,9 @@ const PasswordForms = () => {
     setTimeout(() => {
       setIsSubmitting(false);
     }, 2000);
+    if (error || errors) {
+      setValue('currPassword', '');
+    }
   };
 
   return (

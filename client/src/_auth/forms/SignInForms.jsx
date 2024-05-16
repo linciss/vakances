@@ -13,11 +13,14 @@ const SignInForms = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { setUser } = useContext(AuthContext);
   const [error, setError] = useState(null);
 
   const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     await axios
       .post('/api/auth/login', data)
       .catch((err) => {
@@ -44,8 +47,11 @@ const SignInForms = () => {
         setUser(data);
         navigate('/');
       });
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
     if (error || errors) {
-      setValue('password', ''); // Clear password field value
+      setValue('password', '');
     }
   };
 

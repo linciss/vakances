@@ -41,7 +41,6 @@ router.put(
 router.put('/change-username', requireAuth, attemptChangeUsername);
 
 router.get('/user-authentication', requireAuth, (req, res) => {
-  console.log('user is authenticated!');
   res.status(200).json(req.session.user);
 });
 

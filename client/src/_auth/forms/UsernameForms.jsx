@@ -9,6 +9,7 @@ const UsernameForms = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,6 +80,9 @@ const UsernameForms = () => {
     setTimeout(() => {
       setIsSubmitting(false);
     }, 2000);
+    if (error || errors) {
+      setValue('password', '');
+    }
   };
 
   return (

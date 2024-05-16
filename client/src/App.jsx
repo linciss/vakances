@@ -4,6 +4,7 @@ import { ArticlesProvider } from './context/ArticlesContext';
 import { AuthProvider } from './context/AuthContext';
 import { Views } from './routes/Views';
 import { Navbar } from './components/Navbar';
+import { VacancyProvider } from './context/VacancyContext';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <Navbar />
         <div className="m-auto ">
           <ArticlesProvider>
-            <Views />
+            <VacancyProvider>
+              <Views />
+            </VacancyProvider>
           </ArticlesProvider>
         </div>
       </main>
