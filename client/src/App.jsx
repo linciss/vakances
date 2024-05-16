@@ -8,7 +8,7 @@ import { Navbar } from './components/Navbar';
 function App() {
   return (
     <AuthProvider>
-      <main className="bg-base-100 min-h-screen">
+      <main className="bg-base-100  min-h-screen">
         <Navbar />
         <div className="m-auto ">
           <ArticlesProvider>

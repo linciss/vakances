@@ -9,6 +9,7 @@ const SignInForms = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const navigate = useNavigate();
@@ -43,6 +44,9 @@ const SignInForms = () => {
         setUser(data);
         navigate('/');
       });
+    if (error || errors) {
+      setValue('password', ''); // Clear password field value
+    }
   };
 
   return (
