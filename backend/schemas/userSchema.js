@@ -28,6 +28,10 @@ const userSchema = new Schema({
     required: false,
     unique: true,
   },
+  lastLogin: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 //generates UUID for user
