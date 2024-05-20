@@ -1,13 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { VacancyContext } from './../../context/VacancyContext';
 
 const Vacancies = () => {
   const vacancies = useContext(VacancyContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(vacancies.length / 6);
+
+  const currentItems = vacancies.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const paginationButtons = [];
+  for (let i = 1; i <= totalPages; i++) {
+    paginationButtons.push(
+      <button
+        key={i}
+        className={`join-item btn ${currentPage === i ? 'btn-active' : ''}`}
+        onClick={() => setCurrentPage(i)}
+      >
+        {i}
+      </button>
+    );
+  }
 
   return (
-    <div className="container max-w-[1280px]">
-      <div className="bg-base-100 py-12 sm:py-32 ">
+    <div className="container max-w-[1280px] mb-10">
+      <div className=" py-12 ">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Vakances
@@ -21,9 +43,9 @@ const Vacancies = () => {
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         ) : (
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 ">
-            <div className="mx-auto  grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:max-w-none  w-full">
-              {vacancies.map((vacancy) => {
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 border-t border-gray-300 w-full mt-8">
+            <div className="mx-auto  grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-16  pt-10  lg:max-w-none w-full">
+              {currentItems.map((vacancy) => {
                 const date = new Date(vacancy.timeCreated).toLocaleString();
 
                 return (
@@ -54,14 +76,18 @@ const Vacancies = () => {
                       </p>
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBNvV2CKwvDfXy3BqH7c0Dx5Fp_MQ5-EXKBd_l5Wayfg&s"
+                        alt=""
+                        className="h-10 w-10 rounded-full bg-gray-50"
+                      />
                       <div className="text-sm leading-6">
                         <p className="font-semibold text-gray-900">
                           <a href={''}>
                             <span className="absolute inset-0" />
-                            ssssxs
+                            LVT
                           </a>
                         </p>
-                        <p className="text-gray-600">GGGG</p>
                       </div>
                     </div>
                   </article>
@@ -71,6 +97,7 @@ const Vacancies = () => {
           </div>
         )}
       </div>
+      <div className="join flex justify-center">{paginationButtons}</div>
     </div>
   );
 };

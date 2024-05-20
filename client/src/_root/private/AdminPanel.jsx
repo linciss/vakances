@@ -29,7 +29,7 @@ const newsLinks = [
 
 const AdminPanel = () => {
   return (
-    <div className="drawer md:drawer-open ">
+    <div className="drawer md:drawer-open shadow-xl">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col gap-8 w-full container mt-10">
         <Outlet />
