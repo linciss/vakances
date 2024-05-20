@@ -5,7 +5,7 @@ import headerVector from '../assets/headervector.png';
 export const Header = () => {
   return (
     <div
-      className="hero min-h-screen"
+      className="hero min-h-screen absolute top-0"
       style={{
         backgroundImage: `url(${headerImage})`,
       }}

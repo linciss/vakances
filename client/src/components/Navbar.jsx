@@ -20,7 +20,7 @@ const links = [
   },
   {
     path: '/news',
-    text: 'ZIŅAS',
+    text: 'JAUNUMI',
   },
 ];
 
