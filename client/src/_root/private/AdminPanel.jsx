@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { AdminProvider } from '../../context/AdminContext';
 
 const vacancyLinks = [
   {
@@ -33,9 +32,8 @@ const AdminPanel = () => {
     <div className="drawer md:drawer-open ">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col gap-8 w-full container mt-10">
-        <AdminProvider>
-          <Outlet />
-        </AdminProvider>
+        <Outlet />
+
         {/* <label
           htmlFor="my-drawer-2"
           className="btn btn-primary drawer-button md:hidden"

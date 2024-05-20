@@ -11,10 +11,13 @@ const VacancyForm = () => {
   } = useForm();
 
   const navigate = useNavigate();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     axios
       .post('/api/vacancies/create', data)
       .catch((err) => {
@@ -33,7 +36,11 @@ const VacancyForm = () => {
         if (!data) {
           return;
         }
-        navigate('/admin/dashboard');
+        setSuccess('Vakance izveidota veiksmīgi!');
+        setTimeout(() => {
+          navigate('/admin/dashboard');
+          setIsSubmitting(false);
+        }, 2000);
       });
   };
 
@@ -45,6 +52,26 @@ const VacancyForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-base-300 w-[90%] md:w-[80%] lg:w-2/3 m-auto"
         >
+          {success ? (
+            <div role="alert" className="alert alert-success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{success}</span>
+            </div>
+          ) : (
+            ''
+          )}
           {/* ERROR HANDLING!!!! */}
           {(errors.title && errors.title.type === 'required') ||
           (errors.address && errors.address.type === 'required') ||
