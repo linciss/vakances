@@ -17,7 +17,7 @@ const vacancyLinks = [
   },
 ];
 
-const newsLinks = [ 
+const newsLinks = [
   {
     path: '/admin/new-news',
     text: 'Jaunumu veidošana',
@@ -57,10 +57,11 @@ const AdminPanel = () => {
               Dashboard
             </Link>
           </li>
-          <div className="collapse collapse-arrow bg-neutral">
-            <input type="radio" name="my-accordion-2" defaultChecked />
+
+          <div className="collapse bg-neutral collapse-arrow">
+            <input type="checkbox" />
             <div className="collapse-title text-xl font-medium">
-              Vakanču sadaļa
+              Vakances sadaļa
             </div>
             <div className="collapse-content">
               {vacancyLinks.map((link) => (
@@ -72,8 +73,9 @@ const AdminPanel = () => {
               ))}
             </div>
           </div>
-          <div className="collapse collapse-arrow bg-neutral">
-            <input type="radio" name="my-accordion-2" defaultChecked />
+
+          <div className="collapse  bg-neutral collapse-arrow">
+            <input type="checkbox" />
             <div className="collapse-title text-xl font-medium">
               Jaunumu sadaļa
             </div>

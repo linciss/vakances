@@ -17,8 +17,7 @@ const Profile = () => {
             Konts taisīts: {user.timeCreated.slice(0, 10)}
           </h2>
           <h2 className="font-bold text-2xl">
-            Pēdējais Login: {user.lastLogin.slice(0, 10)}{' '}
-            {user.lastLogin.slice(11, 19)}
+            Pēdējais Login: {new Date(user.lastLogin).toLocaleString()}
           </h2>
           <div className="flex gap-4 ">
             <Link to="/profile/change-username">
