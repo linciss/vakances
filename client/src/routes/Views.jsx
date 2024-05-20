@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AuthLayout } from '../_auth/AuthLayout';
 import {
   PasswordForms,
+  // eslint-disable-next-line no-unused-vars
   SignInForms,
   UsernameForms,
 } from '../_auth/forms/index';
@@ -11,6 +12,7 @@ import { Vacancy } from '../_root/pages/Vacancy';
 
 import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';
+import {NewSignInForms} from '../_auth/forms/NewSignInForms';
 import {
   AdminPanel,
   Applications,
@@ -26,7 +28,8 @@ export const Views = () => {
     <Routes>
       {/* PUBLIC ROUTES  */}
       <Route element={<AuthLayout />}>
-        <Route path="/login" element={<SignInForms />} />
+        {/* <Route path="/login" element={<SignInForms />} /> */}
+        <Route path="/login" element={<NewSignInForms />} />
       </Route>
       <Route path="/" exact element={<Home />} />
       <Route path="/vacancies" element={<Vacancies />} />
