@@ -11,7 +11,23 @@ const vacancyLinks = [
     path: 'admin/new-vacancy',
     text: 'Vakanču veidošana',
   },
+  {
+    path: 'admin/vacancies',
+    text: 'Vakances',
+  },
 ];
+
+const newsLinks = [
+  {
+    path: '/admin/new-news',
+    text: 'Jaunumu veidošana',
+  },
+  {
+    path: '/admin/news',
+    text: 'Jaunumi',
+  },
+];
+
 const AdminPanel = () => {
   return (
     <div className="drawer md:drawer-open ">
@@ -41,10 +57,11 @@ const AdminPanel = () => {
               Dashboard
             </Link>
           </li>
-          <div className="collapse collapse-arrow bg-neutral">
-            <input type="radio" name="my-accordion-2" defaultChecked />
+
+          <div className="collapse bg-neutral collapse-arrow">
+            <input type="checkbox" />
             <div className="collapse-title text-xl font-medium">
-              Vakanču sadaļa
+              Vakances sadaļa
             </div>
             <div className="collapse-content">
               {vacancyLinks.map((link) => (
@@ -54,14 +71,22 @@ const AdminPanel = () => {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  to={'/admin/vacancies'}
-                  className="text-xl btn btn-neutral"
-                >
-                  Vakances
-                </Link>
-              </li>
+            </div>
+          </div>
+
+          <div className="collapse  bg-neutral collapse-arrow">
+            <input type="checkbox" />
+            <div className="collapse-title text-xl font-medium">
+              Jaunumu sadaļa
+            </div>
+            <div className="collapse-content">
+              {newsLinks.map((link) => (
+                <li key={link.path}>
+                  <Link to={link.path} className="text-xl btn btn-neutral">
+                    {link.text}
+                  </Link>
+                </li>
+              ))}
             </div>
           </div>
         </ul>

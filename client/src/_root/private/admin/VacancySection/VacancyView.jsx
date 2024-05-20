@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { VacancyContext } from '../../../context/VacancyContext';
+import { VacancyContext } from '../../../../context/VacancyContext';
 
 const VacancyView = () => {
   const vacancies = useContext(VacancyContext);

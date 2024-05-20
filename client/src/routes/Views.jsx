@@ -17,6 +17,8 @@ import {
   AdminPanel,
   Applications,
   Dashboard,
+  NewsForm,
+  NewsView,
   Profile,
   VacancyForm,
   VacancyView,
@@ -48,6 +50,8 @@ export const Views = () => {
           <Route path="/admin/applications" element={<Applications />} />
           <Route path="/admin/new-vacancy" element={<VacancyForm />} />
           <Route path="/admin/vacancies" element={<VacancyView />} />
+          <Route path="/admin/news" element={<NewsView />} />
+          <Route path="/admin/new-news" element={<NewsForm />} />
         </Route>
       </Route>
     </Routes>

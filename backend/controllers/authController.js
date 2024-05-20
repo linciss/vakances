@@ -22,12 +22,16 @@ export const attemptLogin = async (req, res) => {
 
     if (match) {
       req.session.authenticated = true;
+      const lastLogin = new Date();
+      user.lastLogin = lastLogin;
+      await user.save();
 
       req.session.user = {
         username,
         role: user.role,
         timeCreated: user.timeCreated,
         isLoggedIn: true,
+        lastLogin: user.lastLogin,
       };
 
       res.status(200).json(req.session.user);
