@@ -38,7 +38,7 @@ export const Vacancy = () => {
               {vacancy.title}
             </p>
           </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl grid grid-cols-2 gap-x-8">
+          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl gap-x-8">
             <div className="mx-auto max-w-5xl lg:text-center ">
               <p className="text-lg leading-8 ">{vacancy.description}</p>
             </div>
