@@ -7,7 +7,6 @@
 // //   return(
 // //     <div className="container max-w-[1280px]">Contact</div>
 
-
 // //   );
 // // };
 
@@ -116,7 +115,7 @@
 //                       required
 //                     ></textarea>
 //                   </label>
-                    
+
 //                   <div className="w-full my-4 flex justify-end ">
 //                   <button type="submit" className="btn btn-primary w-1/2 max-w-sm  mx-auto">
 //                     Nosūtīt
@@ -143,51 +142,51 @@
 // export default Contact;
 
 import React from 'react';
-import { FaMapSigns } from "react-icons/fa";
-import { BsFillTelephoneFill, BsGlobeAmericas } from "react-icons/bs";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaMapSigns } from 'react-icons/fa';
+import { BsFillTelephoneFill, BsGlobeAmericas } from 'react-icons/bs';
+import { FaPaperPlane } from 'react-icons/fa';
 
 const Contact = () => {
   const contactTab = [
     {
       icon: <FaMapSigns className="text-4xl" />,
-      title: "Adrese",
+      title: 'Adrese',
       desription: `Ventspils iela 51, Liepāja, LV-3405`,
     },
     {
       icon: <BsFillTelephoneFill className="text-4xl" />,
-      title: "Telefons",
+      title: 'Telefons',
       desription: `+371 26838811`,
     },
     {
       icon: <FaPaperPlane className="text-4xl" />,
-      title: "E-pasts",
+      title: 'E-pasts',
       desription: `itIr@speks.lv`,
     },
     {
       icon: <BsGlobeAmericas className="text-4xl" />,
-      title: "Mājaslapa",
-      desription: "itirspeks.com",
+      title: 'Mājaslapa',
+      desription: 'itirspeks.com',
     },
   ];
 
   return (
-    <>
-      <div className="md:w-96 mx-auto text-center my-24">
+    <div className="container max-w-[1280px] pb-1">
+      <div className="md:w-96 mx-auto text-center py-12">
         <div className="text-2xl font-bold">Sazinieties ar mums</div>
-        <div className="text-xl">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis dolorem sint, magni magnam impedit dignissimos rerum modi error ex libero corrupti ab, numquam, eius maxime! Soluta quos culpa possimus tempora.
-        </div>
       </div>
       <div className="container mx-auto my-12 h-auto">
         <div className="flex gap-5 justify-center flex-wrap h-auto lg:flex-nowrap">
-          {contactTab.map((x, index) => (
-            <div key={index} className="card w-full shadow-xl h-auto bg-base-300">
+          {contactTab.map((detail, index) => (
+            <div
+              key={index}
+              className="card w-full shadow-xl h-auto bg-base-300"
+            >
               <div className="card-body items-center flex-grow-0 text-center">
-                <h2 className="card-title">{x.icon}</h2>
-                <p className="text-lg font-bold my-3">{x.title}</p>
+                <h2 className="card-title">{detail.icon}</h2>
+                <p className="text-lg font-bold my-3">{detail.title}</p>
                 <div>
-                  <p className="text-lg font-semibold">{x.desription}</p>
+                  <p className="text-lg font-semibold">{detail.desription}</p>
                 </div>
               </div>
             </div>
@@ -240,7 +239,10 @@ const Contact = () => {
                 ></textarea>
               </label>
               <div className="w-full my-4 flex justify-end">
-                <button type="submit" className="btn btn-primary w-1/2 max-w-sm mx-auto">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-1/2 max-w-sm mx-auto"
+                >
                   Nosūtīt
                 </button>
               </div>
@@ -258,9 +260,8 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 export default Contact;
-

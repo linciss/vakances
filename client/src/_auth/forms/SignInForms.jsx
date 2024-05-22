@@ -56,85 +56,82 @@ const SignInForms = () => {
   };
 
   return (
-    <div className="m-auto md:w-3/4 lg:w-1/2 mt-10">
-      <div className="m-auto">
-        <h1 className=" text-5xl md:text-7xl font-bold text-center">
+    <div className="relative flex flex-col justify-center h-full mt-52">
+      <div className="w-full p-6 m-auto bg-base-300 rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg">
+        <h1 className="text-3xl font-semibold text-center text-gray-700">
           Pieslēdzies
         </h1>
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-10 rounded-md"
-      >
-        {error ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            {error}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {error ? (
+            <div
+              role="alert"
+              className="bg-red-500 p-4 text-white text-xl rounded-md text-center transition-all duration-200 animate-fadeIn"
+            >
+              {error}
+            </div>
+          ) : null}
+          <div>
+            <label className="label" htmlFor="username">
+              <span className="text-base label-text">Lietotājvārds</span>
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Lietotājvārds"
+              aria-invalid={errors.username || error ? 'true' : 'false'}
+              maxLength={30}
+              className={`w-full input input-bordered ${
+                errors.username ? 'border-red-700' : 'border-gray-300'
+              }`}
+              {...register('username', {
+                required: true,
+                maxLength: 20,
+                minLength: 3,
+              })}
+            />
+            {errors.username && errors.username.type === 'minLength' ? (
+              <div role="alert" className="text-red-500 text-xs">
+                Minimālo simbolu skaits ir 3!
+              </div>
+            ) : null}
           </div>
-        ) : null}
-        <div>
-          <label
-            htmlFor="username"
-            className={`text-white text-lg font-semibold`}
-          >
-            Lietotājvārds
-          </label>
-          {errors.username && errors.username.type === 'minLength' ? (
-            <div role="alert" className="text-red-500 text-xs">
-              Minimālo simbolu skaits ir 3!
-            </div>
-          ) : null}
-          <input
-            id="username"
-            aria-invalid={errors.username || error ? 'true' : 'false'}
-            maxLength={30}
-            className={`block ${
-              errors.username ? 'border-red-700' : 'border-[#ACE6BB]'
-            } w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border  rounded-md`}
-            {...register('username', {
-              required: true,
-              maxLength: 20,
-              minLength: 3,
-            })}
-          />
-        </div>
 
-        <div>
-          <label
-            htmlFor="username"
-            className={`text-white text-lg font-semibold`}
-          >
-            Parole
-          </label>
-          {errors.password && errors.password.type === 'minLength' ? (
-            <div className="text-red-500 text-xs">
-              Miniālais simbolu skaits ir 6!
-            </div>
-          ) : null}
-          <input
-            id="password"
-            type="password"
-            aria-invalid={errors.password || error ? 'true' : 'false'}
-            className={`border  ${
-              errors.password ? 'border-red-700' : 'border-[#ACE6BB]'
-            } block w-full p-4 my-2 bg-secondaryGreen text-white outline-none  rounded-md`}
-            {...register('password', {
-              required: true,
-              maxLength: 20,
-              minLength: 6,
-            })}
-          />
-        </div>
+          <div>
+            <label className="label" htmlFor="password">
+              <span className="text-base label-text">Parole</span>
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Parole"
+              aria-invalid={errors.password || error ? 'true' : 'false'}
+              className={`w-full input input-bordered ${
+                errors.password ? 'border-red-700' : 'border-gray-300'
+              }`}
+              {...register('password', {
+                required: true,
+                maxLength: 20,
+                minLength: 6,
+              })}
+            />
+            {errors.password && errors.password.type === 'minLength' ? (
+              <div className="text-red-500 text-xs">
+                Miniālais simbolu skaits ir 6!
+              </div>
+            ) : null}
+          </div>
 
-        <button
-          type="submit"
-          className=" text-white font-bold py-4 rounded-md bg-secondaryGreen transition-all duration-200 hover:animate-pulse"
-        >
-          Pieslēgties
-        </button>
-      </form>
+          <div>
+            <button
+              type="submit"
+              className="btn-primary btn btn-block"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Pieslēdzies...' : 'Pieslēgties'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
