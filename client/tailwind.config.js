@@ -4,6 +4,7 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  
   darkMode: 'class',
   daisyui: {
     themes: [
