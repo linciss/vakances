@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { DeleteIcon } from '../../../../assets/DeleteIcon';
+import { Dots } from '../../../../assets/Dots';
+import { EditIcon } from '../../../../assets/EditIcon';
 
 const VacancyView = () => {
   const [vacancies, setVacancies] = useState(null);
@@ -52,7 +55,6 @@ const VacancyView = () => {
               <th>Izveidošanas datums</th>
               <th>Pēdējā rediģēšana</th>
               <th></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -66,9 +68,25 @@ const VacancyView = () => {
                   {vacancy.timeEdited.slice(0, 10)}{' '}
                   {vacancy.timeEdited.slice(11, 19)}
                 </td>
-                <td>Rediģēt</td>
-                <td onClick={() => deleteVacancy(vacancy._id)}>
-                  <div className="cursor-pointer text-neutral">Dzēst</div>
+                <td>
+                  <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="">
+                      <Dots />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-[85px]"
+                    >
+                      <li className="w-[70px]">
+                        <div>
+                          <DeleteIcon />
+                        </div>
+                      </li>
+                      <li className="w-[70px]">
+                        <EditIcon />
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}

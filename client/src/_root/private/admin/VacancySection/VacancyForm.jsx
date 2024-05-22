@@ -50,7 +50,7 @@ const VacancyForm = () => {
       <div className="">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-base-300 w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8"
+          className=" px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8"
         >
           {success ? (
             <div role="alert" className="alert alert-success">
@@ -103,7 +103,7 @@ const VacancyForm = () => {
             <input
               id="title"
               type="text"
-              className="input input-bordered w-full "
+              className="input input-bordered w-full bg-white"
               required
               aria-invalid={errors.title ? 'true' : 'false'}
               {...register('title', { required: true })}
@@ -114,19 +114,22 @@ const VacancyForm = () => {
               <div className="label">
                 <span className="label-text">Slodze</span>
               </div>
-              <select className="select select-bordered" {...register('load')}>
+              <select
+                className="select select-bordered bg-white"
+                {...register('load')}
+              >
                 <option defaultValue={'Pilna slodze'}>Pilna slodze</option>
                 <option>Pusslodze</option>
                 <option>Trešdaļas slodze</option>
               </select>
             </label>
-            <label className="form-control w-full max-w-sm m-auto">
+            <label className="form-control w-full max-w-sm m-auto ">
               <div className="label">
                 <span className="label-text">Darba laiks</span>
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full max-w-sm"
+                className="input input-bordered w-full max-w-sm bg-white"
                 {...register('workTime')}
               />
             </label>
@@ -137,7 +140,7 @@ const VacancyForm = () => {
               <input
                 id="address"
                 type="text"
-                className="input input-bordered w-full max-w-sm"
+                className="input input-bordered w-full max-w-sm bg-white"
                 required
                 aria-invalid={errors.address ? 'true' : 'false'}
                 {...register('address', { required: true })}
@@ -149,7 +152,7 @@ const VacancyForm = () => {
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full max-w-sm"
+                className="input input-bordered w-full max-w-sm bg-white"
                 {...register('salary')}
               />
             </label>
@@ -159,7 +162,7 @@ const VacancyForm = () => {
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full max-w-sm"
+                className="input input-bordered w-full max-w-sm bg-white"
                 {...register('experience')}
               />
             </label>
@@ -168,7 +171,7 @@ const VacancyForm = () => {
                 <span className="label-text">Darba veids</span>
               </div>
               <select
-                className="select select-bordered"
+                className="select select-bordered bg-white"
                 {...register('workType')}
               >
                 <option defaultValue={'Klātienē'}>Klātienē</option>
@@ -183,7 +186,7 @@ const VacancyForm = () => {
             </div>
             <textarea
               id="description"
-              className="textarea textarea-bordered h-36 resize-none w-full"
+              className="textarea textarea-bordered h-36 resize-none w-full bg-white"
               placeholder="Apraksts"
               required
               aria-invalid={errors.description ? 'true' : 'false'}
@@ -192,7 +195,7 @@ const VacancyForm = () => {
           </label>
           <button
             type="submit"
-            className="btn btn-primary w-1/2 max-w-sm  mx-auto"
+            className="btn btn-primary w-1/2 max-w-sm  mx-auto "
           >
             Izveidot
           </button>
