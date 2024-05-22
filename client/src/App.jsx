@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Views } from './routes/Views';
 import { Navbar } from './components/Navbar';
 import { VacancyProvider } from './context/VacancyContext';
+import { Footer } from './components/Footer';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           </ArticlesProvider>
         </div>
       </main>
+      <Footer />
     </AuthProvider>
   );
 }

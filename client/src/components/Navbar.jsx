@@ -20,7 +20,7 @@ const links = [
   },
   {
     path: '/news',
-    text: 'ZIŅAS',
+    text: 'JAUNUMI',
   },
 ];
 
@@ -70,7 +70,11 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="bg-neutral  sticky top-0 text-white px-10 z-10 shadow-xl">
+    <div
+      className={` sticky top-0 text-white px-10 z-10  ${
+        pathname === '/' ? 'bg-transparent' : 'bg-neutral shadow-xl'
+      }`}
+    >
       <div className="navbar max-w-[1440px] w-full m-auto ">
         <div className="navbar-start sm:w-3/6 w-full">
           <div className="dropdown">

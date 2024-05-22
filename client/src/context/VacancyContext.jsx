@@ -6,7 +6,6 @@ export const VacancyContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const VacancyProvider = ({ children }) => {
   const [vacancies, setVacancies] = useState([]);
-
   const getVacancies = async () => {
     await axios
       .get('/api/vacancies/all')
@@ -20,6 +19,9 @@ export const VacancyProvider = ({ children }) => {
         return res.data;
       })
       .then((data) => {
+        if (!data) {
+          return;
+        }
         setVacancies(data);
       });
   };

@@ -56,7 +56,7 @@ export const NewSignInForms = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
+    <div className="relative flex flex-col justify-center h-full mt-52">
       <div className="w-full p-6 m-auto bg-base-300 rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg">
         <h1 className="text-3xl font-semibold text-center text-gray-700">
           Pieslēdzies
@@ -135,4 +135,3 @@ export const NewSignInForms = () => {
     </div>
   );
 };
-
