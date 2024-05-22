@@ -22,16 +22,12 @@ export const attemptLogin = async (req, res) => {
 
     if (match) {
       req.session.authenticated = true;
-      const lastLogin = new Date();
-      user.lastLogin = lastLogin;
-      await user.save();
 
       req.session.user = {
         username,
         role: user.role,
         timeCreated: user.timeCreated,
         isLoggedIn: true,
-        lastLogin: user.lastLogin,
       };
 
       res.status(200).json(req.session.user);
@@ -52,11 +48,11 @@ export const attemptRegister = async (req, res) => {
     return res.status(401).send('Ievadiet visus laukus!');
   }
 
-  if (role !== 'moderator' && role !== 'root' && role !== 'admin') {
-    return res.status(401).send('Nepareiza lietotāja loma!');
+  if (role !== 'moderator' && role !== 'admin') {
+    return res.status(401).send('Jums nav atļaujas izveidot šādu lietotāju!');
   }
 
-  if (role === 'root') {
+  if (role !== 'root') {
     return res.status(401).send('Jums nav atļaujas izveidot šādu lietotāju!');
   }
 

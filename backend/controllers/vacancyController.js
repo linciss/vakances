@@ -67,3 +67,15 @@ export const getSingleVacancy = async (req, res) => {
     res.status(500).send('Kļūda ienākošajos datus!');
   }
 };
+
+export const deleteVacancy = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await Vacancy.findByIdAndDelete(id);
+    res.status(200).json('Vacancy deleted successfully!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting vacancy!');
+  }
+};

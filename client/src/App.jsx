@@ -5,11 +5,12 @@ import { AuthProvider } from './context/AuthContext';
 import { Views } from './routes/Views';
 import { Navbar } from './components/Navbar';
 import { VacancyProvider } from './context/VacancyContext';
+import { Footer } from './components/Footer';
 
 function App() {
   return (
     <AuthProvider>
-      <main className="bg-base-100  min-h-screen">
+      <main className="bg-white  min-h-screen">
         <Navbar />
         <div className="m-auto ">
           <ArticlesProvider>
@@ -19,6 +20,7 @@ function App() {
           </ArticlesProvider>
         </div>
       </main>
+      <Footer />
     </AuthProvider>
   );
 }
