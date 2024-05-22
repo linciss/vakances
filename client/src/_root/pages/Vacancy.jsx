@@ -39,7 +39,7 @@ export const Vacancy = () => {
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl gap-x-8">
-            <div className="mx-auto max-w-5xl lg:text-center ">
+            <div className="mx-auto max-w-5xl lg:text-center mb-20">
               <p className="text-lg leading-8 ">{vacancy.description}</p>
             </div>
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">

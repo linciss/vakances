@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { AuthLayout } from '../_auth/AuthLayout';
 import {
   PasswordForms,
-  // eslint-disable-next-line no-unused-vars
   SignInForms,
   UsernameForms,
 } from '../_auth/forms/index';
@@ -22,6 +21,7 @@ import {
   Profile,
   VacancyForm,
   VacancyView,
+  Users,
 } from '../_root/private';
 
 export const Views = () => {
@@ -52,6 +52,7 @@ export const Views = () => {
           <Route path="/admin/vacancies" element={<VacancyView />} />
           <Route path="/admin/news" element={<NewsView />} />
           <Route path="/admin/new-news" element={<NewsForm />} />
+          <Route path="/admin/users" element={<Users />} />
         </Route>
       </Route>
     </Routes>

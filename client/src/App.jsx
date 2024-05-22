@@ -10,7 +10,7 @@ import { Footer } from './components/Footer';
 function App() {
   return (
     <AuthProvider>
-      <main className="bg-white  min-h-screen">
+      <main className="bg-mainBg  min-h-screen">
         <Navbar />
         <div className="m-auto ">
           <ArticlesProvider>

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Applications = () => {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState([
+    { title: 'Front-end Developer', salary: '2000', date: '2021-10-10' },
+  ]);
 
   // useEffect(() => {
   //   axios
@@ -27,20 +29,21 @@ const Applications = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th></th>
-            <th>Pilnais vārds</th>
-            <th>Vakance</th>
-            <th>Pierakstīšanās datums</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 2 */}
-          {applications.map((application, index) => (
+      {applications ? (
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Pilnais vārds</th>
+              <th>Vakance</th>
+              <th>Pierakstīšanās datums</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 2 */}
+            {/* {applications.map((application, index) => (
             <tr key={index} className="hover">
               <th>{index + 1}</th>
               <td>{application.title}</td>
@@ -48,9 +51,19 @@ const Applications = () => {
               <td>{application.date}</td>
               <td>Apskatīt</td>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          ))} */}
+            <tr>
+              <th>1</th>
+              <td>John Doe</td>
+              <td>Front-end Developer</td>
+              <td>2021-10-10</td>
+              <td>Apskatīt</td>
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <span className="loading loading-spinner loading-lg"></span>
+      )}
     </div>
   );
 };

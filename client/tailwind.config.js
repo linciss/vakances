@@ -4,7 +4,7 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  
+
   darkMode: 'class',
   daisyui: {
     themes: [
@@ -12,7 +12,7 @@ export default {
       'forest',
       {
         mytheme: {
-          primary: '#006200',
+          primary: '#f2f2f2',
           secondary: '#fcfcfc',
           accent: '',
           neutral: '#19362D',
@@ -55,6 +55,7 @@ export default {
       },
       colors: {
         darkGray: '#121212',
+        mainBg: '#f2f2f2',
         mainGreen: '#003e29',
         secondaryGreen: '#016346',
         lightGreen: '#467061',
