@@ -210,6 +210,7 @@ export default {
         shake: 'shake 1s ease-in infinite',
         wave: 'wave 1s ease-in-out infinite',
         fadeInTop: 'fadeInTop 1s ease-in',
+        fadeInImage: 'fadeIn 0.7s ease-in',
       },
     },
   },

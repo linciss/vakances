@@ -1,11 +1,16 @@
 import React from 'react';
-
-import { Header } from '../../components/Header';
+import HeroHome from '../../components/HeroHome';
+import Testimonials from '../../components/Testimonials';
+import About from '../../components/About';
 
 const Home = () => {
   return (
-    <div className="m-auto">
-      <Header />
+    <div className="">
+      <main className="flex-grow overflow-hidden">
+        <HeroHome />
+        <About />
+        <Testimonials />
+      </main>
     </div>
   );
 };
