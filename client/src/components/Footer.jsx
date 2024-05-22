@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
-  const path = useLocation().pathname;
-
-  return path === '/' ? null : (
-    <footer className="footer footer-center p-10 bg-neutral text-white rounded">
+  return (
+    <footer className="footer footer-center p-10 bg-neutral text-white z-20">
       <nav className="grid grid-flow-col gap-4">
         <Link to={'/'} className="link link-hover">
           Par mums
