@@ -90,7 +90,7 @@ export const Vacancy = () => {
               <div className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 ">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-neutral">
-                    <LocationSVG />
+                    <LocationSVG h={20} />
                   </div>
                   Adrese:
                 </dt>

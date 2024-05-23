@@ -1,17 +1,38 @@
 import React from 'react';
 
+import { PhoneIcon } from '../../assets/PhoneIcon';
+import { PaperPlaneIcon } from '../../assets/PaperPlaneIcon';
+
+import { LocationPinIcon } from '../../assets/LocationPinIcon';
+
+const contactTab = [
+  {
+    icon: <LocationPinIcon className="text-base-300" />,
+    title: 'Adrese',
+    desription: `Ventspils iela 51, Liepāja, LV-3405`,
+  },
+  {
+    icon: <PhoneIcon className="text-base-300" />,
+    title: 'Telefons',
+    desription: `+371 26838811`,
+  },
+  {
+    icon: <PaperPlaneIcon className="text-base-300" />,
+    title: 'E-pasts',
+    desription: `itir@speks.lv`,
+  },
+];
+
 const Contact = () => {
   return (
-    <div className="container max-w-[1280px] pb-1">
-      <div className="md:w-96 mx-auto text-center py-12">
-        <div className="text-2xl font-bold">Sazinieties ar mums</div>
-      </div>
-      {/* <div className="container mx-auto my-12 h-auto">
-        <div className="flex gap-5 justify-center flex-wrap h-auto lg:flex-nowrap">
+    <div className="pb-1 ">
+      <div className="w-full text-center py-12  flex flex-col justify-center items-center">
+        <div className="text-5xl font-bold">Sazinieties ar mums</div>
+        <div className=" grid  my-16 bt-10 bg-base-300 w-full lg:grid-cols-3   grid-cols-1 ">
           {contactTab.map((detail, index) => (
             <div
               key={index}
-              className="card w-full shadow-xl h-auto bg-base-300"
+              className="card w-full h-auto bg-base-300 rounded-none"
             >
               <div className="card-body items-center flex-grow-0 text-center">
                 <h2 className="card-title">{detail.icon}</h2>
@@ -23,10 +44,18 @@ const Contact = () => {
             </div>
           ))}
         </div>
-      </div> */}
-      <div className="container lg:w-2/3 w-full px-2 mx-auto flex justify-center items-center shadow-xl my-10 rounded-md p-5 ">
-        <div className="lg:w-4/5 w-full p-4">
-          <form className=" rounded-lg px-2 pt-6 pb-8 mb-4">
+      </div>
+      <div className=" container max-w-[1280px]  w-full  mx-auto pt-6  my-10 pb-8 p-5">
+        <div className="lg:w-4/5 w-full p-4 grid grid-cols-1 md:grid-cols-2  mx-auto">
+          <div className="flex flex-col  text-start">
+            <h3 className="text-5xl font-bold">Uzraksti mums!</h3>
+            <p className="text-lg font-semibold mt-4">
+              Ja ir jautājumi, ieteikumi vai vēlaties sazināties ar mums,
+              aicinām aizpildīt redzamo formu. Mēs ar Jums sazināsimies pēc
+              iespējas ātrāk.
+            </p>
+          </div>
+          <form className=" rounded-lg md:mt-0 mt-8 ">
             <div className="flex flex-col">
               <div className="mx-auto form-control w-full">
                 <label className="label">
@@ -34,8 +63,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="Vārds, uzvārds"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-white"
                 />
               </div>
               <div className="mx-auto form-control w-full">
@@ -44,8 +72,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="Telefons"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-white"
                 />
               </div>
               <div className="mx-auto form-control w-full">
@@ -55,7 +82,7 @@ const Contact = () => {
                 <input
                   type="text"
                   placeholder="E-pasts"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-white"
                 />
               </div>
               <label className="form-control w-full m-auto">
@@ -64,7 +91,7 @@ const Contact = () => {
                 </div>
                 <textarea
                   id="description"
-                  className="textarea textarea-bordered h-36 resize-none w-full"
+                  className="textarea textarea-bordered h-36 resize-none w-full bg-white"
                   placeholder="Ziņojums"
                   required
                 ></textarea>
@@ -72,7 +99,7 @@ const Contact = () => {
               <div className="w-full my-4 flex justify-end">
                 <button
                   type="submit"
-                  className="btn btn-primary w-1/2 max-w-sm mx-auto"
+                  className="btn btn-base-300 w-1/2 max-w-sm mx-auto"
                 >
                   Nosūtīt
                 </button>

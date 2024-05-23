@@ -35,7 +35,7 @@ const AdminPanel = () => {
   return (
     <div className="drawer md:drawer-open shadow-xl">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col gap-8 w-full container mt-10">
+      <div className="drawer-content flex flex-col w-full container mt-10">
         <Outlet />
 
         {/* <label
@@ -55,7 +55,7 @@ const AdminPanel = () => {
         <ul className="menu p-4 w-80 min-h-full bg-primary text-white gap-6 border-2">
           {/* Sidebar content here */}
           <li>
-            <Link to={'/admin'} className="text-xl btn btn-primary">
+            <Link to={'/admin'} className="text-xl btn btn-primary shadow-none">
               Dashboard
             </Link>
           </li>
@@ -66,7 +66,10 @@ const AdminPanel = () => {
             <div className="collapse-content">
               {forms.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-xl btn btn-primary">
+                  <Link
+                    to={link.path}
+                    className="text-xl btn btn-primary shadow-none"
+                  >
                     {link.text}
                   </Link>
                 </li>
@@ -82,7 +85,10 @@ const AdminPanel = () => {
             <div className="collapse-content">
               {tables.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-xl btn btn-primary">
+                  <Link
+                    to={link.path}
+                    className="text-xl btn btn-primary shadow-none"
+                  >
                     {link.text}
                   </Link>
                 </li>

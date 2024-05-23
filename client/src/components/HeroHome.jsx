@@ -59,7 +59,7 @@ const HeroHome = () => {
                 data-aos-delay="300"
               >
                 <a href="#about">
-                  <div className="btn btn-primary px-20 text-xl">
+                  <div className="btn btn-base-300 px-20 text-xl">
                     Vairāk par mums
                   </div>
                 </a>

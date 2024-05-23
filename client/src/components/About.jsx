@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
 import FeaturesBg from '../assets/features-bg.png';
+import vacancyBg from '../assets/vakance.png';
+import newsBg from '../assets/newsBg.png';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const [tab, setTab] = useState(1);
@@ -107,32 +110,32 @@ const About = () => {
             >
               <div className="relative flex flex-col text-center lg:text-right">
                 {tab === 1 && (
-                  <div>
+                  <Link to={'/vacancies'}>
                     <div className="relative inline-flex flex-col">
                       <img
                         className="md:max-w-none mx-auto rounded animate-fadeInImage"
-                        src={FeaturesBg}
+                        src={vacancyBg}
                         width="500"
                         height="462"
                         alt="Features bg"
                       />
                     </div>
-                  </div>
+                  </Link>
                 )}
 
                 {/* Item 2 */}
                 {tab === 2 && (
-                  <div>
+                  <Link to={'/news'}>
                     <div className="relative inline-flex flex-col">
                       <img
                         className="md:max-w-none mx-auto rounded animate-fadeInImage"
-                        src={FeaturesBg}
+                        src={newsBg}
                         width="500"
                         height="462"
                         alt="Features bg"
                       />
                     </div>
-                  </div>
+                  </Link>
                 )}
 
                 {/* Item 3 */}
@@ -141,7 +144,7 @@ const About = () => {
                     <div className="relative inline-flex flex-col">
                       <img
                         className="md:max-w-none mx-auto rounded animate-fadeInImage"
-                        src={FeaturesBg}
+                        src={newsBg}
                         width="500"
                         height="462"
                         alt="Features bg"

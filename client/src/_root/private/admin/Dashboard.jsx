@@ -28,7 +28,8 @@ const Dashboard = () => {
   return (
     <>
       <h1 className="text-6xl font-bold">Dashboard</h1>
-      <div className="stats stats-vertical lg:stats-horizontal shadow">
+
+      <div className="stats stats-vertical lg:stats-horizontal shadow mt-8">
         {/* STATS */}
         <div className="stat bg-base-300 py-8 gap-2">
           <div className="stat-title text-xl">Vakances</div>
