@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { Dots } from '../../../../assets/Dots';
-import { EditIcon } from '../../../../assets/EditIcon';
 
 const VacancyView = () => {
   const [vacancies, setVacancies] = useState(null);

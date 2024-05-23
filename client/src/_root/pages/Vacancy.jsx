@@ -7,6 +7,31 @@ import { LoadSVG } from '../../assets/Load';
 import { TimeSVG } from '../../assets/Time';
 import { ExperienceSVG } from '../../assets/Experience';
 import { TypeSVG } from '../../assets/Type';
+import { useForm } from 'react-hook-form';
+
+const inputDetail = [
+  {
+    label: 'Vārds',
+  },
+  {
+    label: 'Uzvārds',
+  },
+  {
+    label: 'E-pasts',
+  },
+  {
+    label: 'Izglītība',
+  },
+  {
+    label: 'Skola',
+  },
+  {
+    label: 'Iepriekšējā pieredze',
+  },
+  {
+    label: 'Adrese',
+  },
+];
 
 // eslint-disable-next-line react/prop-types
 const VacancyDetail = ({ icon: Icon, label, value }) => (
@@ -24,48 +49,117 @@ const VacancyDetail = ({ icon: Icon, label, value }) => (
 );
 
 const Vacancy = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const { id } = useParams();
-  const [vacancy, setVacancy] = useState(null);
+  const [vacancy, setVacancy] = useState({});
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchVacancy = async () => {
-      try {
-        const response = await axios.get(`/api/vacancies/${id}`);
-        if (response.status === 200) {
-          setVacancy(response.data);
-        } else {
-          setError(true);
+    axios
+      .get(`/api/vacancies/${id}`)
+      .catch((err) => {
+        console.log(err);
+      })
+      .then((res) => {
+        if (!res || !res.status === 200) {
+          return;
         }
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      }
-    };
-
-    fetchVacancy();
+        return res.data;
+      })
+      .then((data) => {
+        setVacancy(data);
+      });
   }, [id]);
 
-  if (error) return <Navigate to="/vacancies" />;
-  if (!vacancy) return <div className="flex items-center justify-center h-screen">Loading...</div>;
-
-  return (
+  return vacancy ? (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full space-y-8 p-10 bg-white shadow-lg rounded-lg">
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900">{vacancy.title}</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">
+            {vacancy.title}
+          </h1>
           <p className="mt-4 text-lg text-gray-600">{vacancy.description}</p>
         </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <VacancyDetail icon={ExperienceSVG} label="Darba pieredze:" value={vacancy.experience} />
-          <VacancyDetail icon={TimeSVG} label="Darba laiks:" value={vacancy.workTime} />
-          <VacancyDetail icon={TypeSVG} label="Darba veids:" value={vacancy.workType} />
-          <VacancyDetail icon={MoneySVG} label="Alga (bruto):" value={`${vacancy.salary} €`} />
-          <VacancyDetail icon={LocationSVG} label="Adrese:" value={vacancy.address} />
-          <VacancyDetail icon={LoadSVG} label="Darba slodze:" value={vacancy.load} />
+          <VacancyDetail
+            icon={ExperienceSVG}
+            label="Darba pieredze:"
+            value={vacancy.experience}
+          />
+          <VacancyDetail
+            icon={TimeSVG}
+            label="Darba laiks:"
+            value={vacancy.workTime}
+          />
+          <VacancyDetail
+            icon={TypeSVG}
+            label="Darba veids:"
+            value={vacancy.workType}
+          />
+          <VacancyDetail
+            icon={MoneySVG}
+            label="Alga (bruto):"
+            value={`${vacancy.salary} €`}
+          />
+          <VacancyDetail
+            icon={LocationSVG}
+            label="Adrese:"
+            value={vacancy.address}
+          />
+          <VacancyDetail
+            icon={LoadSVG}
+            label="Darba slodze:"
+            value={vacancy.load}
+          />
         </dl>
+        <div className="flex justify-center items-center">
+          <button
+            className="btn btn-base-300 px-16 mt-16"
+            onClick={() => document.getElementById('my_modal_1').showModal()}
+          >
+            Pieteikties!
+          </button>
+          <dialog
+            id="my_modal_1"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box">
+              <h3 className="font-bold text-lg">Piesakies vakancei</h3>
+              <form className=" px-2 gap-8 rounded-md flex flex-col  w-full  m-auto ">
+                {inputDetail.map((input, i) => (
+                  <label key={i} className="form-control w-full  m-auto">
+                    <div className="label">
+                      <span className="label-text">{input.label}</span>
+                    </div>
+                    <input
+                      id={input.label}
+                      type="text"
+                      className="input input-bordered w-full bg-white"
+                      required
+                      aria-invalid={errors.input ? 'true' : 'false'}
+                      {...register(input.label, { required: true })}
+                    />
+                  </label>
+                ))}
+                <button className="btn btn-base-300">Sūtīt!</button>
+              </form>
+              <div className="modal-action">
+                <form method="dialog">
+                  <button className="btn">Iziet</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
+        </div>
       </div>
     </div>
+  ) : (
+    <Navigate to="/vacancies" />
   );
 };
 

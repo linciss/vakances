@@ -6,8 +6,14 @@ import {
   SignInForms,
   UsernameForms,
 } from '../_auth/forms/index';
-import { Home, Contact, Vacancies, News, ViewNews } from '../_root/pages';
-import { Vacancy } from '../_root/pages/Vacancy';
+import {
+  Home,
+  Contact,
+  Vacancies,
+  News,
+  ViewNews,
+  Vacancy,
+} from '../_root/pages';
 
 import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';

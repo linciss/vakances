@@ -39,7 +39,9 @@ const UserForm = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold border-b border-gray-300 pb-8">Izveidot jaunu lietotāju</h1>
+      <h1 className="text-4xl font-bold border-b border-gray-300 pb-8">
+        Izveidot jaunu lietotāju
+      </h1>
       <div className="mx-auto max-w-4xl px-6 lg:px-8 w-full mt-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
