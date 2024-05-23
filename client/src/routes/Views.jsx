@@ -22,6 +22,7 @@ import {
   VacancyForm,
   VacancyView,
   Users,
+  UserForm,
 } from '../_root/private';
 
 export const Views = () => {
@@ -54,6 +55,7 @@ export const Views = () => {
           <Route path="/admin/vacancies" element={<VacancyView />} />
           <Route path="/admin/news" element={<NewsView />} />
           <Route path="/admin/new-news" element={<NewsForm />} />
+          <Route path="/admin/new-user" element={<UserForm />} />
           <Route path="/admin/users" element={<Users />} />
         </Route>
       </Route>

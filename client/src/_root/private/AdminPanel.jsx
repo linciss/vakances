@@ -29,6 +29,11 @@ const forms = [
     path: '/admin/new-news',
     text: 'Jaunumu formas',
   },
+  {
+    path: '/admin/new-user',
+    text: 'Lietotāju formas',
+  },
+  
 ];
 
 const AdminPanel = () => {
