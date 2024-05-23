@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
-import { Dots } from '../../../assets/Dots';
-import { DeleteIcon } from '../../../assets/DeleteIcon';
-import { EditIcon } from '../../../assets/EditIcon';
+import { AuthContext } from '../../../../context/AuthContext';
+import { Dots } from '../../../../assets/Dots';
+import { DeleteIcon } from '../../../../assets/DeleteIcon';
+import { EditIcon } from '../../../../assets/EditIcon';
 
 const Users = () => {
   const { user } = useContext(AuthContext);

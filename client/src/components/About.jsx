@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import FeaturesBg from '../assets/features-bg.png';
-import vacancyBg from '../assets/vakance.png';
+
+import vacancyBg from '../assets/vacancyBg.png';
 import newsBg from '../assets/newsBg.png';
 import { Link } from 'react-router-dom';
 
@@ -113,7 +113,7 @@ const About = () => {
                   <Link to={'/vacancies'}>
                     <div className="relative inline-flex flex-col">
                       <img
-                        className="md:max-w-none mx-auto rounded animate-fadeInImage"
+                        className="md:max-w-none mx-auto rounded animate-fadeInImage max-h-[462px]"
                         src={vacancyBg}
                         width="500"
                         height="462"
@@ -128,7 +128,7 @@ const About = () => {
                   <Link to={'/news'}>
                     <div className="relative inline-flex flex-col">
                       <img
-                        className="md:max-w-none mx-auto rounded animate-fadeInImage"
+                        className="md:max-w-none mx-auto rounded animate-fadeInImage max-h-[462px]"
                         src={newsBg}
                         width="500"
                         height="462"

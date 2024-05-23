@@ -119,6 +119,9 @@ export const Navbar = () => {
                       </Link>
                     </li>
                   ))}
+                  <li onClick={handleLogout}>
+                    <a className="text-white">LOGOUT</a>
+                  </li>
                 </>
               ) : (
                 <li>

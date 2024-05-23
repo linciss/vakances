@@ -57,7 +57,7 @@ const SignInForms = () => {
 
   return (
     <div className="relative flex flex-col justify-center h-full mt-52">
-      <div className="w-full p-6 m-auto  rounded-md shadow-md ring-2  lg:max-w-lg">
+      <div className="w-full p-6 m-auto  rounded-md shadow-md  lg:max-w-lg">
         <h1 className="text-3xl font-semibold text-center text-gray-700">
           Pieslēdzies
         </h1>
@@ -80,7 +80,7 @@ const SignInForms = () => {
               placeholder="Lietotājvārds"
               aria-invalid={errors.username || error ? 'true' : 'false'}
               maxLength={30}
-              className={`w-full input input-bordered ${
+              className={`w-full input input-bordered bg-white ${
                 errors.username ? 'border-red-700' : 'border-gray-300'
               }`}
               {...register('username', {
@@ -105,7 +105,7 @@ const SignInForms = () => {
               type="password"
               placeholder="Parole"
               aria-invalid={errors.password || error ? 'true' : 'false'}
-              className={`w-full input input-bordered ${
+              className={`w-full input input-bordered bg-white ${
                 errors.password ? 'border-red-700' : 'border-gray-300'
               }`}
               {...register('password', {
@@ -124,7 +124,7 @@ const SignInForms = () => {
           <div>
             <button
               type="submit"
-              className="btn-primary btn btn-block"
+              className="btn-base-300 btn btn-block"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Pieslēdzies...' : 'Pieslēgties'}
