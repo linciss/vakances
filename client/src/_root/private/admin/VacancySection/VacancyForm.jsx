@@ -51,7 +51,7 @@ const VacancyForm = () => {
         <div className="mx-auto border-t border-gray-300 w-full mt-8"></div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-xl px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
+          className=" shadow-md  px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
         >
           {success ? (
             <div role="alert" className="alert alert-success">

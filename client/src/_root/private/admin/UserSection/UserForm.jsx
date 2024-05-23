@@ -40,10 +40,10 @@ const UserForm = () => {
   return (
     <>
       <h1 className="text-4xl font-bold">Izveidot jaunu lietotāju</h1>
-      <div className="mx-auto max-w-4xl px-6 lg:px-8 border-t border-gray-300 w-full mt-8">
+      <div className="mx-auto border-t border-gray-300 w-full mt-8 px-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-full md:w-3/4 lg:w-1/2 m-auto mt-8"
+          className="shadow-md px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
         >
           {(errors.username && errors.username.type === 'required') ||
           (errors.password && errors.password.type === 'required') ||
