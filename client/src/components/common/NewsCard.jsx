@@ -7,7 +7,7 @@ export const NewsCard = ({ article }) => {
       <img
         src={
           article.urlToImage ||
-          'https://qph.cf2.quoracdn.net/main-qimg-1a4bafe2085452fdc55f646e3e31279c-lq'
+          'http://qph.cf2.quoracdn.net/main-qimg-1a4bafe2085452fdc55f646e3e31279c-lq'
         }
         alt="placeholder"
         className="h-48 w-full object-cover"

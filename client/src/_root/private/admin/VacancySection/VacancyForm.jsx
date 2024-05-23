@@ -19,7 +19,7 @@ const VacancyForm = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .post('/api/vacancies/create', data)
+      .post('http://localhost:5000/api/vacancies/create', data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);

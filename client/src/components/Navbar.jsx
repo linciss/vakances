@@ -44,7 +44,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get('/api/auth/logout')
+      .get('http://localhost:5000/api/auth/logout')
       // eslint-disable-next-line no-unused-vars
       .catch((err) => {
         return;

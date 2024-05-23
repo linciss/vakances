@@ -8,7 +8,7 @@ const VacancyView = () => {
 
   const getVacancies = async () => {
     await axios
-      .get('/api/vacancies/all')
+      .get('http://localhost:5000/api/vacancies/all', { withCredentials: true })
       .catch((err) => {
         console.log(err);
       })
@@ -29,7 +29,7 @@ const VacancyView = () => {
 
   const deleteVacancy = async (id) => {
     axios
-      .delete(`/api/vacancies/${id}`)
+      .delete(`http://localhost:5000/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
       })

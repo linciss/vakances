@@ -5,7 +5,9 @@ const Dashboard = () => {
   const [count, setCount] = useState(null);
   const getCount = async () => {
     axios
-      .get('/api/vacancies/count', { withCredentials: true })
+      .get('http://localhost:5000/api/vacancies/count', {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
       })

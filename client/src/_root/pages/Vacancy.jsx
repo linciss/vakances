@@ -61,7 +61,7 @@ const Vacancy = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/vacancies/${id}`)
+      .get(`http://localhost:5000/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
       })

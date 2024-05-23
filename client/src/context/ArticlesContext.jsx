@@ -9,7 +9,7 @@ export const ArticlesProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get('/api/news')
+      .get('http://localhost:5000/api/news')
       .then((response) => {
         setArticles(response.data);
       })

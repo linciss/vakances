@@ -19,6 +19,7 @@ app.use(
       'http://localhost:8080',
       'https://scaling-zebra-5gvq4455546h4747-5173.app.github.dev',
     ],
+    credentials: true,
   })
 );
 app.use(helmet());

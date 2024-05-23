@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthenticated = async () => {
     await axios
-      .get('/api/auth/user-authentication', {
+      .get('http://localhost:5000/api/auth/user-authentication', {
         withCredentials: true,
       })
       // eslint-disable-next-line no-unused-vars

@@ -22,7 +22,7 @@ const SignInForms = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     await axios
-      .post('/api/auth/login', data)
+      .post('http://localhost:5000/api/auth/login', data)
       .catch((err) => {
         if (err.response.status === 401) {
           setError(err.response.data);
