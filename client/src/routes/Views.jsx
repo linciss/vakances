@@ -7,7 +7,7 @@ import {
   SignInForms,
   UsernameForms,
 } from '../_auth/forms/index';
-import { Home, Contact, Vacancies, News } from '../_root/pages';
+import { Home, Contact, Vacancies, News, ViewNews } from '../_root/pages';
 import { Vacancy } from '../_root/pages/Vacancy';
 
 import { PrivateRoutes } from './PrivateRoutes';
@@ -38,6 +38,7 @@ export const Views = () => {
       <Route path="/vacancies/:id" element={<Vacancy />} />
 
       <Route path="/news" element={<News />} />
+      <Route path="/viewNews/:id" element={<ViewNews />} />
       <Route path="/contact" element={<Contact />} />
 
       {/* PRIVATE ROUTES */}
