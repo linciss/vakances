@@ -1,38 +1,12 @@
 import React from 'react';
-import { FaMapSigns } from 'react-icons/fa';
-import { BsFillTelephoneFill, BsGlobeAmericas } from 'react-icons/bs';
-import { FaPaperPlane } from 'react-icons/fa';
 
 const Contact = () => {
-  const contactTab = [
-    {
-      icon: <FaMapSigns className="text-4xl" />,
-      title: 'Adrese',
-      desription: `Ventspils iela 51, Liepāja, LV-3405`,
-    },
-    {
-      icon: <BsFillTelephoneFill className="text-4xl" />,
-      title: 'Telefons',
-      desription: `+371 26838811`,
-    },
-    {
-      icon: <FaPaperPlane className="text-4xl" />,
-      title: 'E-pasts',
-      desription: `itIr@speks.lv`,
-    },
-    {
-      icon: <BsGlobeAmericas className="text-4xl" />,
-      title: 'Mājaslapa',
-      desription: 'itirspeks.com',
-    },
-  ];
-
   return (
     <div className="container max-w-[1280px] pb-1">
       <div className="md:w-96 mx-auto text-center py-12">
         <div className="text-2xl font-bold">Sazinieties ar mums</div>
       </div>
-      <div className="container mx-auto my-12 h-auto">
+      {/* <div className="container mx-auto my-12 h-auto">
         <div className="flex gap-5 justify-center flex-wrap h-auto lg:flex-nowrap">
           {contactTab.map((detail, index) => (
             <div
@@ -49,14 +23,14 @@ const Contact = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="container mx-auto flex flex-wrap shadow-xl my-20 rounded-md p-5 bg-base-300">
-        <div className="lg:w-1/2 w-full p-4">
+      </div> */}
+      <div className="container lg:w-2/3 w-full px-2 mx-auto flex justify-center items-center shadow-xl my-10 rounded-md p-5 ">
+        <div className="lg:w-4/5 w-full p-4">
           <form className=" rounded-lg px-2 pt-6 pb-8 mb-4">
             <div className="flex flex-col">
               <div className="mx-auto form-control w-full">
                 <label className="label">
-                  <span className="label-text">Tavs vārds un uzvārds</span>
+                  <span className="label-text">Pilnais vārds</span>
                 </label>
                 <input
                   type="text"
@@ -106,7 +80,7 @@ const Contact = () => {
             </div>
           </form>
         </div>
-        <div className="lg:w-1/2 w-full p-4 rounded-lg">
+        {/* <div className="lg:w-1/2 w-full p-4 rounded-lg">
           <div className="relative aspect-w-16 h-[50vw] lg:h-full aspect-h-9">
             <iframe
               className="absolute inset-0 w-full h-full"
@@ -115,7 +89,7 @@ const Contact = () => {
               loading="lazy"
             ></iframe>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
