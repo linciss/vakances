@@ -29,6 +29,7 @@ export const Views = () => {
   return user.isLoggedIn === null ? null : (
     <Routes>
       {/* PUBLIC ROUTES  */}
+      <Route path="*" element={<div>404 Not Found</div>} />
       <Route element={<AuthLayout />}>
         {/* <Route path="/login" element={<SignInForms />} /> */}
         <Route path="/login" element={<SignInForms />} />
@@ -46,7 +47,7 @@ export const Views = () => {
         <Route path="/profile/change-password" element={<PasswordForms />} />
         <Route path="/profile/change-username" element={<UsernameForms />} />
         <Route element={<AdminPanel />}>
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/applications" element={<Applications />} />
           <Route path="/admin/new-vacancy" element={<VacancyForm />} />
           <Route path="/admin/vacancies" element={<VacancyView />} />

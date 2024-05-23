@@ -36,14 +36,14 @@ const NewsForm = () => {
         navigate('/admin/dashboard');
       });
   };
-  
-  return(
+
+  return (
     <>
       <h1 className="text-4xl font-bold">Izveidot jaunu rakstu</h1>
       <div className="">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-base-300 w-[90%] md:w-[80%] lg:w-2/3 m-auto"
+          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto"
         >
           {/* ERROR HANDLING!!!! */}
           {(errors.title && errors.title.type === 'required') ||
@@ -97,9 +97,12 @@ const NewsForm = () => {
           </label>
           <label className="form-control w-auto m-auto">
             <div className="label">
-                <span className="label-text">Attēls</span>
+              <span className="label-text">Attēls</span>
             </div>
-          <input type="file" className="file-input file-input-bordered w-full max-w-xs file-input-primary " />
+            <input
+              type="file"
+              className="file-input file-input-bordered w-full max-w-xs file-input-primary "
+            />
           </label>
           <button
             type="submit"
@@ -111,10 +114,6 @@ const NewsForm = () => {
       </div>
     </>
   );
-    
-     
-  
-
 };
 
 export default NewsForm;

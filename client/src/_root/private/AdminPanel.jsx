@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-const vacancyLinks = [];
-
 const tables = [
   {
     path: '/admin/applications',
@@ -57,7 +55,7 @@ const AdminPanel = () => {
         <ul className="menu p-4 w-80 min-h-full bg-primary text-white gap-6 border-2">
           {/* Sidebar content here */}
           <li>
-            <Link to={'/admin/dashboard'} className="text-xl btn btn-primary">
+            <Link to={'/admin'} className="text-xl btn btn-primary">
               Dashboard
             </Link>
           </li>

@@ -30,7 +30,7 @@ const authLinks = [
     text: 'PROFILS',
   },
   {
-    path: '/admin/dashboard',
+    path: '/admin',
     text: 'ADMINA PANELIS',
   },
 ];
@@ -96,7 +96,7 @@ export const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-neutral rounded-box w-52"
             >
-              <li>
+              {/* <li>
                 <a>Item 1</a>
               </li>
               <li>
@@ -112,7 +112,41 @@ export const Navbar = () => {
               </li>
               <li>
                 <a>Item 3</a>
-              </li>
+              </li> */}
+              {links.map((link) => (
+                <Link
+                  to={link.path}
+                  className={`text-white cursor-pointer tracking-widest text-center font-semibold relative p-2
+               
+             `}
+                  key={link.path}
+                >
+                  {link.text}
+                </Link>
+              ))}
+              {user.isLoggedIn ? (
+                <>
+                  {authLinks.map((link) => (
+                    <li key={link.path}>
+                      <Link
+                        to={link.path}
+                        className="text-white cursor-pointer tracking-widest text-center font-semibold relative p-2"
+                      >
+                        {link.text}
+                      </Link>
+                    </li>
+                  ))}
+                </>
+              ) : (
+                <li>
+                  <Link
+                    to="/login"
+                    className="text-white cursor-pointer tracking-widest text-center font-semibold btn btn-neutral"
+                  >
+                    LOGIN
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           <Link to="/" className="text-4xl font-bold">
