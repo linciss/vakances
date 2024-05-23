@@ -40,10 +40,10 @@ const NewsForm = () => {
   return (
     <>
       <h1 className="text-4xl font-bold">Izveidot jaunu rakstu</h1>
-      <div className="">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 border-t border-gray-300 w-full mt-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto"
+          className="shadow-xl px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto mt-8"
         >
           {/* ERROR HANDLING!!!! */}
           {(errors.title && errors.title.type === 'required') ||
@@ -76,7 +76,7 @@ const NewsForm = () => {
             <input
               id="title"
               type="text"
-              className="input input-bordered w-full "
+              className="input input-bordered w-full bg-white"
               required
               aria-invalid={errors.title ? 'true' : 'false'}
               {...register('title', { required: true })}
@@ -88,7 +88,7 @@ const NewsForm = () => {
             </div>
             <textarea
               id="description"
-              className="textarea textarea-bordered h-36 resize-none w-full"
+              className="textarea textarea-bordered h-36 resize-none w-full bg-white"
               placeholder="Saturs"
               required
               aria-invalid={errors.description ? 'true' : 'false'}
@@ -101,12 +101,12 @@ const NewsForm = () => {
             </div>
             <input
               type="file"
-              className="file-input file-input-bordered w-full max-w-xs file-input-primary "
+              className="file-input file-input-bordered w-full max-w-xs file-input-base-100 bg-white"
             />
           </label>
           <button
             type="submit"
-            className="btn btn-primary w-1/2 max-w-sm  mx-auto"
+            className="btn btn-base-300 w-1/2 max-w-sm  mx-auto"
           >
             Izveidot
           </button>
