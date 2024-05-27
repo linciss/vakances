@@ -10,6 +10,7 @@ import session from 'express-session';
 import auth from './routes/auth.js';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import vacancy from './routes/vacancy.js';
+import user from './routes/users.js';
 
 app.use(express.json());
 app.use(
@@ -45,9 +46,10 @@ app.use(
   })
 );
 
-app.use('/api/news', newsRouter);
-app.use('/api/auth', auth);
-app.use('/api/vacancies', vacancy);
+app.use(`${process.env.prefix}/news`, newsRouter);
+app.use(`${process.env.prefix}/auth`, auth);
+app.use(`${process.env.prefix}/vacancies`, vacancy);
+app.use(`${process.env.prefix}/users`, user);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
@@ -56,7 +58,7 @@ app.get('/', async (req, res) => {
 mongoose
   .connect(process.env.MONGO_URI, { dbName: process.env.DB_NAME })
   .then(() => {
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server is running on port ${process.env.PORT || 5000}`);
+    app.listen(process.env.PORT || 6969, () => {
+      console.log(`Server is running on port ${process.env.PORT || 6969}`);
     });
   });

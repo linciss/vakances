@@ -8,3 +8,4 @@ export { default as NewsView } from './admin/NewsSection/NewsView';
 export { default as UserForm } from './admin/UserSection/UserForm';
 export { default as Profile } from './Profile';
 export { default as Users } from './admin/UserSection/Users';
+export { default as Application } from './admin/VacancySection/Application';
