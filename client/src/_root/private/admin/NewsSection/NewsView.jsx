@@ -16,6 +16,8 @@ const NewsView = () => {
       tags: 'Tags',
     },
   ]);
+
+  
   return (
     <div className="">
       <h1 className="text-4xl font-bold">Jaunumi</h1>

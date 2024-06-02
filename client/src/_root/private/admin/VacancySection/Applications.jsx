@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
+import { Link } from 'react-router-dom';
 
 const Applications = () => {
   const [applications, setApplications] = useState([
@@ -62,7 +63,7 @@ const Applications = () => {
                         className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
                       >
                         <li className="w-full text-center">
-                          <p className="text-xl text-center">Dzēst</p>
+                          <Link className="text-xl text-center">Apskatīt</Link>
                         </li>
                         <li className="w-full">
                           <p className="text-xl text-center">Rediģēt</p>
