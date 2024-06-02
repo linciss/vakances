@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Applications = () => {
   const [applications, setApplications] = useState([
-    { title: 'Front-end Developer', salary: '2000', date: '2021-10-10' },
+    { id: 1, title: 'Front-end Developer', salary: '2000', date: '2021-10-10' },
   ]);
 
   // useEffect(() => {
@@ -63,10 +63,15 @@ const Applications = () => {
                         className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
                       >
                         <li className="w-full text-center">
-                          <Link className="text-xl text-center">Apskatīt</Link>
+                          <Link
+                            to={`/admin/applications/${application.id}`}
+                            className="text-xl text-center"
+                          >
+                            Apskatīt
+                          </Link>
                         </li>
                         <li className="w-full">
-                          <p className="text-xl text-center">Rediģēt</p>
+                          <p className="text-xl text-center">Dzēst</p>
                         </li>
                       </ul>
                     </div>

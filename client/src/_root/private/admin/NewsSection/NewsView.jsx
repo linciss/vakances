@@ -17,7 +17,6 @@ const NewsView = () => {
     },
   ]);
 
-  
   return (
     <div className="">
       <h1 className="text-4xl font-bold">Jaunumi</h1>
@@ -47,13 +46,13 @@ const NewsView = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[85px]  "
+                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
                       >
-                        <li className="w-[70px]">
-                          <DeleteIcon />
+                        <li className="w-full">
+                          <p className="text-xl text-center">Rediģēt</p>
                         </li>
-                        <li className="w-[70px]">
-                          <EditIcon />
+                        <li className="w-full text-center">
+                          <p className="text-xl text-center">Dzēst</p>
                         </li>
                       </ul>
                     </div>

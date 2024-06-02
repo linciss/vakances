@@ -33,7 +33,7 @@ const NewsForm = () => {
         if (!data) {
           return;
         }
-        navigate('/admin/dashboard');
+        navigate('/admin');
       });
   };
 
@@ -89,7 +89,6 @@ const NewsForm = () => {
             <textarea
               id="description"
               className="textarea textarea-bordered h-36 resize-none w-full bg-white"
-              placeholder="Saturs"
               required
               aria-invalid={errors.description ? 'true' : 'false'}
               {...register('description', { required: true })}

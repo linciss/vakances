@@ -124,11 +124,8 @@ const Vacancy = () => {
           >
             Pieteikties!
           </button>
-          <dialog
-            id="my_modal_1"
-            className="modal modal-bottom sm:modal-middle"
-          >
-            <div className="modal-box">
+          <dialog id="my_modal_1" className="modal modal-bottom ">
+            <div className="modal-box w-1/3 mx-auto">
               <h3 className="font-bold text-lg">Piesakies vakancei</h3>
               <form className=" px-2 gap-8 rounded-md flex flex-col  w-full  m-auto ">
                 {inputDetail.map((input, i) => (
@@ -146,11 +143,22 @@ const Vacancy = () => {
                     />
                   </label>
                 ))}
+                <label className="form-control mx-auto">
+                  <div className="label">
+                    <span className="label-text">CV</span>
+                  </div>
+                  <input
+                    type="file"
+                    className="file-input file-input-bordered w-full max-w-xs"
+                  />
+                </label>
                 <button className="btn btn-base-300">Sūtīt!</button>
               </form>
               <div className="modal-action">
                 <form method="dialog">
-                  <button className="btn">Iziet</button>
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    ✕
+                  </button>
                 </form>
               </div>
             </div>

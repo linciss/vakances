@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
+import { Link } from 'react-router-dom';
 
 const VacancyView = () => {
   const [vacancies, setVacancies] = useState(null);
@@ -78,10 +79,15 @@ const VacancyView = () => {
                         className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
                       >
                         <li className="w-full text-center">
-                          <p className="text-xl text-center">Dzēst</p>
+                          <Link
+                            to={`/admin/vacancies/${vacancy._id}`}
+                            className="text-xl text-center"
+                          >
+                            Rediģēt
+                          </Link>
                         </li>
-                        <li className="w-full">
-                          <p className="text-xl text-center">Rediģēt</p>
+                        <li className="w-full text-center">
+                          <p className="text-xl text-center">Dzēst</p>
                         </li>
                       </ul>
                     </div>

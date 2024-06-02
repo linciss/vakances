@@ -30,6 +30,7 @@ import {
   Users,
   UserForm,
   Application,
+  VacancyEdit,
 } from '../_root/private';
 
 export const Views = () => {
@@ -58,9 +59,10 @@ export const Views = () => {
         <Route element={<AdminPanel />}>
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/applications" element={<Applications />} />
-          <Route path="/admin/application/:id" element={<Application />} />
+          <Route path="/admin/applications/:id" element={<Application />} />
           <Route path="/admin/new-vacancy" element={<VacancyForm />} />
           <Route path="/admin/vacancies" element={<VacancyView />} />
+          <Route path="/admin/vacancies/:id" element={<VacancyEdit />} />
           <Route path="/admin/news" element={<NewsView />} />
           <Route path="/admin/new-news" element={<NewsForm />} />
           <Route path="/admin/new-user" element={<UserForm />} />

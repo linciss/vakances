@@ -33,7 +33,7 @@ const UserForm = () => {
         if (!data) {
           return;
         }
-        navigate('/admin/dashboard');
+        navigate('/admin');
       });
   };
 

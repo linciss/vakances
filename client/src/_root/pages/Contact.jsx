@@ -81,7 +81,6 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="E-pasts"
                   className="input input-bordered w-full bg-white"
                 />
               </div>
@@ -92,7 +91,6 @@ const Contact = () => {
                 <textarea
                   id="description"
                   className="textarea textarea-bordered h-36 resize-none w-full bg-white"
-                  placeholder="Ziņojums"
                   required
                 ></textarea>
               </label>
