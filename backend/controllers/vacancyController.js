@@ -79,3 +79,45 @@ export const deleteVacancy = async (req, res) => {
     res.status(500).send('Error deleting vacancy!');
   }
 };
+
+export const editVacancy = async (req, res) => {
+  const {
+    title,
+    description,
+    address,
+    salary,
+    experience,
+    workTime,
+    workType,
+    load,
+  } = req.body;
+
+  if (!title || !description || !address) {
+    return res.status(400).send('Lūdzu aizpildiet visus obligātos laukus!');
+  }
+
+  try {
+    const updatedVacancy = await Vacancy.findByIdAndUpdate(
+      req.params.id,
+      {
+        title,
+        description,
+        address,
+        salary,
+        experience,
+        workTime,
+        workType,
+        load,
+      },
+      { new: true }
+    );
+
+    if (!updatedVacancy) {
+      return res.status(404).send('Vakance nav atrasta!');
+    }
+    res.status(200).json('Vakance rediģēta!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Kļūda ienākošajos datus!');
+  }
+};
