@@ -1,8 +1,6 @@
 import { User } from '../schemas/userSchema.js';
 import bcrypt from 'bcrypt';
 
-const saltRounds = 10;
-
 export const attemptLogin = async (req, res) => {
   console.log(req.body);
   const { username, password } = req.body;

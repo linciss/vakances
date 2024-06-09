@@ -1,24 +1,26 @@
 import { User } from '../schemas/userSchema.js';
 import bcrypt from 'bcrypt';
 
+const saltRounds = 10;
+
 export const attemptChangePassword = async (req, res) => {
-  const { currPassword, newPassword, newPasswordVerify } = req.body;
+  const { password, newPassword, newPasswordVerify } = req.body;
   const { user } = req.session;
 
-  if (!currPassword || !newPassword || !newPasswordVerify) {
+  if (!password || !newPassword || !newPasswordVerify) {
     return res.status(401).send('Lūdzu aizpildiet visus laukus!');
   }
 
   try {
     const dbUser = await User.findOne({ username: user.username });
 
-    const match = await bcrypt.compare(currPassword, dbUser.password);
+    const match = await bcrypt.compare(password, dbUser.password);
 
     if (!match) {
       return res.status(401).send('Nepareiza parole!');
     }
 
-    if (currPassword === newPassword) {
+    if (password === newPassword) {
       return res.status(401).send('Paroles ir vienādas!');
     }
 

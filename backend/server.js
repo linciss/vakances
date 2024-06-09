@@ -47,9 +47,9 @@ app.use(
 );
 
 app.use(`${process.env.prefix}/news`, newsRouter);
-app.use(`${process.env.prefix}/auth`, auth);
+app.use(`${process.env.prefix}/auth`, auth, user);
 app.use(`${process.env.prefix}/vacancies`, vacancy);
-app.use(`${process.env.prefix}/users`, user);
+// app.use(`${process.env.prefix}/users`, user);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');

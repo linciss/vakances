@@ -68,124 +68,115 @@ const PasswordForms = () => {
       setIsSubmitting(false);
     }, 2000);
     if (error || errors) {
-      setValue('currPassword', '');
+      setValue('password', '');
     }
   };
 
   return (
-    <div className="m-auto md:w-3/4 lg:w-1/2 mt-20">
-      <div className="m-auto">
-        <h1 className=" text-5xl md:text-7xl font-bold text-center">
-          Mainīt paroli
-        </h1>
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-20 rounded-md"
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="shadow-xl px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
+    >
+      {error ? (
+        <div role="alert" className="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span className="text-white">{error}</span>
+        </div>
+      ) : null}
+      {success ? (
+        <div role="alert" className="alert alert-success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{success}</span>
+        </div>
+      ) : null}
+      <h2 className="text-4xl font-bold">Mainīt paroli</h2>
+
+      <label className="form-control w-full m-auto">
+        <div className="label">
+          <span className="label-text">Pašreizējā parole</span>
+        </div>
+        <input
+          id="password"
+          type="password"
+          className="input input-bordered w-full bg-white"
+          required
+          aria-invalid={errors.currPassword ? 'true' : 'false'}
+          {...register('password', {
+            required: true,
+            maxLength: 20,
+            minLength: 6,
+          })}
+        />
+      </label>
+
+      <label className="form-control w-full m-auto">
+        <div className="label">
+          <span className="label-text">Jaunā parole</span>
+        </div>
+        <input
+          id="newPassword"
+          type="password"
+          className="input input-bordered w-full bg-white"
+          required
+          aria-invalid={errors.currPassword ? 'true' : 'false'}
+          {...register('newPassword', {
+            required: true,
+            maxLength: 20,
+            minLength: 6,
+          })}
+        />
+      </label>
+
+      <label className="form-control w-full m-auto">
+        <div className="label">
+          <span className="label-text">Jaunā parole atkārtoti</span>
+        </div>
+        <input
+          id="newPasswordVerify"
+          type="password"
+          className="input input-bordered w-full bg-white"
+          required
+          aria-invalid={errors.currPassword ? 'true' : 'false'}
+          {...register('newPasswordVerify', {
+            required: true,
+            maxLength: 20,
+            minLength: 6,
+          })}
+        />
+      </label>
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="btn btn-base-300 w-full max-w-sm mx-auto"
       >
-        {error ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            {error}
-          </div>
-        ) : null}
-        {success ? (
-          <div
-            role="alert"
-            className="bg-green-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            {success}
-          </div>
-        ) : null}
-
-        <div>
-          <label
-            htmlFor="currPassword"
-            className={`text-white text-lg font-semibold`}
-          >
-            Pašreizējā parole
-          </label>
-          {errors.currPassword && errors.currPassword.type === 'minLength' ? (
-            <div className="text-red-500 text-xs">
-              Miniālais simbolu skaits ir 6!
-            </div>
-          ) : null}
-          <input
-            id="currPassword"
-            aria-invalid={errors.currPassword ? 'true' : 'false'}
-            type="password"
-            maxLength={30}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('currPassword', {
-              required: true,
-              maxLength: 20,
-              minLength: 6,
-            })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="newPassword"
-            className={`text-white text-lg font-semibold`}
-          >
-            Jaunā parole
-          </label>
-          {errors.newPassword && errors.newPassword.type === 'minLength' ? (
-            <div className="text-red-500 text-xs">
-              Miniālais simbolu skaits ir 6!
-            </div>
-          ) : null}
-          <input
-            id="newPassword"
-            type="password"
-            aria-invalid={errors.newPassword ? 'true' : 'false'}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('newPassword', {
-              required: true,
-              maxLength: 20,
-              minLength: 1,
-            })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="newPasswordVerify"
-            className={`text-white text-lg font-semibold`}
-          >
-            Jaunā parole atkārtoti
-          </label>
-          {errors.newPasswordVerify &&
-          errors.newPasswordVerify.type === 'minLength' ? (
-            <div className="text-red-500 text-xs">
-              Miniālais simbolu skaits ir 6!
-            </div>
-          ) : null}
-          <input
-            id="newPasswordVerify"
-            type="password"
-            aria-invalid={errors.newPasswordVerify ? 'true' : 'false'}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('newPasswordVerify', {
-              required: true,
-              maxLength: 20,
-              minLength: 6,
-            })}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className=" text-white font-bold py-4 rounded-md bg-secondaryGreen transition-all duration-200 hover:animate-pulse"
-        >
-          {isSubmitting ? 'Maina...' : 'Mainīt paroli'}
-        </button>
-      </form>
-    </div>
+        {isSubmitting ? 'Maina...' : 'Mainīt paroli'}
+      </button>
+    </form>
   );
 };
 

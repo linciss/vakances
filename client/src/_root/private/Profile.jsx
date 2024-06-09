@@ -3,6 +3,7 @@ import userProfile from '../../assets/userProfileImage.png';
 import { AuthContext } from '../../context/AuthContext';
 
 import { useForm } from 'react-hook-form';
+import PasswordForms from '../../_auth/forms/PasswordForms';
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -26,76 +27,7 @@ const Profile = () => {
         </div>
       </div>
       <div>
-        <form className="shadow-xl px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8">
-          <h2 className="text-4xl font-bold">Mainīt paroli</h2>
-          {(errors.username && errors.username.type === 'required') ||
-          (errors.password && errors.password.type === 'required') ||
-          error ? (
-            <div role="alert" className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span className="text-white">
-                Please fill in all required fields
-              </span>
-            </div>
-          ) : null}
-          <label className="form-control w-full m-auto">
-            <div className="label">
-              <span className="label-text">Vecā parole</span>
-            </div>
-            <input
-              id="currPassword"
-              type="text"
-              className="input input-bordered w-full bg-white"
-              required
-              aria-invalid={errors.username ? 'true' : 'false'}
-              {...register('currPassword', { required: true })}
-            />
-          </label>
-          <label className="form-control w-full m-auto">
-            <div className="label">
-              <span className="label-text">Jaunā parole</span>
-            </div>
-            <input
-              id="newPassword"
-              type="password"
-              className="input input-bordered w-full bg-white"
-              required
-              aria-invalid={errors.password ? 'true' : 'false'}
-              {...register('newPassword', { required: true })}
-            />
-          </label>
-          <label className="form-control w-full m-auto">
-            <div className="label">
-              <span className="label-text">Jaunā parole atkārtoti</span>
-            </div>
-            <input
-              id="newPasswordVerify"
-              type="password"
-              className="input input-bordered w-full bg-white"
-              required
-              aria-invalid={errors.password ? 'true' : 'false'}
-              {...register('newPasswordVerify', { required: true })}
-            />
-          </label>
-          <button
-            type="submit"
-            className="btn btn-base-300 w-full max-w-sm mx-auto"
-          >
-            Izveidot
-          </button>
-        </form>
+        <PasswordForms />
       </div>
       {/* CHANGE NICK */}
       <div>
