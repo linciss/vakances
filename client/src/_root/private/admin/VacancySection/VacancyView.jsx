@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
 import { Link } from 'react-router-dom';
+import { DeleteIcon } from '../../../../assets/DeleteIcon';
+import { EditIcon } from '../../../../assets/EditIcon';
 
 const VacancyView = () => {
   const [vacancies, setVacancies] = useState(null);
@@ -83,11 +85,15 @@ const VacancyView = () => {
                             to={`/admin/vacancies/${vacancy._id}`}
                             className="text-xl text-center"
                           >
+                            <EditIcon />
                             Rediģēt
                           </Link>
                         </li>
                         <li className="w-full text-center">
-                          <p className="text-xl text-center">Dzēst</p>
+                          <p className="text-xl text-center">
+                            <DeleteIcon />
+                            Dzēst
+                          </p>
                         </li>
                       </ul>
                     </div>

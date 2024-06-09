@@ -48,7 +48,7 @@ export const Views = () => {
       <Route path="/vacancies/:id" element={<Vacancy />} />
 
       <Route path="/news" element={<News />} />
-      <Route path="/viewNews/:id" element={<ViewNews />} />
+      <Route path="/news/:id" element={<ViewNews />} />
       <Route path="/contact" element={<Contact />} />
 
       {/* PRIVATE ROUTES */}

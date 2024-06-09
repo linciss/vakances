@@ -3,6 +3,7 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { Dots } from '../../../../assets/Dots';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
+import { Link } from 'react-router-dom';
 
 const Users = () => {
   const { user } = useContext(AuthContext);
@@ -42,13 +43,19 @@ const Users = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
+                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]"
                       >
                         <li className="w-full">
-                          <p className="text-xl text-center">Rediģēt</p>
+                          <Link className=" text-xl text-center">
+                            <EditIcon />
+                            Rediģēt
+                          </Link>
                         </li>
                         <li className="w-full text-center">
-                          <p className="text-xl text-center">Dzēst</p>
+                          <p className="text-xl text-center">
+                            <DeleteIcon />
+                            Dzēst
+                          </p>
                         </li>
                       </ul>
                     </div>

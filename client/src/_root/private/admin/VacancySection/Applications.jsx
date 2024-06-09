@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
 import { Link } from 'react-router-dom';
+import { DeleteIcon } from '../../../../assets/DeleteIcon';
+import { CheckIcon } from '../../../../assets/CheckIcon';
 
 const Applications = () => {
   const [applications, setApplications] = useState([
@@ -67,11 +69,15 @@ const Applications = () => {
                             to={`/admin/applications/${application.id}`}
                             className="text-xl text-center"
                           >
+                            <CheckIcon />
                             Apskatīt
                           </Link>
                         </li>
                         <li className="w-full">
-                          <p className="text-xl text-center">Dzēst</p>
+                          <p className="text-xl text-center">
+                            <DeleteIcon />
+                            Dzēst
+                          </p>
                         </li>
                       </ul>
                     </div>
