@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { VacancyContext } from './../../context/VacancyContext';
 import { AutoComplete } from '../../components/AutoComplete';
 import { FilterIcon } from '../../assets/FilterIcon';
+import { BookmarkInitialIcon } from '../../assets/BookmarkInitialIcon';
+import { BookmarkedIcon } from '../../assets/BookmarkedIcon';
 
 const Vacancies = () => {
   const initialVacancies = useContext(VacancyContext);
@@ -14,6 +16,9 @@ const Vacancies = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const totalPages = Math.ceil(vacancies.length / 6);
+  const [bookmarked, setBookmarked] = useState(
+    JSON.parse(localStorage.getItem('bookmarked')) || []
+  );
 
   const currentItems = vacancies.slice(
     (currentPage - 1) * itemsPerPage,
@@ -71,6 +76,19 @@ const Vacancies = () => {
       </button>
     );
   }
+
+  const handleBookmark = (id) => {
+    console.log(bookmarked);
+    if (bookmarked.includes(id)) {
+      const newBookmarked = bookmarked.filter((item) => item !== id);
+      setBookmarked(newBookmarked);
+      localStorage.setItem('bookmarked', JSON.stringify(newBookmarked));
+      return;
+    }
+    const newBookmarked = [...bookmarked, id];
+    setBookmarked(newBookmarked);
+    localStorage.setItem('bookmarked', JSON.stringify(newBookmarked));
+  };
 
   return (
     <div className="container max-w-[1280px] ">
@@ -138,10 +156,10 @@ const Vacancies = () => {
                     <a>Pēc vecuma: vecākās</a>
                   </li>
                   <li>
-                    <a>Pēc algas: visvairāk</a>
+                    <a>A-Z</a>
                   </li>
                   <li>
-                    <a>Pēc algas: vismazāk</a>
+                    <a>Z-A</a>
                   </li>
                 </ul>
               </div>
@@ -150,22 +168,25 @@ const Vacancies = () => {
             <div className="mx-auto  grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-16  pt-10  lg:max-w-none w-full">
               {currentItems.map((vacancy) => {
                 const date = new Date(vacancy.timeCreated).toLocaleString();
-
                 return (
                   <article
                     key={vacancy._id}
                     className="flex max-w-xl flex-col items-start justify-between"
                   >
-                    <div className="flex items-center gap-x-4 text-xs">
+                    <div className="flex items-center gap-x-4 text-xs justify-between w-full">
                       <time dateTime={date} className="text-gray-500">
                         {date.slice(0, 9)}
                       </time>
-                      {/* <a
-                  href={post.category.href}
-                  className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                >
-                  {post.category.title}
-                </a> */}
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleBookmark(vacancy._id)}
+                      >
+                        {bookmarked.includes(vacancy._id) ? (
+                          <BookmarkedIcon />
+                        ) : (
+                          <BookmarkInitialIcon />
+                        )}
+                      </div>
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
