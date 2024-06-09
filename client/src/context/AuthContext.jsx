@@ -7,9 +7,9 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({ isLoggedIn: null });
 
-  const checkAuthenticated = async () => {
+  const autoLogIn = async () => {
     await axios
-      .get('/api/auth/user-authentication', {
+      .get('/api/auth/auto-login', {
         withCredentials: true,
       })
       // eslint-disable-next-line no-unused-vars
@@ -28,13 +28,15 @@ export const AuthProvider = ({ children }) => {
         if (!data) {
           setUser({ isLoggedIn: false });
           return;
+        } else if (!data.authenticated) {
+          setUser({ isLoggedIn: false });
         }
         setUser(data);
       });
   };
 
   useEffect(() => {
-    checkAuthenticated();
+    autoLogIn();
   }, []);
 
   return (

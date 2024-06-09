@@ -32,3 +32,24 @@ export const requireAdmin = (req, res, next) => {
   }
   next();
 };
+
+export const autoLogIn = async (req, res, next) => {
+  const { user } = req.session;
+  if (req.session && user) {
+    const checkUser = await User.findOne({
+      username: user.username,
+    });
+    if (!checkUser) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+      return res.status(200).send({ authenticated: false });
+    }
+  } else {
+    return res.status(200).send({ authenticated: false });
+  }
+
+  next();
+};

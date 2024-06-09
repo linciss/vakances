@@ -1,5 +1,5 @@
 import express from 'express';
-import { requireAdmin, requireAuth } from '../auth/requireAuth.js';
+import { autoLogIn, requireAdmin, requireAuth } from '../auth/requireAuth.js';
 import { attemptLogin, attemptLogout } from '../controllers/authController.js';
 import limiter from '../controllers/rateLimiter.js';
 import { validateAuthentication } from '../validation/validateAuth.js';
@@ -15,6 +15,10 @@ router.post('/login', validateAuthentication, limiter(10), attemptLogin);
 router.get('/logout', attemptLogout);
 
 router.get('/user-authentication', requireAuth, (req, res) => {
+  res.status(200).json(req.session.user);
+});
+
+router.get('/auto-login', autoLogIn, (req, res) => {
   res.status(200).json(req.session.user);
 });
 
