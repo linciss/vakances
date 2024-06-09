@@ -86,111 +86,83 @@ const UsernameForms = () => {
   };
 
   return (
-    <div className="m-auto md:w-3/4 lg:w-1/2 mt-20">
-      <div className="m-auto">
-        <h1 className=" text-5xl md:text-7xl font-bold text-center">
-          Mainīt lietotājvārdu
-        </h1>
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="shadow-xl px-8 py-10 bg-mainGreen flex gap-8 flex-col mt-20 rounded-md"
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="shadow-xl px-8 py-10 gap-8  flex flex-col w-full lg:w-2/3 m-auto mb-8 mt-8"
+    >
+      <h2 className="text-4xl font-bold">Mainīt lietotājvārdu</h2>
+      {(errors.username && errors.username.type === 'required') ||
+      (errors.password && errors.password.type === 'required') ||
+      error ? (
+        <div role="alert" className="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span className="text-white">Please fill in all required fields</span>
+        </div>
+      ) : null}
+      {success ? (
+        <div role="alert" className="alert alert-success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{success}</span>
+        </div>
+      ) : null}
+      <label className="form-control w-full m-auto">
+        <div className="label">
+          <span className="label-text">Jaunais lietotājvārds</span>
+        </div>
+        <input
+          id="newUsername"
+          type="text"
+          className="input input-bordered w-full bg-white"
+          required
+          aria-invalid={errors.username ? 'true' : 'false'}
+          {...register('newUsername', { required: true })}
+        />
+      </label>
+      <label className="form-control w-full m-auto">
+        <div className="label">
+          <span className="label-text">Parole</span>
+        </div>
+        <input
+          id="password"
+          type="password"
+          className="input input-bordered w-full bg-white"
+          required
+          aria-invalid={errors.password ? 'true' : 'false'}
+          {...register('password', { required: true })}
+        />
+      </label>
+
+      <button
+        type="submit"
+        className="btn btn-base-300 w-full max-w-sm mx-auto"
       >
-        {/* ERROR HANDLING!!!! */}
-        {(errors.newUsername && errors.newUsername.type === 'required') ||
-        (errors.password && errors.password.type === 'required') ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            Lūdzu aizpildiet visus laukus!
-          </div>
-        ) : null}
-        {(errors.newUsername && errors.newUsername.type === 'maxLength') ||
-        (errors.password && errors.password.type === 'maxLength') ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            Maksimālo simbolu skatis pārsniegts!
-          </div>
-        ) : null}
-        {errors.newUsername && errors.newUsername.type === 'minLength' ? (
-          <div className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn">
-            Miniālais simbolu skaits lietotājvārdā ir 3!
-          </div>
-        ) : null}
-        {errors.password && errors.password.type === 'minLength' ? (
-          <div className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn">
-            Parole ir pārāk īsa!
-          </div>
-        ) : null}
-        {error ? (
-          <div
-            role="alert"
-            className="bg-red-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            {error}
-          </div>
-        ) : null}
-        {success ? (
-          <div
-            role="alert"
-            className="bg-green-500 p-4 text-white text-3xl rounded-md text-center transition-all duration-200 animate-fadeIn"
-          >
-            {success}
-          </div>
-        ) : null}
-
-        <div>
-          <label
-            htmlFor="newUsername"
-            className={`text-white text-lg font-semibold`}
-          >
-            Jaunais lietotājvārds
-          </label>
-          <input
-            id="newUsername"
-            type="text"
-            aria-invalid={errors.newUsername ? 'true' : 'false'}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('newUsername', {
-              required: true,
-              maxLength: 20,
-              minLength: 3,
-            })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="passwordVerify"
-            className={`text-white text-lg font-semibold`}
-          >
-            Parole
-          </label>
-          <input
-            id="password"
-            type="password"
-            aria-invalid={errors.password ? 'true' : 'false'}
-            className="block w-full p-4 my-2 bg-secondaryGreen focus:outline-none text-white border border-[#ACE6BB] rounded-md"
-            {...register('password', {
-              required: true,
-              maxLength: 20,
-              minLength: 6,
-            })}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className=" text-white font-bold py-4 rounded-md bg-secondaryGreen transition-all duration-200 hover:animate-pulse"
-        >
-          Mainīt lietotājvārdu
-        </button>
-      </form>
-    </div>
+        Izveidot
+      </button>
+    </form>
   );
 };
 
