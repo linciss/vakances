@@ -1,19 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../context/AuthContext';
 import { Dots } from '../../../../assets/Dots';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Users = () => {
-  const { user } = useContext(AuthContext);
-  const [users, setUsers] = useState([
-    {
-      username: 'John Doe',
-      role: 'Admin',
-      timeCreated: '2021-10-10',
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
+
+  const getAllUsers = async () => {
+    await axios
+      .get('/api/users/all', { withCredentials: true })
+      .catch((err) => {
+        console.log(err);
+        navigate('/admin');
+      })
+      .then((res) => {
+        if (!res || res.status !== 200) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setUsers(data);
+      });
+  };
+
+  const deleteUser = async (id) => {
+    await axios
+      .delete(`/api/users/${id}`, { withCredentials: true })
+      .catch((err) => {
+        console.log(err);
+      });
+    getAllUsers();
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   return (
     <div className="">
       <h1 className="text-4xl font-bold">Lietotāji</h1>
@@ -37,28 +67,36 @@ const Users = () => {
                   <td>{user.role}</td>
                   <td>{user.timeCreated.slice(0, 10)}</td>
                   <td>
-                    <div className="dropdown dropdown-end">
-                      <div tabIndex={0} role="button" className="">
-                        <Dots />
+                    {user.role === 'root' ? (
+                      ''
+                    ) : (
+                      <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="">
+                          <Dots />
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]"
+                        >
+                          <li className="w-full">
+                            <Link className=" text-xl text-center">
+                              <EditIcon />
+                              Rediģēt
+                            </Link>
+                          </li>
+
+                          <li
+                            className="w-full text-center"
+                            onClick={() => deleteUser(user._id)}
+                          >
+                            <p className="text-xl text-center">
+                              <DeleteIcon />
+                              Dzēst
+                            </p>
+                          </li>
+                        </ul>
                       </div>
-                      <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]"
-                      >
-                        <li className="w-full">
-                          <Link className=" text-xl text-center">
-                            <EditIcon />
-                            Rediģēt
-                          </Link>
-                        </li>
-                        <li className="w-full text-center">
-                          <p className="text-xl text-center">
-                            <DeleteIcon />
-                            Dzēst
-                          </p>
-                        </li>
-                      </ul>
-                    </div>
+                    )}
                   </td>
                 </tr>
               ))}

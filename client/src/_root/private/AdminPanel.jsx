@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const tables = [
   {
@@ -13,10 +14,6 @@ const tables = [
   {
     path: '/admin/news',
     text: 'Jaunumu tabula',
-  },
-  {
-    path: '/admin/users',
-    text: 'Lietotāju tabula',
   },
 ];
 
@@ -33,22 +30,15 @@ const forms = [
     path: '/admin/new-user',
     text: 'Lietotāju formas',
   },
-  
 ];
 
 const AdminPanel = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className="drawer md:drawer-open shadow-xl">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col w-full container mt-10">
         <Outlet />
-
-        {/* <label
-          htmlFor="my-drawer-2"
-          className="btn btn-primary drawer-button md:hidden"
-        >
-          Open drawer
-        </label> */}
       </div>
       <div className="drawer-side md:top-0 top-12">
         <label
@@ -98,6 +88,18 @@ const AdminPanel = () => {
                   </Link>
                 </li>
               ))}
+              {user.role === 'admin' || user.role === 'root' ? (
+                <li>
+                  <Link
+                    to={'/admin/users'}
+                    className="text-xl btn btn-primary shadow-none"
+                  >
+                    Lietotāju tabula
+                  </Link>
+                </li>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </ul>

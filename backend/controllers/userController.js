@@ -90,6 +90,10 @@ export const makeUser = async (req, res) => {
     return res.status(401).send('Ievadiet visus laukus!');
   }
 
+  if (role !== 'admin' || role !== 'mod') {
+    return res.status(401).json('Nav tadu privilegiju');
+  }
+
   //check whether user exists
   const user = await User.findOne({ username });
 
@@ -112,5 +116,34 @@ export const makeUser = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Kļūda saglabājot lietotāju!');
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findById(id);
+
+    if (user.role === 'root') {
+      return res.status(404).json('Nav autorizācija!');
+    }
+
+    await User.findByIdAndDelete(id);
+
+    res.status(200).json('User deleted!');
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
   }
 };

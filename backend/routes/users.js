@@ -3,6 +3,8 @@ import { requireAdmin, requireAuth } from '../auth/requireAuth.js';
 import {
   attemptChangePassword,
   attemptChangeUsername,
+  deleteUser,
+  getAllUsers,
   makeUser,
 } from '../controllers/userController.js';
 import {
@@ -13,7 +15,7 @@ import limiter from '../controllers/rateLimiter.js';
 
 const router = express.Router();
 
-router.put('/change-username', requireAuth, attemptChangeUsername);
+router.put('/change-username', requireAuth, limiter(5), attemptChangeUsername);
 
 router.put(
   '/change-password',
@@ -24,11 +26,14 @@ router.put(
 );
 
 router.post(
-  '/make-user',
+  '/new',
   validateAuthentication,
   limiter(10),
   requireAdmin,
   makeUser
 );
+
+router.get('/all', requireAdmin, getAllUsers);
+router.delete('/:id', requireAdmin, deleteUser);
 
 export default router;
