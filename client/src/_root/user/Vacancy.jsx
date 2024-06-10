@@ -1,52 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Navigate, useParams } from 'react-router-dom';
-import { LocationSVG } from '../../assets/LocationIcon';
-import { MoneySVG } from '../../assets/Money';
-import { LoadSVG } from '../../assets/Load';
-import { TimeSVG } from '../../assets/Time';
-import { ExperienceSVG } from '../../assets/Experience';
-import { TypeSVG } from '../../assets/Type';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { VacancyDetails } from '../../components/VacancyDetails';
 
 const inputDetail = [
   {
     label: 'Vārds',
+    input: 'name',
   },
   {
     label: 'Uzvārds',
+    input: 'surname',
   },
   {
     label: 'E-pasts',
+    input: 'email',
   },
   {
     label: 'Izglītība',
+    input: 'education',
   },
   {
     label: 'Skola',
+    input: 'school',
   },
   {
     label: 'Iepriekšējā pieredze',
+    input: 'experience',
   },
   {
     label: 'Adrese',
+    input: 'address',
   },
 ];
-
-// eslint-disable-next-line react/prop-types
-const VacancyDetail = ({ icon: Icon, label, value }) => (
-  <div className="flex items-center p-4 border-b last:border-0">
-    <div className="mr-4">
-      <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gray-100">
-        <Icon className="h-6 w-6 text-gray-600" />
-      </div>
-    </div>
-    <div>
-      <dt className="text-sm font-medium text-gray-900">{label}</dt>
-      <dd className="mt-1 text-sm text-gray-700">{value}</dd>
-    </div>
-  </div>
-);
 
 const Vacancy = () => {
   const {
@@ -58,6 +45,9 @@ const Vacancy = () => {
   const { id } = useParams();
   const [vacancy, setVacancy] = useState({});
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -76,6 +66,31 @@ const Vacancy = () => {
       });
   }, [id]);
 
+  const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    data.vacancyId = id;
+    await axios
+      .post('/api/applications/submit', data)
+      .catch((err) => console.log(err))
+      .then((res) => {
+        if (!res.status === 200 || !res) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setSuccess('Aplikācija veiksmīgi aizsūtīta!');
+        setTimeout(() => {
+          navigate('/vacancies');
+          setIsSubmitting(false);
+        }, 2000);
+      });
+  };
+
   return vacancy ? (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full space-y-8 p-10 bg-white shadow-lg rounded-lg">
@@ -85,38 +100,7 @@ const Vacancy = () => {
           </h1>
           <p className="mt-4 text-lg text-gray-600">{vacancy.description}</p>
         </div>
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <VacancyDetail
-            icon={ExperienceSVG}
-            label="Darba pieredze:"
-            value={vacancy.experience}
-          />
-          <VacancyDetail
-            icon={TimeSVG}
-            label="Darba laiks:"
-            value={vacancy.workTime}
-          />
-          <VacancyDetail
-            icon={TypeSVG}
-            label="Darba veids:"
-            value={vacancy.workType}
-          />
-          <VacancyDetail
-            icon={MoneySVG}
-            label="Alga (bruto):"
-            value={`${vacancy.salary} €`}
-          />
-          <VacancyDetail
-            icon={LocationSVG}
-            label="Adrese:"
-            value={vacancy.address}
-          />
-          <VacancyDetail
-            icon={LoadSVG}
-            label="Darba slodze:"
-            value={vacancy.load}
-          />
-        </dl>
+        <VacancyDetails vacancy={vacancy} />
         <div className="flex justify-center items-center">
           <button
             className="btn btn-base-300 px-16 mt-16"
@@ -124,10 +108,56 @@ const Vacancy = () => {
           >
             Pieteikties!
           </button>
-          <dialog id="my_modal_1" className="modal modal-bottom ">
-            <div className="modal-box w-1/3 mx-auto">
+          <dialog
+            id="my_modal_1"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box sm:w-1/3 w-full mx-auto">
               <h3 className="font-bold text-lg">Piesakies vakancei</h3>
-              <form className=" px-2 gap-8 rounded-md flex flex-col  w-full  m-auto ">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className=" px-2 gap-8 rounded-md flex flex-col  w-full  m-auto "
+              >
+                {success ? (
+                  <div role="alert" className="alert alert-success">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current shrink-0 h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{success}</span>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {error ? (
+                  <div role="alert" className="alert alert-error">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="stroke-current shrink-0 h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span className="text-white">
+                      Lūdzu aizpildiet visus obligātos laukus
+                    </span>
+                  </div>
+                ) : null}
                 {inputDetail.map((input, i) => (
                   <label key={i} className="form-control w-full  m-auto">
                     <div className="label">
@@ -139,7 +169,7 @@ const Vacancy = () => {
                       className="input input-bordered w-full bg-white"
                       required
                       aria-invalid={errors.input ? 'true' : 'false'}
-                      {...register(input.label, { required: true })}
+                      {...register(input.input, { required: true })}
                     />
                   </label>
                 ))}

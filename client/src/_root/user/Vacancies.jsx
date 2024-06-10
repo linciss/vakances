@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { VacancyContext } from './../../context/VacancyContext';
+import { VacancyContext } from '../../context/VacancyContext';
 
 import { BookmarkInitialIcon } from '../../assets/BookmarkInitialIcon';
 import { BookmarkedIcon } from '../../assets/BookmarkedIcon';
@@ -41,7 +41,6 @@ const Vacancies = () => {
   }
 
   const handleBookmark = (id) => {
-    console.log(bookmarked);
     if (bookmarked.includes(id)) {
       const newBookmarked = bookmarked.filter((item) => item !== id);
       setBookmarked(newBookmarked);

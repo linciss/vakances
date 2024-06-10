@@ -13,7 +13,7 @@ import {
   News,
   ViewNews,
   Vacancy,
-} from '../_root/pages';
+} from '../_root/user';
 
 import { PrivateRoutes } from './PrivateRoutes';
 import { AuthContext } from '../context/AuthContext';
