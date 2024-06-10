@@ -16,7 +16,7 @@ const VacancyView = () => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -37,7 +37,7 @@ const VacancyView = () => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         getVacancies();
@@ -89,7 +89,10 @@ const VacancyView = () => {
                             Rediģēt
                           </Link>
                         </li>
-                        <li className="w-full text-center">
+                        <li
+                          className="w-full text-center"
+                          onClick={() => deleteVacancy(vacancy._id)}
+                        >
                           <p className="text-xl text-center">
                             <DeleteIcon />
                             Dzēst

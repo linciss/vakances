@@ -22,7 +22,7 @@ const PasswordForms = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     await axios
-      .put('/api/auth/change-password', data)
+      .put('/api/users/change-password', data)
       .catch((err) => {
         if (err.response.status === 401) {
           console.log(err.response.data);
@@ -48,7 +48,7 @@ const PasswordForms = () => {
         return;
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;

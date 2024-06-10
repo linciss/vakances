@@ -25,7 +25,7 @@ const VacancyEdit = () => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -53,7 +53,7 @@ const VacancyEdit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .put(`/api/vacancies/edit/${id}`, data)
+      .put(`/api/vacancies/${id}`, data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);
@@ -61,7 +61,7 @@ const VacancyEdit = () => {
         }
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -232,7 +232,7 @@ const VacancyEdit = () => {
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto "
           >
-            Izveidot
+            Rediģēt
           </button>
         </form>
       </div>

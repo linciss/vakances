@@ -27,7 +27,7 @@ const VacancyForm = () => {
         }
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -38,7 +38,7 @@ const VacancyForm = () => {
         }
         setSuccess('Vakance izveidota veiksmīgi!');
         setTimeout(() => {
-          navigate('/admin/dashboard');
+          navigate('/admin');
           setIsSubmitting(false);
         }, 2000);
       });

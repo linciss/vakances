@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         return;
       })
       .then((res) => {
-        if (!res || !res.statusText === 'OK' || res.status >= 400) {
+        if (!res || res.statusText !== 'OK' || res.status >= 400) {
           setUser({ isLoggedIn: false });
           return;
         }

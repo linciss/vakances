@@ -13,7 +13,7 @@ export const VacancyProvider = ({ children }) => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;

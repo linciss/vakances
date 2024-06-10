@@ -24,7 +24,7 @@ const UsernameForms = () => {
     setIsSubmitting(true);
 
     await axios
-      .put('/api/auth/change-username', data)
+      .put('/api/users/change-username', data)
       .catch((err) => {
         if (err.response.status === 401) {
           const responseData = err.response.data;
@@ -60,7 +60,7 @@ const UsernameForms = () => {
         setSuccess(null);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;

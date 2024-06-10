@@ -15,8 +15,8 @@ const UserForm = () => {
   const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
-    axios
-      .post('/api/users/create', data)
+    await axios
+      .post('/api/users/new', data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);
@@ -24,7 +24,7 @@ const UserForm = () => {
         }
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -94,6 +94,20 @@ const UserForm = () => {
               aria-invalid={errors.password ? 'true' : 'false'}
               {...register('password', { required: true })}
             />
+          </label>
+          <label className="form-control w-full m-auto">
+            <div className="label">
+              <span className="label-text">Privilēģijas</span>
+            </div>
+            <select
+              className="select select-bordered bg-white"
+              {...register('role')}
+            >
+              <option defaultValue={'mod'} value={'mod'}>
+                Moderators
+              </option>
+              <option value={'admin'}>Administrators</option>
+            </select>
           </label>
           <button
             type="submit"

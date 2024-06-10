@@ -56,7 +56,7 @@ const Vacancy = () => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -74,7 +74,7 @@ const Vacancy = () => {
       .post('/api/applications/submit', data)
       .catch((err) => console.log(err))
       .then((res) => {
-        if (!res.status === 200 || !res) {
+        if (res.status !== 200 || !res) {
           return;
         }
         return res.data;
