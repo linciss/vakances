@@ -5,6 +5,7 @@ import {
   attemptChangeUsername,
   deleteUser,
   getAllUsers,
+  getUserCount,
   makeUser,
 } from '../controllers/userController.js';
 import {
@@ -35,5 +36,6 @@ router.post(
 
 router.get('/all', requireAdmin, getAllUsers);
 router.delete('/:id', requireAdmin, deleteUser);
+router.get('/count', requireAuth, getUserCount);
 
 export default router;

@@ -147,3 +147,13 @@ export const deleteUser = async (req, res) => {
     res.status(500).json('Something went wrong!');
   }
 };
+
+export const getUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.status(200).json(count);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
+  }
+};
