@@ -2,39 +2,63 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const Dashboard = () => {
-  const [count, setCount] = useState(null);
-  const getCount = async () => {
+  const [vacancyCount, setVacancyCount] = useState(null);
+  const [applicationCount, setApplicationCount] = useState(null);
+
+  const getVacancyCount = async () => {
     axios
       .get('/api/vacancies/count', { withCredentials: true })
       .catch((err) => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || !res.status === 200) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
       })
       .then((data) => {
-        if (!data) return;
-        setCount(data);
+        if (!data) {
+          return;
+        }
+        setVacancyCount(data);
+      });
+  };
+
+  const getApplicationCount = async () => {
+    await axios
+      .get('/api/applications/count', { withCredentials: true })
+      .catch((err) => {
+        console.log(err);
+      })
+      .then((res) => {
+        if (!res || res.status !== 200) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (data === undefined) {
+          return;
+        }
+        setApplicationCount(data);
       });
   };
 
   useEffect(() => {
-    getCount();
+    getVacancyCount();
+    getApplicationCount();
   }, []);
 
   return (
     <>
       <h1 className="text-6xl font-bold">Dashboard</h1>
-
       <div className="stats stats-vertical lg:stats-horizontal shadow mt-8">
         {/* STATS */}
         <div className="stat bg-base-300 py-8 gap-2">
           <div className="stat-title text-xl">Vakances</div>
-          {count ? (
-            <div className="stat-value">{count}</div>
+          {vacancyCount !== null && vacancyCount !== undefined ? (
+            <div className="stat-value">{vacancyCount}</div>
           ) : (
             <div className="stat-value">
               <span className="loading loading-spinner loading-sm"></span>
@@ -47,7 +71,13 @@ const Dashboard = () => {
           <div className="stat-title text-xl">
             Cilvēki pieteikušies vakancēm
           </div>
-          <div className="stat-value">4,200</div>
+          {applicationCount !== null && applicationCount !== undefined ? (
+            <div className="stat-value">{applicationCount}</div>
+          ) : (
+            <div className="stat-value">
+              <span className="loading loading-spinner loading-sm"></span>
+            </div>
+          )}
           <div className="stat-desc text-lg">↗︎ 400 (22%)</div>
         </div>
 

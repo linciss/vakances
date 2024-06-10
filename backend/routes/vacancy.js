@@ -22,6 +22,6 @@ router.get('/:id', getSingleVacancy);
 
 router.delete('/:id', requireAuth, deleteVacancy);
 
-router.put('/edit/:id', requireAuth, editVacancy);
+router.put('/:id', requireAuth, editVacancy);
 
 export default router;

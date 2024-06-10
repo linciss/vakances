@@ -11,6 +11,7 @@ import auth from './routes/auth.js';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import vacancy from './routes/vacancy.js';
 import user from './routes/users.js';
+import application from './routes/applications.js';
 
 app.use(express.json());
 app.use(
@@ -47,9 +48,10 @@ app.use(
 );
 
 app.use(`${process.env.prefix}/news`, newsRouter);
-app.use(`${process.env.prefix}/auth`, auth, user);
+app.use(`${process.env.prefix}/auth`, auth);
 app.use(`${process.env.prefix}/vacancies`, vacancy);
-// app.use(`${process.env.prefix}/users`, user);
+app.use(`${process.env.prefix}/applications`, application);
+app.use(`${process.env.prefix}/users`, user);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
