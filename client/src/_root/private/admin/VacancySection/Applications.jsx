@@ -7,7 +7,7 @@ import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { CheckIcon } from '../../../../assets/CheckIcon';
 
 const Applications = () => {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState(null);
 
   const deleteApplication = async (id) => {
     await axios.delete(`/api/applications/${id}`).catch((err) => {

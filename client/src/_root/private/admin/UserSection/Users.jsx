@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(null);
   const navigate = useNavigate();
 
   const getAllUsers = async () => {
