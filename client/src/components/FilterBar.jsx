@@ -11,6 +11,7 @@ const FilterBar = ({
   showBookmarked,
   onToggleBookmarked,
   currentItems,
+  setCurrentPage,
 }) => {
   const [query, setQuery] = useState('');
   const [filteredVacancies, setFilteredVacancies] = useState([]);
@@ -19,6 +20,7 @@ const FilterBar = ({
   useEffect(() => {
     if (showBookmarked) {
       filterBookmarked();
+      setCurrentPage(1);
     } else {
       onFilterChange(initialVacancies);
     }

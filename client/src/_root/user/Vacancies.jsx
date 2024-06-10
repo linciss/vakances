@@ -24,7 +24,7 @@ const Vacancies = () => {
 
   const handleFilterChange = (filteredVacancies) => {
     setVacancies(filteredVacancies);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const paginationButtons = [];
@@ -80,6 +80,7 @@ const Vacancies = () => {
               bookmarked={bookmarked}
               showBookmarked={showBookmarked}
               onToggleBookmarked={handleToggleBookmarked}
+              setCurrentPage={setCurrentPage}
             />
 
             <div className="mx-auto  grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-16  pt-10  lg:max-w-none w-full">
