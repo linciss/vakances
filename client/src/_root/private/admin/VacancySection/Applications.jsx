@@ -7,29 +7,38 @@ import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { CheckIcon } from '../../../../assets/CheckIcon';
 
 const Applications = () => {
-  const [applications, setApplications] = useState([
-    { id: 1, title: 'Front-end Developer', salary: '2000', date: '2021-10-10' },
-  ]);
+  const [applications, setApplications] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get('/api/vacancies/get')
-  //     .catch((err) => {
-  //       console.error(err);
-  //     })
-  //     .then((res) => {
-  //       if (!res || !res.status === 200) {
-  //         return;
-  //       }
-  //       return res.data;
-  //     })
-  //     .then((data) => {
-  //       if (!data) {
-  //         return;
-  //       }
-  //       setApplications(data);
-  //     });
-  // }, []);
+  const deleteApplication = async (id) => {
+    await axios.delete(`/api/applications/${id}`).catch((err) => {
+      console.log(err);
+    });
+    getApplications();
+  };
+
+  const getApplications = async () => {
+    await axios
+      .get('/api/applications/get')
+      .catch((err) => {
+        console.log(err);
+      })
+      .then((res) => {
+        if (res.status !== 200 || !res) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setApplications(data);
+      });
+  };
+
+  useEffect(() => {
+    getApplications();
+  }, []);
 
   return (
     <div className="">
@@ -49,41 +58,54 @@ const Applications = () => {
             </thead>
             <tbody>
               {/* row 2 */}
-              {applications.map((application, index) => (
-                <tr key={index} className="hover">
-                  <th>{index + 1}</th>
-                  <td>{application.title}</td>
-                  <td>{application.salary}</td>
-                  <td>{application.date}</td>
-                  <td>
-                    <div className="dropdown dropdown-end">
-                      <div tabIndex={0} role="button" className="">
-                        <Dots />
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
-                      >
-                        <li className="w-full text-center">
-                          <Link
-                            to={`/admin/applications/${application.id}`}
-                            className="text-xl text-center"
+              {applications.map((application, index) => {
+                const date = new Date(application.timeCreated).toLocaleString(
+                  'en-LV',
+                  { hour12: false }
+                );
+                return (
+                  <tr key={index} className="hover">
+                    <th>{index + 1}</th>
+                    <td>
+                      {application.name} {application.surname}
+                    </td>
+                    <td>{application.vacancyName}</td>
+                    <td>
+                      {date.slice(0, 10)} {date.slice(11, 20)}
+                    </td>
+                    <td>
+                      <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="">
+                          <Dots />
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
+                        >
+                          <li className="w-full text-center">
+                            <Link
+                              to={`/admin/applications/${application._id}`}
+                              className="text-xl text-center"
+                            >
+                              <CheckIcon />
+                              Apskatīt
+                            </Link>
+                          </li>
+                          <li
+                            className="w-full"
+                            onClick={() => deleteApplication(application._id)}
                           >
-                            <CheckIcon />
-                            Apskatīt
-                          </Link>
-                        </li>
-                        <li className="w-full">
-                          <p className="text-xl text-center">
-                            <DeleteIcon />
-                            Dzēst
-                          </p>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                            <p className="text-xl text-center">
+                              <DeleteIcon />
+                              Dzēst
+                            </p>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         ) : (
