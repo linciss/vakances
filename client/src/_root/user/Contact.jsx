@@ -46,27 +46,29 @@ const Contact = () => {
       </div>
       <div className="container max-w-[1280px] w-full mx-auto pt-6 my-10 pb-8 p-5">
         <div className="lg:w-4/5 w-full p-4 mx-auto">
-          <div className="text-start mb-8">
-            <h3 className="text-5xl font-bold">Uzraksti mums!</h3>
-            <p className="text-lg font-semibold mt-4">
-              Ja ir jautājumi, ieteikumi vai vēlaties sazināties ar mums,
-              aicinām aizpildīt redzamo formu. Mēs ar Jums sazināsimies pēc
-              iespējas ātrāk.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="relative aspect-w-16 aspect-h-9">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2200.072561513289!2d21.026682760785583!3d56.535394935335866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46faa7ccb271be93%3A0xf9d1bf3406ae7d9d!2sLiep%C4%81jas%20Valsts%20tehnikums!5e0!3m2!1slv!2slv!4v1718123751248!5m2!1slv!2slv"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col w-full md:w-1/2 ">
+              <div className="text-start mb-8">
+                <h3 className="text-5xl font-bold">Uzraksti mums!</h3>
+                <p className="text-lg font-semibold mt-4">
+                  Ja ir jautājumi, ieteikumi vai vēlaties sazināties ar mums,
+                  aicinām aizpildīt redzamo formu. Mēs ar Jums sazināsimies pēc
+                  iespējas ātrāk.
+                </p>
+              </div>
+              <div className="relative w-full h-auto flex-grow">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2200.072561513289!2d21.026682760785583!3d56.535394935335866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46faa7ccb271be93%3A0xf9d1bf3406ae7d9d!2sLiep%C4%81jas%20Valsts%20tehnikums!5e0!3m2!1slv!2slv!4v1718123751248!5m2!1slv!2slv"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
-            <form className="rounded-lg">
+            <form className="w-full md:w-1/2 rounded-lg">
               <div className="flex flex-col">
                 <div className="mx-auto form-control w-full">
                   <label className="label">
