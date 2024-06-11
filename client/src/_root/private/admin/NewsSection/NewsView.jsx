@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from '../../../../components/common/Spinner';
 
 const NewsView = () => {
+  // eslint-disable-next-line no-unused-vars
   const [articles, setArticles] = useState([
     {
       title: 'Title',

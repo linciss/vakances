@@ -13,33 +13,34 @@ const NewsForm = () => {
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const onSubmit = async (data) => {
-    axios
-      .post('/api/vacancies/create', data)
-      .catch((err) => {
+    try {
+      const response = await axios.post('/api/news/create', data);
+      if (response.status === 200) {
+        navigate('/admin');
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.response) {
+        // Server responded with a status other than 200 range
         if (err.response.status === 400) {
-          setError(!error);
-          return;
-        }
-        if (err.response.status === 401) {
+          setError('Please fill all the required fields!');
+        } else if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
+        } else {
+          setError(`Error: ${err.response.status} - ${err.response.statusText}`);
         }
-      })
-      .then((res) => {
-        if (!res || res.status !== 200) {
-          return;
-        }
-        return res.data;
-      })
-      .then((data) => {
-        if (!data) {
-          return;
-        }
-        navigate('/admin');
-      });
+      } else if (err.request) {
+        // Request was made but no response received
+        setError('No response from the server. Please try again later.');
+      } else {
+        // Something happened in setting up the request
+        setError('Error setting up the request.');
+      }
+    }
   };
 
   return (
@@ -50,11 +51,8 @@ const NewsForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="shadow-md px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto mt-8"
         >
-          {/* ERROR HANDLING!!!! */}
-          {(errors.title && errors.title.type === 'required') ||
-          (errors.address && errors.address.type === 'required') ||
-          (errors.description && errors.description.type === 'required') ||
-          error ? (
+          {/* ERROR HANDLING */}
+          {error && (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -69,12 +67,10 @@ const NewsForm = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-white">
-                Lūdzu aizpildiet visus obligātos laukus
-              </span>
+              <span className="text-white">{error}</span>
             </div>
-          ) : null}
-          <label className="form-control w-full  m-auto">
+          )}
+          <label className="form-control w-full m-auto">
             <div className="label">
               <span className="label-text">Virsraksts</span>
             </div>

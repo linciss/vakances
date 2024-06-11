@@ -12,15 +12,10 @@ import {
 const router = express.Router();
 
 router.get('/count', requireAuth, getNewsCount);
-
-router.post('/create', requireAuth, createNews);
-
+router.post('/create', requireAuth, createNews); 
 router.get('/all', getNews);
-
 router.get('/:id', getSingleNews);
-
 router.delete('/:id', requireAuth, deleteNews);
-
 router.put('/:id', requireAuth, editNews);
 
 export default router;

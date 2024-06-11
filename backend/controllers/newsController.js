@@ -14,7 +14,7 @@ export const createNews = async (req, res) => {
   const { title, description, urlToImage } = req.body;
 
   if (!title || !description) {
-    return res.status(400).send('Please fill all the required fields!');
+    return res.status(400).json({ message: 'Please fill all the required fields!' });
   }
 
   try {
@@ -26,10 +26,10 @@ export const createNews = async (req, res) => {
     });
 
     await news.save();
-    res.status(200).json('News article created successfully!');
+    res.status(200).json({ message: 'News article created successfully!' });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error saving data to MongoDB!');
+    console.error('Error saving data to MongoDB:', err);
+    res.status(500).json({ message: 'Error saving data to MongoDB!' });
   }
 };
 
