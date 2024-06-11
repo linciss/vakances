@@ -11,30 +11,17 @@ export const getNews = async (req, res) => {
 };
 
 export const createNews = async (req, res) => {
-  const {
-    author,
-    content,
-    description,
-    publishedAt,
-    source,
-    title,
-    url,
-    urlToImage,
-  } = req.body;
+  const { title, description, urlToImage } = req.body;
 
-  if (!content || !publishedAt || !title || !url) {
+  if (!title || !description) {
     return res.status(400).send('Please fill all the required fields!');
   }
 
   try {
     const news = new News({
-      author,
-      content,
-      description,
-      publishedAt,
-      source,
       title,
-      url,
+      description,
+      publishedAt: new Date(),
       urlToImage,
     });
 
@@ -81,18 +68,9 @@ export const deleteNews = async (req, res) => {
 };
 
 export const editNews = async (req, res) => {
-  const {
-    author,
-    content,
-    description,
-    publishedAt,
-    source,
-    title,
-    url,
-    urlToImage,
-  } = req.body;
+  const { title, description, urlToImage } = req.body;
 
-  if (!content || !publishedAt || !title || !url) {
+  if (!title || !description) {
     return res.status(400).send('Please fill all the required fields!');
   }
 
@@ -100,13 +78,9 @@ export const editNews = async (req, res) => {
     const updatedNews = await News.findByIdAndUpdate(
       req.params.id,
       {
-        author,
-        content,
-        description,
-        publishedAt,
-        source,
         title,
-        url,
+        description,
+        publishedAt: new Date(),
         urlToImage,
       },
       { new: true }
