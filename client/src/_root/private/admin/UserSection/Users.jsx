@@ -5,6 +5,7 @@ import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from '../../../../components/common/Spinner';
 
 const Users = () => {
   const [users, setUsers] = useState(null);
@@ -110,7 +111,7 @@ const Users = () => {
             </tbody>
           </table>
         ) : (
-          <span className="loading loading-spinner loading-lg"></span>
+          <Spinner />
         )}
       </div>
     </div>

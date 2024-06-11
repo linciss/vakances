@@ -3,6 +3,7 @@ import { Dots } from '../../../../assets/Dots';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
 import { Link } from 'react-router-dom';
+import { Spinner } from '../../../../components/common/Spinner';
 
 const NewsView = () => {
   const [articles, setArticles] = useState([
@@ -69,7 +70,7 @@ const NewsView = () => {
             </tbody>
           </table>
         ) : (
-          <span className="loading loading-spinner loading-lg"></span>
+          <Spinner />
         )}
       </div>
     </div>

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { CheckIcon } from '../../../../assets/CheckIcon';
 import { AuthContext } from '../../../../context/AuthContext';
+import { Spinner } from '../../../../components/common/Spinner';
 
 const Applications = () => {
   const [applications, setApplications] = useState(null);
@@ -120,7 +121,7 @@ const Applications = () => {
             </tbody>
           </table>
         ) : (
-          <span className="loading loading-spinner loading-lg"></span>
+          <Spinner />
         )}
       </div>
     </div>

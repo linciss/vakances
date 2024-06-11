@@ -3,35 +3,28 @@ import axios from 'axios';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { VacancyDetails } from '../../components/VacancyDetails';
+import FileUpload from '../../components/FileUpload';
 
 const inputDetail = [
   {
     label: 'Vārds',
     input: 'name',
+    type: 'text',
   },
   {
     label: 'Uzvārds',
     input: 'surname',
+    type: 'text',
   },
   {
     label: 'E-pasts',
     input: 'email',
+    type: 'email',
   },
   {
-    label: 'Izglītība',
-    input: 'education',
-  },
-  {
-    label: 'Skola',
-    input: 'school',
-  },
-  {
-    label: 'Iepriekšējā pieredze',
-    input: 'experience',
-  },
-  {
-    label: 'Adrese',
-    input: 'address',
+    label: 'Tālrunis',
+    input: 'phone',
+    type: 'number',
   },
 ];
 
@@ -72,7 +65,10 @@ const Vacancy = () => {
     data.vacancyId = id;
     await axios
       .post('/api/applications/submit', data)
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err);
+        setError(err);
+      })
       .then((res) => {
         if (res.status !== 200 || !res) {
           return;
@@ -108,15 +104,12 @@ const Vacancy = () => {
           >
             Pieteikties!
           </button>
-          <dialog
-            id="my_modal_1"
-            className="modal modal-bottom sm:modal-middle"
-          >
-            <div className="modal-box sm:w-1/3 w-full mx-auto">
+          <dialog id="my_modal_1" className="modal  w-full  max-w-2xl mx-auto">
+            <div className="modal-box  mx-auto  w-full max-w-full ">
               <h3 className="font-bold text-lg">Piesakies vakancei</h3>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" px-2 gap-8 rounded-md flex flex-col  w-full  m-auto "
+                className="px-2 gap-8 rounded-md  flex flex-col w-full"
               >
                 {success ? (
                   <div role="alert" className="alert alert-success">
@@ -158,30 +151,25 @@ const Vacancy = () => {
                     </span>
                   </div>
                 ) : null}
-                {inputDetail.map((input, i) => (
-                  <label key={i} className="form-control w-full  m-auto">
-                    <div className="label">
-                      <span className="label-text">{input.label}</span>
-                    </div>
-                    <input
-                      id={input.label}
-                      type="text"
-                      className="input input-bordered w-full bg-white"
-                      required
-                      aria-invalid={errors.input ? 'true' : 'false'}
-                      {...register(input.input, { required: true })}
-                    />
-                  </label>
-                ))}
-                <label className="form-control mx-auto">
-                  <div className="label">
-                    <span className="label-text">CV</span>
-                  </div>
-                  <input
-                    type="file"
-                    className="file-input file-input-bordered w-full max-w-xs"
-                  />
-                </label>
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
+                  {inputDetail.map((input, i) => (
+                    <label key={i} className="form-control w-full  m-auto">
+                      <div className="label">
+                        <span className="label-text">{input.label}</span>
+                      </div>
+                      <input
+                        id={input.label}
+                        type={input.type}
+                        className="input input-bordered w-full bg-white"
+                        required
+                        aria-invalid={errors.input ? 'true' : 'false'}
+                        {...register(input.input, { required: true })}
+                      />
+                    </label>
+                  ))}
+                </div>
+
+                <FileUpload />
                 <button className="btn btn-base-300">Sūtīt!</button>
               </form>
               <div className="modal-action">
