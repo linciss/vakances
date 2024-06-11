@@ -17,8 +17,9 @@ router.get('/count', requireAuth, getVacancyCount);
 router.post('/create', validateVacancy, requireAuth, createVacancy);
 
 router.get('/all', getVacancies);
+router.get('/admin', requireAuth, getVacancies);
 
-router.get('/:id', getSingleVacancy);
+router.get('/admin/:id', getSingleVacancy);
 
 router.delete('/:id', requireAuth, deleteVacancy);
 

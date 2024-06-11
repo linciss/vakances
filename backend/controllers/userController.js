@@ -8,7 +8,7 @@ export const attemptChangePassword = async (req, res) => {
   const { user } = req.session;
 
   if (!password || !newPassword || !newPasswordVerify) {
-    return res.status(401).send('Lūdzu aizpildiet visus laukus!');
+    return res.status(418).send('Lūdzu aizpildiet visus laukus!');
   }
 
   try {
@@ -17,15 +17,15 @@ export const attemptChangePassword = async (req, res) => {
     const match = await bcrypt.compare(password, dbUser.password);
 
     if (!match) {
-      return res.status(401).send('Nepareiza parole!');
+      return res.status(418).send('Nepareiza parole!');
     }
 
     if (password === newPassword) {
-      return res.status(401).send('Paroles ir vienādas!');
+      return res.status(418).send('Paroles ir vienādas!');
     }
 
     if (newPassword !== newPasswordVerify) {
-      return res.status(401).send('Paroles nesakrīt!');
+      return res.status(418).send('Paroles nesakrīt!');
     }
 
     const hash = await bcrypt.hash(newPassword, saltRounds);
@@ -44,11 +44,11 @@ export const attemptChangeUsername = async (req, res) => {
   const { user } = req.session;
 
   if (!newUsername) {
-    return res.status(401).send({ error: 'fill_all_fields' });
+    return res.status(418).send({ error: 'fill_all_fields' });
   }
 
   if (newUsername === user.username) {
-    return res.status(401).send({ error: 'username_is_the_same' });
+    return res.status(418).send({ error: 'username_is_the_same' });
   }
 
   try {
@@ -60,13 +60,13 @@ export const attemptChangeUsername = async (req, res) => {
     });
 
     if (userExists) {
-      return res.status(401).send({ error: 'user_exists' });
+      return res.status(418).send({ error: 'user_exists' });
     }
 
     const match = await bcrypt.compare(password, dbUser.password);
 
     if (!match) {
-      return res.status(401).send({ error: 'incorrect_password' });
+      return res.status(418).send({ error: 'incorrect_password' });
     }
 
     await User.updateOne(
@@ -87,18 +87,18 @@ export const makeUser = async (req, res) => {
   const { username, password, role } = req.body;
 
   if (!username || !password || !role) {
-    return res.status(401).send('Ievadiet visus laukus!');
+    return res.status(418).send('Ievadiet visus laukus!');
   }
 
-  if (role !== 'admin' || role !== 'mod') {
-    return res.status(401).json('Nav tadu privilegiju');
+  if (role !== 'admin' && role !== 'mod') {
+    return res.status(418).json('Nav tadu privilegiju');
   }
 
   //check whether user exists
   const user = await User.findOne({ username });
 
   if (user) {
-    return res.status(401).send('Lietotājs jau eksistē!');
+    return res.status(418).send('Lietotājs jau eksistē!');
   }
 
   try {
@@ -136,7 +136,7 @@ export const deleteUser = async (req, res) => {
     const user = await User.findById(id);
 
     if (user.role === 'root') {
-      return res.status(404).json('Nav autorizācija!');
+      return res.status(401).json('Nav autorizācija!');
     }
 
     await User.findByIdAndDelete(id);

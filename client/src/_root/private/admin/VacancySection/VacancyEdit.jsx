@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../context/AuthContext';
 
 const VacancyEdit = () => {
   const {
@@ -17,12 +18,17 @@ const VacancyEdit = () => {
 
   const { pathname } = useLocation();
   const id = pathname.split('/').pop();
+  const { setUser } = useContext(AuthContext);
 
   const fetchVacancy = async () => {
     axios
       .get(`/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -53,11 +59,14 @@ const VacancyEdit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .put(`/api/vacancies/${id}`, data)
+      .put(`/api/vacancies/admin/${id}`, data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);
           return;
+        } else if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
         }
       })
       .then((res) => {

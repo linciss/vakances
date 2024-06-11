@@ -23,7 +23,7 @@ export const submitApplication = async (req, res) => {
     !address ||
     !vacancyId
   ) {
-    return res.status(401).json('Lūdzu aizpildiet visus laukus!');
+    return res.status(418).json('Lūdzu aizpildiet visus laukus!');
   }
 
   const vacancy = await Vacancy.findById(vacancyId);

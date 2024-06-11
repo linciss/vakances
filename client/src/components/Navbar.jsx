@@ -50,7 +50,7 @@ export const Navbar = () => {
         return;
       })
       .then((res) => {
-        if (!res || res.statusText !== 'OK' || res.status >= 400) {
+        if (!res || res.status >= 400) {
           return;
         }
       })

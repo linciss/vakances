@@ -35,7 +35,7 @@ const SignInForms = () => {
         console.log(err);
       })
       .then((res) => {
-        if (!res || res.statusText !== 'OK' || res.status >= 400) {
+        if (!res || res.status >= 400) {
           return;
         }
         return res.data;
@@ -45,7 +45,7 @@ const SignInForms = () => {
           return;
         }
         setUser(data);
-        navigate('/admin');
+        navigate('/');
       });
     setTimeout(() => {
       setIsSubmitting(false);

@@ -23,7 +23,7 @@ export const createVacancy = async (req, res) => {
   } = req.body;
 
   if (!title || !description || !address) {
-    res.status(400).send('Lūdzu aizpildiet visus obligātos laukus!');
+    res.status(418).send('Lūdzu aizpildiet visus obligātos laukus!');
   }
 
   try {
@@ -93,7 +93,7 @@ export const editVacancy = async (req, res) => {
   } = req.body;
 
   if (!title || !description || !address) {
-    return res.status(400).send('Lūdzu aizpildiet visus obligātos laukus!');
+    return res.status(418).send('Lūdzu aizpildiet visus obligātos laukus!');
   }
 
   try {
@@ -113,7 +113,7 @@ export const editVacancy = async (req, res) => {
     );
 
     if (!updatedVacancy) {
-      return res.status(404).send('Vakance nav atrasta!');
+      return res.status(400).send('Vakance nav atrasta!');
     }
     res.status(200).json('Vakance rediģēta!');
   } catch (err) {

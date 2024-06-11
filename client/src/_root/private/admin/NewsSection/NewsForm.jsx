@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../context/AuthContext';
 
 const NewsForm = () => {
   const {
@@ -11,7 +12,7 @@ const NewsForm = () => {
   } = useForm();
 
   const navigate = useNavigate();
-
+  const { setUser } = useContext(AuthContext);
   const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
@@ -21,6 +22,10 @@ const NewsForm = () => {
         if (err.response.status === 400) {
           setError(!error);
           return;
+        }
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
         }
       })
       .then((res) => {

@@ -9,13 +9,17 @@ import axios from 'axios';
 const Users = () => {
   const [users, setUsers] = useState(null);
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const getAllUsers = async () => {
     await axios
       .get('/api/users/all', { withCredentials: true })
       .catch((err) => {
-        console.log(err);
         navigate('/admin');
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {
