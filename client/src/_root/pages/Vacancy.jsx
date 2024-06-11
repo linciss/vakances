@@ -51,12 +51,14 @@ const VacancyDetail = ({ icon: Icon, label, value }) => (
 const Vacancy = () => {
   const {
     register,
+    // eslint-disable-next-line no-unused-vars
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const { id } = useParams();
   const [vacancy, setVacancy] = useState({});
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
 
   useEffect(() => {
