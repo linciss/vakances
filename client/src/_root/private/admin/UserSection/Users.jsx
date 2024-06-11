@@ -10,6 +10,8 @@ const Users = () => {
   const [users, setUsers] = useState(null);
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const activeUser = user;
 
   const getAllUsers = async () => {
     await axios
@@ -71,7 +73,8 @@ const Users = () => {
                   <td>{user.role}</td>
                   <td>{user.timeCreated.slice(0, 10)}</td>
                   <td>
-                    {user.role === 'root' ? (
+                    {user.role === 'root' ||
+                    activeUser.username === user.username ? (
                       ''
                     ) : (
                       <div className="dropdown dropdown-end">
