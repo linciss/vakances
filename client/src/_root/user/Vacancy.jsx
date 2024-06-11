@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { VacancyDetails } from '../../components/VacancyDetails';
-import FileUpload from '../../components/FileUpload';
+
+import { VacancyModal } from '../../components/VacancyModal';
 
 const inputDetail = [
   {
@@ -32,7 +33,9 @@ const Vacancy = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
+    control,
   } = useForm();
 
   const { id } = useParams();
@@ -59,18 +62,34 @@ const Vacancy = () => {
       });
   }, [id]);
 
+  const handleFile = (file) => {
+    console.log(file);
+    if (file.type !== 'application/pdf') {
+      return false;
+    }
+    return true;
+  };
+
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    data.vacancyId = id;
+
+    const formData = new FormData();
+    formData.append('file', data.file);
+    const { file, ...otherData } = data;
+
+    const res = await axios.post('/api/files/upload', formData).catch((err) => {
+      console.log(err);
+    });
+    otherData.vacancyId = id;
+    otherData.cvId = res.data;
     await axios
-      .post('/api/applications/submit', data)
+      .post('/api/applications/submit', otherData)
       .catch((err) => {
         console.log(err);
-        setError(err);
       })
       .then((res) => {
-        if (res.status !== 200 || !res) {
+        if (!res || res.status !== 200) {
           return;
         }
         return res.data;
@@ -104,83 +123,17 @@ const Vacancy = () => {
           >
             Pieteikties!
           </button>
-          <dialog id="my_modal_1" className="modal  w-full  max-w-2xl mx-auto">
-            <div className="modal-box  mx-auto  w-full max-w-full ">
-              <h3 className="font-bold text-lg">Piesakies vakancei</h3>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="px-2 gap-8 rounded-md  flex flex-col w-full"
-              >
-                {success ? (
-                  <div role="alert" className="alert alert-success">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{success}</span>
-                  </div>
-                ) : (
-                  ''
-                )}
-                {error ? (
-                  <div role="alert" className="alert alert-error">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span className="text-white">
-                      Lūdzu aizpildiet visus obligātos laukus
-                    </span>
-                  </div>
-                ) : null}
-                <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
-                  {inputDetail.map((input, i) => (
-                    <label key={i} className="form-control w-full  m-auto">
-                      <div className="label">
-                        <span className="label-text">{input.label}</span>
-                      </div>
-                      <input
-                        id={input.label}
-                        type={input.type}
-                        className="input input-bordered w-full bg-white"
-                        required
-                        aria-invalid={errors.input ? 'true' : 'false'}
-                        {...register(input.input, { required: true })}
-                      />
-                    </label>
-                  ))}
-                </div>
-
-                <FileUpload />
-                <button className="btn btn-base-300">Sūtīt!</button>
-              </form>
-              <div className="modal-action">
-                <form method="dialog">
-                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                    ✕
-                  </button>
-                </form>
-              </div>
-            </div>
-          </dialog>
+          <VacancyModal
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            success={success}
+            error={error}
+            inputDetail={inputDetail}
+            errors={errors}
+            register={register}
+            setValue={setValue}
+            control={control}
+          />
         </div>
       </div>
     </div>

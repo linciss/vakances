@@ -7,7 +7,11 @@ import { VacancyCard } from '../../components/common/VacancyCard';
 
 const Vacancies = () => {
   const initialVacancies = useContext(VacancyContext);
-  const [vacancies, setVacancies] = useState(initialVacancies);
+  const [vacancies, setVacancies] = useState(
+    initialVacancies.sort(
+      (a, b) => new Date(b.timeCreated) - new Date(a.timeCreated)
+    )
+  );
   const itemsPerPage = 6;
   const [showBookmarked, setShowBookmarked] = useState(false);
   const totalPages = Math.ceil(vacancies.length / 6);
@@ -35,7 +39,6 @@ const Vacancies = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   const handleFilterChange = (filteredVacancies) => {
     setVacancies(filteredVacancies);
   };

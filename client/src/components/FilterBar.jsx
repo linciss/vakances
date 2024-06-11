@@ -94,6 +94,43 @@ const FilterBar = ({
     );
   };
 
+  const filterOldest = () => {
+    if (showBookmarked) {
+      const filteredVacancies = [
+        ...initialVacancies.filter((vacancy) =>
+          bookmarked.includes(vacancy._id)
+        ),
+      ].sort((a, b) => new Date(a.timeCreated) - new Date(b.timeCreated));
+
+      onFilterChange(filteredVacancies);
+      return;
+    }
+    const filteredVacancies = [...initialVacancies].sort(
+      (a, b) => new Date(a.timeCreated) - new Date(b.timeCreated)
+    );
+
+    onFilterChange(filteredVacancies);
+  };
+
+  const filterNewest = () => {
+    if (showBookmarked) {
+      const filteredVacancies = [
+        ...initialVacancies.filter((vacancy) =>
+          bookmarked.includes(vacancy._id)
+        ),
+      ].sort((a, b) => new Date(b.timeCreated) - new Date(a.timeCreated));
+
+      onFilterChange(filteredVacancies);
+      return;
+    }
+
+    const filteredVacancies = [...initialVacancies].sort(
+      (a, b) => new Date(b.timeCreated) - new Date(a.timeCreated)
+    );
+
+    onFilterChange(filteredVacancies);
+  };
+
   return (
     <div className="flex flex-row gap-4 mt-10">
       <div className="gap-6 grow relative">
@@ -135,17 +172,19 @@ const FilterBar = ({
           tabIndex={0}
           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li>
-            <a>Jaunākās vakances</a>
+          <li
+            onClick={() => {
+              filterNewest();
+            }}
+          >
+            <a>Pēc vecuma: Jaunākās</a>
           </li>
-          <li>
-            <a>Pēc vecuma: vecākās</a>
-          </li>
-          <li>
-            <a>A-Z</a>
-          </li>
-          <li>
-            <a>Z-A</a>
+          <li
+            onClick={() => {
+              filterOldest();
+            }}
+          >
+            <a>Pēc vecuma: Vecākās</a>
           </li>
         </ul>
       </div>

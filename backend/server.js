@@ -12,15 +12,12 @@ import ExpressMongoSanitize from 'express-mongo-sanitize';
 import vacancy from './routes/vacancy.js';
 import user from './routes/users.js';
 import application from './routes/applications.js';
+import file from './routes/files.js';
 
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'http://localhost:8080',
-      'https://scaling-zebra-5gvq4455546h4747-5173.app.github.dev',
-    ],
+    origin: ['http://localhost:5173', 'http://localhost:8080'],
   })
 );
 app.use(helmet());
@@ -52,6 +49,7 @@ app.use(`${process.env.prefix}/auth`, auth);
 app.use(`${process.env.prefix}/vacancies`, vacancy);
 app.use(`${process.env.prefix}/applications`, application);
 app.use(`${process.env.prefix}/users`, user);
+app.use(`${process.env.prefix}/files`, file); // Add this line
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
