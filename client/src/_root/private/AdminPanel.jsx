@@ -19,11 +19,11 @@ const tables = [
 
 const forms = [
   {
-    path: 'admin/new-vacancy',
+    path: 'admin/vacancies/new',
     text: 'Vakanču formas',
   },
   {
-    path: '/admin/new-news',
+    path: '/admin/news/new',
     text: 'Jaunumu formas',
   },
 ];
@@ -68,7 +68,7 @@ const AdminPanel = () => {
               {user.role === 'admin' || user.role === 'root' ? (
                 <li>
                   <Link
-                    to={'/admin/new-user'}
+                    to={'/admin/users/new'}
                     className="text-xl btn btn-primary shadow-none"
                   >
                     Lietotāju formas

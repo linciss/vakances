@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useAsyncValue, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
 
 const UserForm = () => {
@@ -13,7 +13,7 @@ const UserForm = () => {
 
   const navigate = useNavigate();
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const { setUser } = useContext(AuthContext);
 
   const onSubmit = async (data) => {
@@ -21,13 +21,16 @@ const UserForm = () => {
       .post('/api/users/new', data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
-          setError(!error);
+          setError(err.response.data);
           return;
         }
         if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
+          return;
         }
+        setError(err.response.data);
+        console.log(err);
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -70,9 +73,7 @@ const UserForm = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-white">
-                Please fill in all required fields
-              </span>
+              <span className="text-white">{error}</span>
             </div>
           ) : null}
           <label className="form-control w-full m-auto">

@@ -28,6 +28,7 @@ const VacancyEdit = () => {
         if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
+          return;
         }
       })
       .then((res) => {
@@ -67,7 +68,9 @@ const VacancyEdit = () => {
         } else if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
+          return;
         }
+        setError(!error);
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -241,7 +244,7 @@ const VacancyEdit = () => {
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto "
           >
-            Rediģēt
+            Saglabāt
           </button>
         </form>
       </div>

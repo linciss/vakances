@@ -30,7 +30,9 @@ const VacancyForm = () => {
         if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
+          return;
         }
+        setError(!error);
       })
       .then((res) => {
         if (!res || res.status !== 200) {
