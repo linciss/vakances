@@ -8,7 +8,9 @@ const Application = () => {
   const { pathname } = useLocation();
   const id = pathname.slice(pathname.lastIndexOf('/') + 1);
   const [application, setApplication] = useState({});
-  const {setUser} = useContext(AuthContext);
+  const [cv, setCv] = useState({});
+
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const fetchApplication = async () => {
@@ -31,13 +33,34 @@ const Application = () => {
         if (!data) {
           return;
         }
-        setApplication(data);
+        setApplication(data.application);
+        setCv(data.file);
+      });
+  };
+
+  const downloadCV = async () => {
+    await axios
+      .get(`/api/files/download/${cv._id}`, {
+        responseType: 'blob',
+      })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${cv.filename}`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
   useEffect(() => {
     fetchApplication();
   }, []);
+
+  console.log(cv);
   const date = new Date(application.timeCreated).toLocaleString('en-LV', {
     hour12: false,
   });
@@ -57,22 +80,12 @@ const Application = () => {
       data: application.email,
     },
     {
-      field: 'Izglītība',
-      data: application.education,
-    },
-    {
-      field: 'Skola',
-      data: application.school,
-    },
-    {
-      field: 'Iepriekšējā pieredze',
-      data: application.experience,
-    },
-    {
-      field: 'Adrese',
-      data: application.address,
+      field: 'Telefons',
+      data: application.phone,
     },
   ];
+
+  const sizeInMb = cv.size / (1024 * 1024);
 
   return (
     <div className="">
@@ -112,7 +125,7 @@ const Application = () => {
                       <div className="ml-4 flex min-w-0 flex-1 gap-2">
                         <span className="truncate font-medium">CV</span>
                         <span className="flex-shrink-0 text-gray-400">
-                          2.4mb
+                          {sizeInMb.toPrecision(2)} MB
                         </span>
                       </div>
                     </div>
@@ -120,6 +133,7 @@ const Application = () => {
                       <a
                         href="#"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
+                        onClick={() => downloadCV()}
                       >
                         Download
                       </a>

@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
+import { Controller } from 'react-hook-form';
 
-const FileUpload = () => {
+const FileUpload = ({ setValue, control }) => {
   const [fileName, setFileName] = useState('');
+  const [error, setError] = useState('');
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    console.log('asdasdsad');
+
+    if (file.type !== 'application/pdf') {
+      setError('Lūdzu ievietot tikai PDF failu!');
+      return;
+    }
     if (file) {
       setFileName(file.name);
+      setError('');
     }
   };
 
+  const handleRemove = () => {
+    setFileName('');
+    setValue('file', null);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <>
       <label
         htmlFor="dropzone-file"
-        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-base-300 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 d"
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
           <svg
@@ -34,26 +47,49 @@ const FileUpload = () => {
             />
           </svg>
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
+            <span className="font-semibold">Spied, lai augšupielādētu</span>
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            SVG, PNG, JPG or GIF (MAX. 800x400px)
-          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">PDF</p>
         </div>
-        <input
-          id="dropzone-file"
-          type="file"
-          className="hidden"
-          onChange={handleFileUpload}
+        <Controller
+          control={control}
+          name="file"
+          defaultValue={null}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <input
+              id="dropzone-file"
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                handleFileUpload(e);
+                field.onChange(e.target.files[0]);
+              }}
+              accept="application/pdf"
+            />
+          )}
         />
       </label>
-      {fileName && (
+      {error && (
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          Uploaded file: <span className="font-semibold">{fileName}</span>
+          Kļūda: <span className="font-semibold">{error}</span>
         </p>
       )}
-    </div>
+      {fileName && (
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 flex flex-row gap-2 mx-auto">
+          Augšupielādētais fails:{' '}
+          <span className="font-semibold">{fileName}</span>
+          <span
+            onClick={() => {
+              handleRemove();
+            }}
+            className=" ml-4 cursor-pointer"
+          >
+            ✕
+          </span>
+        </p>
+      )}
+    </>
   );
 };
 

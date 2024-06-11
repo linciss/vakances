@@ -13,20 +13,13 @@ const aplicationSchema = new Schema({
     type: String,
     required: true,
   },
-  education: {
+  phone: {
     type: String,
     required: true,
   },
-  school: {
-    type: String,
-    required: true,
-  },
-  experience: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
+  cvId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'File',
     required: true,
   },
   vacancyId: {
