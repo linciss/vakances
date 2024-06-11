@@ -1,18 +1,25 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ApplicationData } from '../../../../components/ApplicationData';
+import { AuthContext } from '../../../../context/AuthContext';
 
 const Application = () => {
   const { pathname } = useLocation();
   const id = pathname.slice(pathname.lastIndexOf('/') + 1);
   const [application, setApplication] = useState({});
+  const {setUser} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const fetchApplication = async () => {
     await axios
       .get(`/api/applications/${id}`, { withCredentials: true })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {

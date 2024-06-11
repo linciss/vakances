@@ -2,18 +2,17 @@ import { User } from '../schemas/userSchema.js';
 import bcrypt from 'bcrypt';
 
 export const attemptLogin = async (req, res) => {
-  console.log(req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(401).send('Lūdzu aizpildiet visus laukus!');
+    return res.status(418).send('Lūdzu aizpildiet visus laukus!');
   }
 
   try {
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(401).send('Nepareizs lietotājvārds vai parole!');
+      return res.status(418).send('Nepareizs lietotājvārds vai parole!');
     }
 
     const match = await bcrypt.compare(password, user.password);
@@ -31,7 +30,7 @@ export const attemptLogin = async (req, res) => {
       res.status(200).json(req.session.user);
       console.log(req.session, 'logged in!');
     } else {
-      res.status(401).send('Nepareizs lietotājvārds vai parole!');
+      res.status(418).send('Nepareizs lietotājvārds vai parole!');
     }
   } catch (err) {
     console.error(err);

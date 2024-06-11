@@ -1,16 +1,24 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [vacancyCount, setVacancyCount] = useState(null);
   const [applicationCount, setApplicationCount] = useState(null);
   const [userCount, setUserCount] = useState(null);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const getVacancyCount = async () => {
     axios
       .get('/api/vacancies/count', { withCredentials: true })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -31,6 +39,10 @@ const Dashboard = () => {
       .get('/api/applications/count', { withCredentials: true })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -51,6 +63,10 @@ const Dashboard = () => {
       .get('/api/users/count', { withCredentials: true })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
       })
       .then((res) => {
         if (!res || res.status !== 200) {
