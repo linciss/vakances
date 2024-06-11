@@ -7,6 +7,7 @@ import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
 
 import { AuthContext } from '../../../../context/AuthContext';
+import { Spinner } from '../../../../components/common/Spinner';
 
 const VacancyView = () => {
   const [vacancies, setVacancies] = useState(null);
@@ -117,7 +118,7 @@ const VacancyView = () => {
             </tbody>
           </table>
         ) : (
-          <span className="loading loading-spinner loading-lg"></span>
+          <Spinner />
         )}
       </div>
     </div>

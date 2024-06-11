@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from '../../../components/common/Spinner';
 
 const Dashboard = () => {
   const [vacancyCount, setVacancyCount] = useState(null);
@@ -101,7 +102,7 @@ const Dashboard = () => {
             <div className="stat-value">{vacancyCount}</div>
           ) : (
             <div className="stat-value">
-              <span className="loading loading-spinner loading-sm"></span>
+              <Spinner />
             </div>
           )}
           <div className="stat-desc text-lg"></div>
@@ -116,7 +117,7 @@ const Dashboard = () => {
             <div className="stat-value">{applicationCount}</div>
           ) : (
             <div className="stat-value">
-              <span className="loading loading-spinner loading-sm"></span>
+              <Spinner />
             </div>
           )}
           <div className="stat-desc text-lg">
@@ -130,7 +131,7 @@ const Dashboard = () => {
             <div className="stat-value">{userCount}</div>
           ) : (
             <div className="stat-value">
-              <span className="loading loading-spinner loading-sm"></span>
+              <Spinner />
             </div>
           )}
 
