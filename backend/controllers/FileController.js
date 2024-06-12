@@ -5,6 +5,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 export const uploadFile = async (req, res) => {
+  if (req.file.mimetype !== 'application/pdf') {
+    return res.status(418).json('Nepareizs faila formāts');
+  }
   const newFile = new File({
     filename: req.file.originalname,
     contentType: req.file.mimetype,

@@ -5,8 +5,10 @@ import {
   attemptChangeUsername,
   deleteUser,
   getAllUsers,
+  getUser,
   getUserCount,
   makeUser,
+  updateUser,
 } from '../controllers/userController.js';
 import {
   validateAuthentication,
@@ -26,16 +28,11 @@ router.put(
   attemptChangePassword
 );
 
-router.post(
-  '/new',
-  validateAuthentication,
-  limiter(10),
-  requireAdmin,
-  makeUser
-);
-
+router.post('/new', limiter(10), requireAdmin, makeUser);
+router.get('/count', requireAuth, getUserCount);
 router.get('/all', requireAdmin, getAllUsers);
 router.delete('/:id', requireAdmin, deleteUser);
-router.get('/count', requireAuth, getUserCount);
+router.get('/:id', requireAdmin, getUser);
+router.put('/:id', requireAdmin, updateUser);
 
 export default router;

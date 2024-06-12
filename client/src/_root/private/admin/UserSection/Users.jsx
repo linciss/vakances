@@ -87,7 +87,10 @@ const Users = () => {
                           className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]"
                         >
                           <li className="w-full">
-                            <Link className=" text-xl text-center">
+                            <Link
+                              to={`/admin/users/${user._id}`}
+                              className=" text-xl text-center"
+                            >
                               <EditIcon />
                               Rediģēt
                             </Link>

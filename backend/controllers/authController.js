@@ -8,6 +8,14 @@ export const attemptLogin = async (req, res) => {
     return res.status(418).send('Lūdzu aizpildiet visus laukus!');
   }
 
+  if (password.length < 6) {
+    return res.status(418).json('Parole par īsu');
+  }
+
+  if (username.length < 3) {
+    return res.status(418).json('Lietotājvārds par īsu');
+  }
+
   try {
     const user = await User.findOne({ username });
 

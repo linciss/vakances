@@ -10,3 +10,4 @@ export { default as Profile } from './Profile';
 export { default as Users } from './admin/UserSection/Users';
 export { default as Application } from './admin/VacancySection/Application';
 export { default as VacancyEdit } from './admin/VacancySection/VacancyEdit';
+export { default as UserEdit } from './admin/UserSection/UserEdit';

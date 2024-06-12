@@ -10,6 +10,13 @@ export const attemptChangePassword = async (req, res) => {
   if (!password || !newPassword || !newPasswordVerify) {
     return res.status(418).send('Lūdzu aizpildiet visus laukus!');
   }
+  if (
+    password.length < 6 ||
+    newPassword.length < 6 ||
+    newPasswordVerify.length < 6
+  ) {
+    return res.status(418).json('Parole par īsu');
+  }
 
   try {
     const dbUser = await User.findOne({ username: user.username });
@@ -49,6 +56,10 @@ export const attemptChangeUsername = async (req, res) => {
 
   if (newUsername === user.username) {
     return res.status(418).send({ error: 'username_is_the_same' });
+  }
+
+  if (newUsername.length < 3) {
+    return res.status(418).send({ error: 'username_too_short' });
   }
 
   try {
@@ -92,6 +103,14 @@ export const makeUser = async (req, res) => {
 
   if (role !== 'admin' && role !== 'mod') {
     return res.status(418).json('Nav tadu privilegiju');
+  }
+
+  if (password.length < 6) {
+    return res.status(418).json('Parole par īsu');
+  }
+
+  if (username.length < 3) {
+    return res.status(418).json('Lietotājvārds par īsu');
   }
 
   //check whether user exists
@@ -152,6 +171,88 @@ export const getUserCount = async (req, res) => {
   try {
     const count = await User.countDocuments();
     res.status(200).json(count);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
+  }
+};
+
+export const getUser = async (req, res) => {
+  const id = req.params.id;
+  const { user } = req.session;
+  const currUser = user;
+
+  try {
+    const user = await User.findById(id);
+
+    if (currUser.username === user.username) {
+      return res.status(418).json('Sevi nevar rediģēt!');
+    }
+
+    if (user.role === 'root') {
+      return res.status(500).json('Nav privilēģiju!');
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  const id = req.params.id;
+  const { user } = req.session;
+  const currUser = user;
+
+  try {
+    const user = await User.findById(id);
+
+    if (currUser.username === user.username) {
+      return res.status(418).json('Sevi nevar rediģēt!');
+    }
+
+    if (user.role === 'root') {
+      return res.status(500).json('Nav privilēģiju!');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      return res.status(418).json('Parole nevar būt tāda paša!');
+    }
+
+    const userExists = await User.findOne({
+      username: { $regex: new RegExp(`^${username}$`, 'i') },
+    });
+
+    if (userExists) {
+      return res.status(418).json('Lietotājvārds jau eksistē!');
+    }
+
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    if (!username && !password) {
+      return res.status(418).json('Nav ko rediģēt!');
+    }
+
+    if (username && username.length < 3) {
+      return res.status(418).json('Lietotājvārds par īsu');
+    }
+
+    if (password && password.length < 6) {
+      return res.status(418).json('Parole par īsu');
+    }
+
+    const update = {};
+    if (username) update.username = username;
+    if (password) update.password = hash;
+
+    await User.updateOne({ _id: id }, update);
+
+    res.status(200).json('Lietotājs rediģēts!');
   } catch (err) {
     console.log(err);
     res.status(500).json('Something went wrong!');

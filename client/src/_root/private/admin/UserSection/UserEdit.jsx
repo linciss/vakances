@@ -1,24 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../../context/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const UserForm = () => {
+const UserEdit = () => {
+  const { pathname } = useLocation();
+  const id = pathname.split('/').pop();
+  const [user, setUser] = useState({});
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
   const navigate = useNavigate();
 
-  const [error, setError] = useState(null);
-  const { setUser } = useContext(AuthContext);
+  const [error, setError] = useState('');
 
-  const onSubmit = async (data) => {
+  const fetchUser = async () => {
     await axios
-      .post('/api/users/new', data, { withCredentials: true })
+      .get(`/api/users/${id}`, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(err.response.data);
@@ -30,7 +33,6 @@ const UserForm = () => {
           return;
         }
         setError(err.response.data);
-        console.log(err);
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -42,23 +44,49 @@ const UserForm = () => {
         if (!data) {
           return;
         }
-        navigate('/admin');
+
+        setUser(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const onSubmit = async (data) => {
+    await axios
+      .put(`/api/users/${id}`, data, { withCredentials: true })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          setError(err.response.data);
+          return;
+        }
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+          return;
+        }
+        setError(err.response.data);
+      })
+      .then((res) => {
+        if (!res || res.status !== 200) {
+          return;
+        }
+        navigate('/admin/users');
       });
   };
 
   return (
     <>
       <h1 className="text-4xl font-bold border-b border-gray-300 pb-8">
-        Izveidot jaunu lietotāju
+        Rediģēt lietotāju {user.username || ''}
       </h1>
       <div className="mx-auto max-w-4xl px-6 lg:px-8 w-full mt-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="shadow-md px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
         >
-          {(errors.username && errors.username.type === 'required') ||
-          (errors.password && errors.password.type === 'required') ||
-          error ? (
+          {error ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,9 +112,8 @@ const UserForm = () => {
               id="username"
               type="text"
               className="input input-bordered w-full bg-white"
-              required
-              aria-invalid={errors.username ? 'true' : 'false'}
-              {...register('username', { required: true })}
+              placeholder={user.username}
+              {...register('username')}
             />
           </label>
           <label className="form-control w-full m-auto">
@@ -97,30 +124,14 @@ const UserForm = () => {
               id="password"
               type="password"
               className="input input-bordered w-full bg-white"
-              required
-              aria-invalid={errors.password ? 'true' : 'false'}
-              {...register('password', { required: true })}
+              {...register('password')}
             />
-          </label>
-          <label className="form-control w-full m-auto">
-            <div className="label">
-              <span className="label-text">Privilēģijas</span>
-            </div>
-            <select
-              className="select select-bordered bg-white"
-              {...register('role')}
-            >
-              <option defaultValue={'mod'} value={'mod'}>
-                Moderators
-              </option>
-              <option value={'admin'}>Administrators</option>
-            </select>
           </label>
           <button
             type="submit"
             className="btn btn-base-300 w-full max-w-sm mx-auto"
           >
-            Izveidot
+            Saglabāt
           </button>
         </form>
       </div>
@@ -128,4 +139,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default UserEdit;
