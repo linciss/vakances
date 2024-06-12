@@ -3,7 +3,7 @@ import {
   downloadFile,
   getFiles,
   uploadFile,
-} from '../controllers/FIleController.js';
+} from '../controllers/FileController.js';
 import { File } from '../schemas/fileSchema.js';
 import multer from 'multer';
 
