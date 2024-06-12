@@ -2,9 +2,10 @@ import express from 'express';
 import {
   downloadFile,
   getFiles,
-  uploadFile,
+  uploadPdf,
+  uploadPng,
 } from '../controllers/FileController.js';
-import { File } from '../schemas/fileSchema.js';
+
 import multer from 'multer';
 import { requireAuth } from '../auth/requireAuth.js';
 
@@ -14,7 +15,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // router.post('/upload', uploadFile);
-router.post('/upload', requireAuth, upload.single('file'), uploadFile);
+router.post('/upload', requireAuth, upload.single('file'), uploadPdf);
+router.post('/upload/image', requireAuth, upload.single('file'), uploadPng);
 router.get('/download/:id', requireAuth, downloadFile);
 router.get('/get/:id', requireAuth, getFiles);
 
