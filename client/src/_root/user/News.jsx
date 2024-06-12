@@ -52,43 +52,15 @@ const News = () => {
             {newsItems.map((newsItem, index) => {
               const date = new Date(newsItem.publishedAt).toLocaleString();
 
-              if (index === 0) {
-                return (
-                  <article
-                    key={newsItem._id}
-                    className="flex flex-col items-start justify-between md:col-span-2"
-                  >
-                    <div
-                      className="w-full h-96 bg-center bg-cover rounded-t-box"
-                      style={{ backgroundImage: `url(${newsItem.imageUrl})` }}
-                    ></div>
-                    <div className="flex items-center gap-x-4 text-xs mt-4">
-                      <time dateTime={newsItem.publishedAt} className="text-gray-500">
-                        {date.slice(0, 9)}
-                      </time>
-                    </div>
-                    <div className="group relative">
-                      <h3 className="mt-3 text-2xl font-semibold leading-8 text-gray-900 group-hover:text-gray-600">
-                        <Link to={`/news/${newsItem._id}`}>
-                          <span className="absolute inset-0" />
-                          {newsItem.title}
-                        </Link>
-                      </h3>
-                      <p className="mt-5 line-clamp-4 text-base leading-7 text-gray-600">
-                        {newsItem.content}
-                      </p>
-                    </div>
-                  </article>
-                );
-              }
-
               return (
                 <article
                   key={newsItem._id}
-                  className="flex flex-col items-start justify-between max-w-xl"
+                  className={`flex flex-col items-start justify-between ${
+                    index === 0 ? 'md:col-span-2' : 'max-w-xl'
+                  }`}
                 >
                   <div
-                    className="w-full h-72 bg-center bg-cover rounded-t-box"
+                    className={`w-full ${index === 0 ? 'h-96' : 'h-72'} bg-center bg-cover rounded-t-box`}
                     style={{ backgroundImage: `url(${newsItem.imageUrl})` }}
                   ></div>
                   <div className="flex items-center gap-x-4 text-xs mt-4">
@@ -98,7 +70,7 @@ const News = () => {
                   </div>
                   <div className="group relative">
                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                      <Link to={`/viewNews/${newsItem._id}`}>
+                      <Link to={`/news/${newsItem._id}`}>
                         <span className="absolute inset-0" />
                         {newsItem.title}
                       </Link>
