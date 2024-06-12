@@ -10,12 +10,12 @@ export const attemptChangePassword = async (req, res) => {
   if (!password || !newPassword || !newPasswordVerify) {
     return res.status(418).send('Lūdzu aizpildiet visus laukus!');
   }
-  if (password.length < 6) {
+  if (
+    password.length < 6 ||
+    newPassword.length < 6 ||
+    newPasswordVerify.length < 6
+  ) {
     return res.status(418).json('Parole par īsu');
-  }
-
-  if (username.length < 3) {
-    return res.status(418).json('Lietotājvārds par īsu');
   }
 
   try {
@@ -56,6 +56,10 @@ export const attemptChangeUsername = async (req, res) => {
 
   if (newUsername === user.username) {
     return res.status(418).send({ error: 'username_is_the_same' });
+  }
+
+  if (newUsername.length < 3) {
+    return res.status(418).send({ error: 'username_too_short' });
   }
 
   try {
