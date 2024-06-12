@@ -22,7 +22,7 @@ const VacancyEdit = () => {
 
   const fetchVacancy = async () => {
     axios
-      .get(`/api/vacancies/${id}`)
+      .get(`http://localhost:5000/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -60,7 +60,7 @@ const VacancyEdit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .put(`/api/vacancies/admin/${id}`, data)
+      .put(`http://localhost:5000/api/vacancies/admin/${id}`, data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);

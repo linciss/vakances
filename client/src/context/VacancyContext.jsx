@@ -8,7 +8,7 @@ export const VacancyProvider = ({ children }) => {
   const [vacancies, setVacancies] = useState([]);
   const getVacancies = async () => {
     await axios
-      .get('/api/vacancies/all')
+      .get('http://localhost:5000/api/vacancies/all')
       .catch((err) => {
         console.log(err);
       })

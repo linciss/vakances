@@ -15,7 +15,9 @@ const Application = () => {
 
   const fetchApplication = async () => {
     await axios
-      .get(`/api/applications/${id}`, { withCredentials: true })
+      .get(`http://localhost:5000/api/applications/${id}`, {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -40,7 +42,7 @@ const Application = () => {
 
   const downloadCV = async () => {
     await axios
-      .get(`/api/files/download/${cv._id}`, {
+      .get(`http://localhost:5000/api/files/download/${cv._id}`, {
         responseType: 'blob',
       })
       .then((res) => {

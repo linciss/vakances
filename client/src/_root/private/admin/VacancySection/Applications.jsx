@@ -26,7 +26,7 @@ const Applications = () => {
 
   const getApplications = async () => {
     await axios
-      .get('/api/applications/get')
+      .get('http://localhost:5000/api/applications/get')
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

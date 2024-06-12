@@ -9,9 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const autoLogIn = async () => {
     await axios
-      .get('/api/auth/auto-login', {
-        withCredentials: true,
-      })
+      .get('http://localhost:5000/api/auth/auto-login')
       // eslint-disable-next-line no-unused-vars
       .catch((err) => {
         setUser({ isLoggedIn: false });

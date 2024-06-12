@@ -49,7 +49,7 @@ const Vacancy = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/vacancies/${id}`)
+      .get(`http://localhost:5000/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
       })
@@ -80,13 +80,15 @@ const Vacancy = () => {
     formData.append('file', data.file);
     const { file, ...otherData } = data;
 
-    const res = await axios.post('/api/files/upload', formData).catch((err) => {
-      console.log(err);
-    });
+    const res = await axios
+      .post('http://localhost:5000/api/files/upload', formData)
+      .catch((err) => {
+        console.log(err);
+      });
     otherData.vacancyId = id;
     otherData.cvId = res.data;
     await axios
-      .post('/api/applications/submit', otherData)
+      .post('http://localhost:5000/api/applications/submit', otherData)
       .catch((err) => {
         console.log(err);
       })

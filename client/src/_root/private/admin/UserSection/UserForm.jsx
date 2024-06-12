@@ -18,7 +18,9 @@ const UserForm = () => {
 
   const onSubmit = async (data) => {
     await axios
-      .post('/api/users/new', data, { withCredentials: true })
+      .post('http://localhost:5000/api/users/new', data, {
+        withCredentials: true,
+      })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(err.response.data);

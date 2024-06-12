@@ -13,7 +13,9 @@ const Dashboard = () => {
 
   const getVacancyCount = async () => {
     axios
-      .get('/api/vacancies/count', { withCredentials: true })
+      .get('http://localhost:5000/api/vacancies/count', {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -37,7 +39,9 @@ const Dashboard = () => {
 
   const getApplicationCount = async () => {
     await axios
-      .get('/api/applications/count', { withCredentials: true })
+      .get('http://localhost:5000/api/applications/count', {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -61,7 +65,7 @@ const Dashboard = () => {
 
   const getUserCount = async () => {
     await axios
-      .get('/api/users/count', { withCredentials: true })
+      .get('http://localhost:5000/api/users/count')
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

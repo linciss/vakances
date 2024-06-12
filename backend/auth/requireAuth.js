@@ -46,6 +46,7 @@ export const requireRoot = (req, res, next) => {
 
 export const autoLogIn = async (req, res, next) => {
   const { user } = req.session;
+  console.log(user);
   if (req.session && user) {
     const checkUser = await User.findOne({
       username: user.username,

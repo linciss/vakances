@@ -15,7 +15,7 @@ const VacancyView = () => {
   const navigate = useNavigate();
   const getVacancies = async () => {
     await axios
-      .get('/api/vacancies/admin')
+      .get('http://localhost:5000/api/vacancies/admin')
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -40,7 +40,7 @@ const VacancyView = () => {
 
   const deleteVacancy = async (id) => {
     axios
-      .delete(`/api/vacancies/${id}`)
+      .delete(`http://localhost:5000/api/vacancies/${id}`)
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

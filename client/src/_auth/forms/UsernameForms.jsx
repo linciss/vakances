@@ -24,7 +24,7 @@ const UsernameForms = () => {
     setIsSubmitting(true);
 
     await axios
-      .put('/api/users/change-username', data)
+      .put('http://localhost:5000/api/users/change-username', data)
       .catch((err) => {
         if (err.response.status === 401) {
           const responseData = err.response.data;

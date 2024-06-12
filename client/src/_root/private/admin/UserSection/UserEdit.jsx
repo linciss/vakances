@@ -21,7 +21,7 @@ const UserEdit = () => {
 
   const fetchUser = async () => {
     await axios
-      .get(`/api/users/${id}`, { withCredentials: true })
+      .get(`http://localhost:5000/api/users/${id}`, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(err.response.data);
@@ -55,7 +55,9 @@ const UserEdit = () => {
 
   const onSubmit = async (data) => {
     await axios
-      .put(`/api/users/${id}`, data, { withCredentials: true })
+      .put(`http://localhost:5000/api/users/${id}`, data, {
+        withCredentials: true,
+      })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(err.response.data);

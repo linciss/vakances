@@ -16,7 +16,7 @@ const Users = () => {
 
   const getAllUsers = async () => {
     await axios
-      .get('/api/users/all', { withCredentials: true })
+      .get('http://localhost:5000/api/users/all', { withCredentials: true })
       .catch((err) => {
         navigate('/admin');
         if (err.response.status === 401) {
@@ -40,7 +40,9 @@ const Users = () => {
 
   const deleteUser = async (id) => {
     await axios
-      .delete(`/api/users/${id}`, { withCredentials: true })
+      .delete(`http://localhost:5000/api/users/${id}`, {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
       });
