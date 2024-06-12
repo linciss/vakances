@@ -11,7 +11,7 @@ export const getNews = async (req, res) => {
 };
 
 export const createNews = async (req, res) => {
-  const { title, description, urlToImage } = req.body;
+  const { title, description } = req.body;
 
   if (!title || !description) {
     return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });

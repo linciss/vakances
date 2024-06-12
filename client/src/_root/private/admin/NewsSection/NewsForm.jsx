@@ -13,34 +13,43 @@ const NewsForm = () => {
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
-  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post('/api/news/create', data);
-      if (response.status === 200) {
-        navigate('/admin');
-      }
-    } catch (err) {
-      console.error(err);
-      if (err.response) {
-        // Server responded with a status other than 200 range
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    axios
+      .post('/api/news/create', data)
+      .catch((err) => {
         if (err.response.status === 400) {
-          setError('Please fill all the required fields!');
-        } else if (err.response.status === 401) {
+          setError('Lūdzu, aizpildiet visus obligātos laukus!');
+          return;
+        }
+        if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
-        } else {
-          setError(`Error: ${err.response.status} - ${err.response.statusText}`);
+          return;
         }
-      } else if (err.request) {
-        // Request was made but no response received
-        setError('No response from the server. Please try again later.');
-      } else {
-        // Something happened in setting up the request
-        setError('Error setting up the request.');
-      }
-    }
+        setError('Kļūda: ' + err.response.status + ' - ' + err.response.statusText);
+      })
+      .then((res) => {
+        if (!res || res.status !== 200) {
+          return;
+        }
+        return res.data;
+      })
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setSuccess('Ziņu raksts veiksmīgi izveidots!');
+        setTimeout(() => {
+          navigate('/admin');
+          setIsSubmitting(false);
+        }, 2000);
+      });
   };
 
   return (
@@ -51,6 +60,25 @@ const NewsForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="shadow-md px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto mt-8"
         >
+          {/* SUCCESS MESSAGE */}
+          {success && (
+            <div role="alert" className="alert alert-success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{success}</span>
+            </div>
+          )}
           {/* ERROR HANDLING */}
           {error && (
             <div role="alert" className="alert alert-error">
@@ -102,11 +130,13 @@ const NewsForm = () => {
             <input
               type="file"
               className="file-input file-input-bordered w-full max-w-xs file-input-base-100 bg-white"
+              {...register('urlToImage')}
             />
           </label>
           <button
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto"
+            disabled={isSubmitting}
           >
             Izveidot
           </button>
