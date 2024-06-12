@@ -72,7 +72,7 @@ const ViewNews = () => {
             {newsItem.title}
           </h1>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            {newsItem.description}
+            {newsItem.content}
           </p>
         </div>
         <div className="lg:w-1/3 lg:pl-8 mt-12 lg:mt-0">
@@ -91,14 +91,14 @@ const ViewNews = () => {
                     backgroundImage: `url(${relatedNewsItem.imageUrl})`,
                   }}
                 ></div>
-                <div className="flex items-center gap-x-4 text-xs mt-2">
+                {/* <div className="flex items-center gap-x-4 text-xs mt-2">
                   <time
                     dateTime={relatedNewsItem.timeCreated}
                     className="text-gray-500"
                   >
                     {new Date(relatedNewsItem.timeCreated).toLocaleDateString()}
                   </time>
-                </div>
+                </div> */}
                 <div className="group relative">
                   <h3 className="mt-2 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                     <Link to={`/news/${relatedNewsItem.id}`}>
@@ -107,7 +107,7 @@ const ViewNews = () => {
                     </Link>
                   </h3>
                   <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
-                    {relatedNewsItem.description}
+                    {relatedNewsItem.content}
                   </p>
                 </div>
               </article>
