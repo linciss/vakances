@@ -1,63 +1,80 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
 
-const NewsForm = () => {
+const NewsEdit = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
-
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
+
+  const { pathname } = useLocation();
+  const id = pathname.split('/').pop();
+  const { setUser } = useContext(AuthContext);
+
+  const fetchNews = useCallback(async () => {
+    try {
+      const res = await axios.get(`/api/news/${id}`);
+      if (res.status === 200) {
+        const data = res.data;
+        setValue('title', data.title);
+        setValue('content', data.content);
+      }
+    } catch (err) {
+      console.log(err);
+      if (err.response.status === 401) {
+        setUser({ isLoggedIn: false });
+        navigate('/');
+      }
+    }
+  }, [id, navigate, setUser, setValue]);
+
+  useEffect(() => {
+    fetchNews();
+  }, [fetchNews]);
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    setError(null); 
-
     try {
-      const response = await axios.post('/api/news/create', data);
-      if (response.status === 200) {
-        setSuccess('Ziņu raksts veiksmīgi izveidots!');
+      const res = await axios.put(`/api/news/${id}`, data);
+      if (res.status === 200) {
+        setSuccess('Ziņu raksts veiksmīgi atjaunināts!');
         setTimeout(() => {
-          navigate('/admin'); 
+          navigate('/admin/news');
           setIsSubmitting(false);
         }, 2000);
       }
     } catch (err) {
-      if (err.response) {
-        if (err.response.status === 400) {
-          setError('Lūdzu, aizpildiet visus obligātos laukus!');
-        } else if (err.response.status === 401) {
-          setUser({ isLoggedIn: false });
-          navigate('/');
-        } else {
-          setError('Kļūda: ' + err.response.status + ' - ' + err.response.statusText);
-        }
+      if (err.response.status === 400) {
+        setError(!error);
+      } else if (err.response.status === 401) {
+        setUser({ isLoggedIn: false });
+        navigate('/');
       } else {
-        setError('Servera kļūda, lūdzu mēģiniet vēlreiz!');
+        setError(!error);
       }
-      setIsSubmitting(false);
     }
   };
 
   return (
     <>
-      <h1 className="text-4xl font-bold">Izveidot jaunu rakstu</h1>
-      <div className="mx-auto max-w-full px-6 lg:px-8 border-t border-gray-300 w-full mt-8">
+      <h1 className="text-4xl font-bold">Rediģēt ziņu rakstu</h1>
+      <div className="">
+        <div className="mx-auto border-t border-gray-300 w-full mt-8"></div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="shadow-md px-8 py-10 gap-8 rounded-md flex flex-col bg-mainBg w-[90%] md:w-[80%] lg:w-2/3 m-auto mt-8"
+          className="shadow-md px-8 py-10 gap-8 flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
         >
-          {/* SUCCESS MESSAGE */}
-          {success && (
+          {success ? (
             <div role="alert" className="alert alert-success">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,9 +91,10 @@ const NewsForm = () => {
               </svg>
               <span>{success}</span>
             </div>
-          )}
-          {/* ERROR HANDLING */}
-          {error && (
+          ) : null}
+          {((errors.title && errors.title.type === 'required') ||
+          (errors.content && errors.content.type === 'required') ||
+          error) ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +109,11 @@ const NewsForm = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-white">{error}</span>
+              <span className="text-white">
+                Lūdzu aizpildiet visus obligātos laukus
+              </span>
             </div>
-          )}
+          ) : null}
           <label className="form-control w-full m-auto">
             <div className="label">
               <span className="label-text">Virsraksts</span>
@@ -122,9 +142,8 @@ const NewsForm = () => {
           <button
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto"
-            disabled={isSubmitting}
           >
-            Izveidot
+            Saglabāt
           </button>
         </form>
       </div>
@@ -132,4 +151,4 @@ const NewsForm = () => {
   );
 };
 
-export default NewsForm;
+export default NewsEdit;

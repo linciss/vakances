@@ -32,6 +32,7 @@ import {
   Application,
   VacancyEdit,
   UserEdit,
+  NewsEdit,
 } from '../_root/private';
 
 export const Views = () => {
@@ -71,6 +72,7 @@ export const Views = () => {
           {/* NEWS */}
           <Route path="/admin/news" element={<NewsView />} />
           <Route path="/admin/news/new" element={<NewsForm />} />
+          <Route path="/admin/news/:id" element={<NewsEdit />} />
           {/* NEWS */}
           {/* USERS */}
           <Route path="/admin/users/new" element={<UserForm />} />

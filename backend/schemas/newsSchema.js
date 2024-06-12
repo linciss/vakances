@@ -10,6 +10,11 @@ const newsSchema = new Schema({
     required: true,
   },
 
+  publishedAt:{
+    type: Date,
+    default: Date.now,
+  },
+
 
 });
 
