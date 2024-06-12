@@ -5,6 +5,10 @@ import { Vacancy } from '../schemas/vacancySchema.js';
 export const submitApplication = async (req, res) => {
   const { name, surname, email, phone, vacancyId, cvId } = req.body;
 
+  if (req.session.user) {
+    return res.status(418).json('Jūs nevarat pieteikties!!');
+  }
+
   if (!name || !surname || !email || !phone || !vacancyId || !cvId) {
     return res.status(418).json('Lūdzu aizpildiet visus laukus!');
   }

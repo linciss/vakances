@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { VacancyDetails } from '../../components/VacancyDetails';
 
 import { VacancyModal } from '../../components/VacancyModal';
+import { AuthContext } from '../../context/AuthContext';
 
 const inputDetail = [
   {
@@ -44,6 +45,7 @@ const Vacancy = () => {
   const [success, setSuccess] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -116,25 +118,27 @@ const Vacancy = () => {
           <p className="mt-4 text-lg text-gray-600">{vacancy.description}</p>
         </div>
         <VacancyDetails vacancy={vacancy} />
-        <div className="flex justify-center items-center">
-          <button
-            className="btn btn-base-300 px-16 mt-16"
-            onClick={() => document.getElementById('my_modal_1').showModal()}
-          >
-            Pieteikties!
-          </button>
-          <VacancyModal
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            success={success}
-            error={error}
-            inputDetail={inputDetail}
-            errors={errors}
-            register={register}
-            setValue={setValue}
-            control={control}
-          />
-        </div>
+        {!user.isLoggedIn && (
+          <div className="flex justify-center items-center">
+            <button
+              className="btn btn-base-300 px-16 mt-16"
+              onClick={() => document.getElementById('my_modal_1').showModal()}
+            >
+              Pieteikties!
+            </button>
+            <VacancyModal
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              success={success}
+              error={error}
+              inputDetail={inputDetail}
+              errors={errors}
+              register={register}
+              setValue={setValue}
+              control={control}
+            />
+          </div>
+        )}
       </div>
     </div>
   ) : (

@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import { BookmarkedIcon } from '../../assets/BookmarkedIcon';
 import { BookmarkInitialIcon } from '../../assets/BookmarkInitialIcon';
 import { Link } from 'react-router-dom';
 
 export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
-  const tags = vacancy.tags.slice(0, 3);
+  const [tags, setTags] = useState(vacancy.tags.slice(0, 3) || null);
 
   const date = new Date(vacancy.timeCreated).toLocaleString();
   return (

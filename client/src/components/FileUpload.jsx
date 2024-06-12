@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
-const FileUpload = ({ setValue, control }) => {
+const FileUpload = ({ setValue, control, fileType }) => {
   const [fileName, setFileName] = useState('');
   const [error, setError] = useState('');
 
@@ -9,8 +9,8 @@ const FileUpload = ({ setValue, control }) => {
     const file = e.target.files[0];
     console.log('asdasdsad');
 
-    if (file.type !== 'application/pdf') {
-      setError('Lūdzu ievietot tikai PDF failu!');
+    if (file.type !== fileType) {
+      setError('Nav pareizs faila formāts!');
       return;
     }
     if (file) {
@@ -65,7 +65,7 @@ const FileUpload = ({ setValue, control }) => {
                 handleFileUpload(e);
                 field.onChange(e.target.files[0]);
               }}
-              accept="application/pdf"
+              accept={fileType}
             />
           )}
         />
