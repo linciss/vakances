@@ -6,7 +6,7 @@ export const getNews = async (req, res) => {
     res.status(200).json(articles);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching data from MongoDB!');
+    res.status(500).send('Kļūda, iegūstot datus no MongoDB!');
   }
 };
 
@@ -14,7 +14,7 @@ export const createNews = async (req, res) => {
   const { title, description, urlToImage } = req.body;
 
   if (!title || !description) {
-    return res.status(400).json({ message: 'Please fill all the required fields!' });
+    return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
   }
 
   try {
@@ -26,10 +26,10 @@ export const createNews = async (req, res) => {
     });
 
     await news.save();
-    res.status(200).json({ message: 'News article created successfully!' });
+    res.status(200).json({ message: 'Ziņu raksts veiksmīgi izveidots!' });
   } catch (err) {
-    console.error('Error saving data to MongoDB:', err);
-    res.status(500).json({ message: 'Error saving data to MongoDB!' });
+    console.error('Kļūda, saglabājot datus MongoDB:', err);
+    res.status(500).json({ message: 'Kļūda, saglabājot datus MongoDB!' });
   }
 };
 
@@ -39,7 +39,7 @@ export const getNewsCount = async (req, res) => {
     res.status(200).json(count);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching data from MongoDB!');
+    res.status(500).send('Kļūda, iegūstot datus no MongoDB!');
   }
 };
 
@@ -51,7 +51,7 @@ export const getSingleNews = async (req, res) => {
     res.status(200).json(article);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching data from MongoDB!');
+    res.status(500).send('Kļūda, iegūstot datus no MongoDB!');
   }
 };
 
@@ -60,10 +60,10 @@ export const deleteNews = async (req, res) => {
 
   try {
     await News.findByIdAndDelete(id);
-    res.status(200).json('News article deleted successfully!');
+    res.status(200).json('Ziņu raksts veiksmīgi dzēsts!');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error deleting news article!');
+    res.status(500).send('Kļūda, dzēšot ziņu rakstu!');
   }
 };
 
@@ -71,7 +71,7 @@ export const editNews = async (req, res) => {
   const { title, description, urlToImage } = req.body;
 
   if (!title || !description) {
-    return res.status(400).send('Please fill all the required fields!');
+    return res.status(400).send('Lūdzu, aizpildiet visus nepieciešamos laukus!');
   }
 
   try {
@@ -87,11 +87,11 @@ export const editNews = async (req, res) => {
     );
 
     if (!updatedNews) {
-      return res.status(404).send('News article not found!');
+      return res.status(404).send('Ziņu raksts nav atrasts!');
     }
-    res.status(200).json('News article updated successfully!');
+    res.status(200).json('Ziņu raksts veiksmīgi atjaunināts!');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error updating data in MongoDB!');
+    res.status(500).send('Kļūda, atjauninot datus MongoDB!');
   }
 };
