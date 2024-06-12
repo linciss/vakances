@@ -15,7 +15,7 @@ export const VacancyModal = ({
 }) => {
   return (
     <dialog id="my_modal_1" className="modal  w-full  max-w-2xl mx-auto">
-      <div className="modal-box  mx-auto  w-full max-w-full ">
+      <div className="modal-box  mx-auto  w-full max-w-full bg-white">
         <h3 className="font-bold text-lg">Piesakies vakancei</h3>
         <form
           onSubmit={handleSubmit(onSubmit)}

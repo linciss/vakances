@@ -123,7 +123,9 @@ const Application = () => {
                   <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                     <div className="flex w-0 flex-1 items-center">
                       <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                        <span className="truncate font-medium">CV</span>
+                        <span className="truncate font-medium">
+                          {cv.filename}
+                        </span>
                         <span className="flex-shrink-0 text-gray-400">
                           {sizeInMb.toPrecision(2)} MB
                         </span>
@@ -135,7 +137,7 @@ const Application = () => {
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                         onClick={() => downloadCV()}
                       >
-                        Download
+                        Lejupielādēt
                       </a>
                     </div>
                   </li>
