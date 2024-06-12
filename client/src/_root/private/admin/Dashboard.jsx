@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../utils/axiosConfig';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const getVacancyCount = async () => {
     axios
-      .get('http://localhost:5000/api/vacancies/count', {
+      .get('/vacancies/count', {
         withCredentials: true,
       })
       .catch((err) => {
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   const getApplicationCount = async () => {
     await axios
-      .get('http://localhost:5000/api/applications/count', {
+      .get('/applications/count', {
         withCredentials: true,
       })
       .catch((err) => {
@@ -65,7 +65,9 @@ const Dashboard = () => {
 
   const getUserCount = async () => {
     await axios
-      .get('http://localhost:5000/api/users/count')
+      .get('/users/count', {
+        withCredentials: true,
+      })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

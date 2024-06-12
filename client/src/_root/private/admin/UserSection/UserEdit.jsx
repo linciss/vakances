@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const UserEdit = () => {
 
   const fetchUser = async () => {
     await axios
-      .get(`http://localhost:5000/api/users/${id}`, { withCredentials: true })
+      .get(`/users/${id}`, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(err.response.data);
@@ -55,7 +55,7 @@ const UserEdit = () => {
 
   const onSubmit = async (data) => {
     await axios
-      .put(`http://localhost:5000/api/users/${id}`, data, {
+      .put(`/users/${id}`, data, {
         withCredentials: true,
       })
       .catch((err) => {

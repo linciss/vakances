@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 
 const PasswordForms = () => {
@@ -22,7 +22,7 @@ const PasswordForms = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     await axios
-      .put('http://localhost:5000/api/users/change-password', data)
+      .put('/users/change-password', data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 401) {
           console.log(err.response.data);

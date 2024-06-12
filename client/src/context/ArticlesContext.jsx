@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 
 export const ArticlesContext = createContext();
 
@@ -9,7 +9,7 @@ export const ArticlesProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/news')
+      .get('/news')
       .then((response) => {
         setArticles(response.data);
       })

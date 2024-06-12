@@ -4,7 +4,7 @@ import { Dots } from '../../../../assets/Dots';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { Spinner } from '../../../../components/common/Spinner';
 
 const Users = () => {
@@ -16,7 +16,7 @@ const Users = () => {
 
   const getAllUsers = async () => {
     await axios
-      .get('http://localhost:5000/api/users/all', { withCredentials: true })
+      .get('/users/all', { withCredentials: true })
       .catch((err) => {
         navigate('/admin');
         if (err.response.status === 401) {
@@ -40,7 +40,7 @@ const Users = () => {
 
   const deleteUser = async (id) => {
     await axios
-      .delete(`http://localhost:5000/api/users/${id}`, {
+      .delete(`/users/${id}`, {
         withCredentials: true,
       })
       .catch((err) => {

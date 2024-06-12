@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -18,7 +18,7 @@ const UserForm = () => {
 
   const onSubmit = async (data) => {
     await axios
-      .post('http://localhost:5000/api/users/new', data, {
+      .post('/users/new', data, {
         withCredentials: true,
       })
       .catch((err) => {

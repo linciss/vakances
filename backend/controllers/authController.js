@@ -52,6 +52,7 @@ export const attemptLogout = (req, res) => {
       return res.status(500).send('Server error');
     }
     res.clearCookie(process.env.SESSION_NAME);
+    console.log('Logged out', req.session);
     res.status(200).json('Logged out');
   });
 };

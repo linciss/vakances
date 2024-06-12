@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 
 const UsernameForms = () => {
   const {
@@ -24,7 +24,7 @@ const UsernameForms = () => {
     setIsSubmitting(true);
 
     await axios
-      .put('http://localhost:5000/api/users/change-username', data)
+      .put('/users/change-username', data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 401) {
           const responseData = err.response.data;

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -65,7 +65,7 @@ const VacancyForm = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .post('http://localhost:5000/api/vacancies/create', data)
+      .post('/vacancies/create', data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);

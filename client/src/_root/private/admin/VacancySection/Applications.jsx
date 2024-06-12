@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { Dots } from '../../../../assets/Dots';
 import { Link, useNavigate } from 'react-router-dom';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
@@ -14,19 +14,21 @@ const Applications = () => {
   const navigate = useNavigate();
 
   const deleteApplication = async (id) => {
-    await axios.delete(`/api/applications/${id}`).catch((err) => {
-      console.log(err);
-      if (err.response.status === 401) {
-        setUser({ isLoggedIn: false });
-        navigate('/');
-      }
-    });
+    await axios
+      .delete(`/applications/${id}`, { withCredentials: true })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        }
+      });
     getApplications();
   };
 
   const getApplications = async () => {
     await axios
-      .get('http://localhost:5000/api/applications/get')
+      .get('/applications/get', { withCredentials: true })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

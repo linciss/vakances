@@ -4,7 +4,7 @@ import { PhoneIcon } from '../../assets/PhoneIcon';
 import { PaperPlaneIcon } from '../../assets/PaperPlaneIcon';
 
 import { LocationPinIcon } from '../../assets/LocationPinIcon';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ const Contact = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     await axios
-      .post('http://localhost:5000/api/mail/send', data)
+      .post('/mail/send', data)
       .catch((err) => {
         console.log(err);
       })

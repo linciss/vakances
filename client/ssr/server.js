@@ -7,14 +7,29 @@ import { StaticRouter } from 'react-router-dom/server';
 import path from 'path';
 import fse from 'fs-extra';
 import compression from 'compression';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
+app.use(compression());
 app.use(express.static('public'));
 app.use(express.static('dist', { index: false }));
 app.use(express.static('node_modules'));
 
-app.use(compression());
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: 'http://localhost:5000',
+    changeOrigin: true,
+    onProxyReq: (proxyReq, req, res) => {
+      console.log('Proxying request:', req.method, req.url);
+    },
+    onError: (err, req, res) => {
+      console.error('Proxy error:', err);
+      res.status(500).send('Proxy error');
+    },
+  })
+);
 
 app.get('/*', (req, res) => {
   const app = ReactDOMServer.renderToString(

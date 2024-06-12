@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 
 export const AuthContext = createContext();
 
@@ -9,7 +9,9 @@ export const AuthProvider = ({ children }) => {
 
   const autoLogIn = async () => {
     await axios
-      .get('http://localhost:5000/api/auth/auto-login')
+      .get('/auth/auto-login', {
+        withCredentials: true,
+      })
       // eslint-disable-next-line no-unused-vars
       .catch((err) => {
         setUser({ isLoggedIn: false });

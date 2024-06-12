@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -22,7 +22,7 @@ const VacancyEdit = () => {
 
   const fetchVacancy = async () => {
     axios
-      .get(`http://localhost:5000/api/vacancies/${id}`)
+      .get(`/vacancies/${id}`, { withCredentials: true })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -60,7 +60,7 @@ const VacancyEdit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .put(`http://localhost:5000/api/vacancies/admin/${id}`, data)
+      .put(`/vacancies/admin/${id}`, data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);

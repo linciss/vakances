@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ApplicationData } from '../../../../components/ApplicationData';
@@ -15,7 +15,7 @@ const Application = () => {
 
   const fetchApplication = async () => {
     await axios
-      .get(`http://localhost:5000/api/applications/${id}`, {
+      .get(`/applications/${id}`, {
         withCredentials: true,
       })
       .catch((err) => {
@@ -42,9 +42,13 @@ const Application = () => {
 
   const downloadCV = async () => {
     await axios
-      .get(`http://localhost:5000/api/files/download/${cv._id}`, {
-        responseType: 'blob',
-      })
+      .get(
+        `/files/download/${cv._id}`,
+        { withCredentials: true },
+        {
+          responseType: 'blob',
+        }
+      )
       .then((res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');

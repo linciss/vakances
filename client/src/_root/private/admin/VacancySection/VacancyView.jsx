@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import axios from 'axios';
+import axios from '../../../../utils/axiosConfig';
 import { Dots } from '../../../../assets/Dots';
 import { Link, useNavigate } from 'react-router-dom';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
@@ -15,7 +15,7 @@ const VacancyView = () => {
   const navigate = useNavigate();
   const getVacancies = async () => {
     await axios
-      .get('http://localhost:5000/api/vacancies/admin')
+      .get('/vacancies/admin', { withCredentials: true })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
@@ -40,7 +40,7 @@ const VacancyView = () => {
 
   const deleteVacancy = async (id) => {
     axios
-      .delete(`http://localhost:5000/api/vacancies/${id}`)
+      .delete(`/vacancies/${id}`, { withCredentials: true })
       .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {

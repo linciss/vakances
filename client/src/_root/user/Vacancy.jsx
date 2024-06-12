@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { VacancyDetails } from '../../components/VacancyDetails';
@@ -49,7 +49,7 @@ const Vacancy = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/vacancies/${id}`)
+      .get(`/vacancies/${id}`, { withCredentials: true })
       .catch((err) => {
         console.log(err);
       })
@@ -81,14 +81,14 @@ const Vacancy = () => {
     const { file, ...otherData } = data;
 
     const res = await axios
-      .post('http://localhost:5000/api/files/upload', formData)
+      .post('/files/upload', formData, { withCredentials: true })
       .catch((err) => {
         console.log(err);
       });
     otherData.vacancyId = id;
     otherData.cvId = res.data;
     await axios
-      .post('http://localhost:5000/api/applications/submit', otherData)
+      .post('/applications/submit', otherData, { withCredentials: true })
       .catch((err) => {
         console.log(err);
       })

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import userIcon from '../assets/user-icon.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 import { AuthContext } from '../context/AuthContext';
 
 const links = [
@@ -44,7 +44,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get('http://localhost:5000/api/auth/logout')
+      .get('/auth/logout', { withCredentials: true })
       // eslint-disable-next-line no-unused-vars
       .catch((err) => {
         return;
@@ -64,7 +64,6 @@ export const Navbar = () => {
           isLoggedIn: false,
         }));
         navigate('/');
-
         return;
       });
   };

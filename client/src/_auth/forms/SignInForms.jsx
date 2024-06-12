@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 
 const SignInForms = () => {
@@ -22,7 +22,7 @@ const SignInForms = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     await axios
-      .post('http://localhost:5000/api/auth/login', data)
+      .post('/auth/login', data, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === 401) {
           setError(err.response.data);

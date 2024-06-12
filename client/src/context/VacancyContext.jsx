@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 
 export const VacancyContext = createContext();
 
@@ -8,7 +8,7 @@ export const VacancyProvider = ({ children }) => {
   const [vacancies, setVacancies] = useState([]);
   const getVacancies = async () => {
     await axios
-      .get('http://localhost:5000/api/vacancies/all')
+      .get('/vacancies/all')
       .catch((err) => {
         console.log(err);
       })
