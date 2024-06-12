@@ -13,6 +13,7 @@ import vacancy from './routes/vacancy.js';
 import user from './routes/users.js';
 import application from './routes/applications.js';
 import file from './routes/files.js';
+import mailer from './routes/mail.js';
 
 app.use(express.json());
 app.use(
@@ -54,6 +55,7 @@ app.use(`${process.env.prefix}/vacancies`, vacancy);
 app.use(`${process.env.prefix}/applications`, application);
 app.use(`${process.env.prefix}/users`, user);
 app.use(`${process.env.prefix}/files`, file); // Add this line
+app.use(`${process.env.prefix}/mail`, mailer);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');

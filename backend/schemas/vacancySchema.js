@@ -42,6 +42,10 @@ const vacancySchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  tags: {
+    type: [String],
+    required: false,
+  },
 });
 
 vacancySchema.pre('save', function (next) {

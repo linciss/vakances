@@ -8,6 +8,12 @@ export const uploadFile = async (req, res) => {
   if (req.file.mimetype !== 'application/pdf') {
     return res.status(418).json('Nepareizs faila formāts');
   }
+
+  //if file size is bigger than 5mb return
+  if (req.file.size > 5000000) {
+    return res.status(418).json('Faila izmērs ir pārāk liels');
+  }
+  
   const newFile = new File({
     filename: req.file.originalname,
     contentType: req.file.mimetype,

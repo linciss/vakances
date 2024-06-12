@@ -86,6 +86,7 @@ export const VacancyModal = ({
             register={register}
             setValue={setValue}
             control={control}
+            fileType="application/pdf"
           />
           <button className="btn btn-base-300">Sūtīt!</button>
         </form>

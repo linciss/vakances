@@ -3,7 +3,51 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
-
+import { MultiSelectDropDown } from '../../../../components/MultiSelectDropDown';
+const tags = [
+  'Front-end',
+  'Back-end',
+  'Full-stack',
+  'DevOps',
+  'Database',
+  'Mobile',
+  'Web',
+  'Cloud',
+  'JavaScript',
+  'React',
+  'Angular',
+  'Node.js',
+  'Python',
+  'Java',
+  'C#',
+  'C++',
+  'PHP',
+  'Ruby',
+  'TypeScript',
+  'SQL',
+  'NoSQL',
+  'MongoDB',
+  'PostgreSQL',
+  'MySQL',
+  'AWS',
+  'Azure',
+  'Git',
+  'GitHub',
+  'GitLab',
+  'Slack',
+  'Teams',
+  'Scrum',
+  'Agile',
+  'REST',
+  'GraphQL',
+  'OAuth',
+  'iOS',
+  'Android',
+  'SEO',
+  'UI/UX',
+  'Design',
+  'Testing',
+];
 const VacancyForm = () => {
   const {
     register,
@@ -188,6 +232,12 @@ const VacancyForm = () => {
               </select>
             </label>
           </div>
+          <label className="form-control w-full m-auto">
+            <div className="label">
+              <span className="label-text">Tagi</span>
+            </div>
+            <MultiSelectDropDown tags={tags} register={register} />
+          </label>
 
           <label className="form-control w-full m-auto">
             <div className="label">
@@ -202,6 +252,7 @@ const VacancyForm = () => {
               {...register('description', { required: true })}
             ></textarea>
           </label>
+
           <button
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto "

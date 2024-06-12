@@ -20,6 +20,7 @@ export const createVacancy = async (req, res) => {
     workTime,
     workType,
     load,
+    tags,
   } = req.body;
 
   if (!title || !description || !address) {
@@ -36,6 +37,7 @@ export const createVacancy = async (req, res) => {
       workTime,
       workType,
       load,
+      tags,
     });
 
     await vacancy.save();
