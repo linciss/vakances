@@ -1,24 +1,50 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
+import { Link, useNavigate } from 'react-router-dom';
 import { DeleteIcon } from '../../../../assets/DeleteIcon';
 import { EditIcon } from '../../../../assets/EditIcon';
-import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../../context/AuthContext';
 import { Spinner } from '../../../../components/common/Spinner';
 
 const NewsView = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [articles, setArticles] = useState([
-    {
-      title: 'Title',
-      timeCreated: '2021-10-10',
-      tags: 'Tags',
-    },
-    {
-      title: 'Title',
-      timeCreated: '2021-10-10',
-      tags: 'Tags',
-    },
-  ]);
+  const [articles, setArticles] = useState(null);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const getArticles = async () => {
+    try {
+      const res = await axios.get('/api/news/admin');
+      if (res.status === 200) {
+        setArticles(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+      if (err.response?.status === 401) {
+        setUser({ isLoggedIn: false });
+        navigate('/');
+      }
+    }
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
+  const deleteArticle = async (id) => {
+    try {
+      const res = await axios.delete(`/api/news/${id}`);
+      if (res.status === 200) {
+        getArticles();
+      }
+    } catch (err) {
+      console.log(err);
+      if (err.response?.status === 401) {
+        setUser({ isLoggedIn: false });
+        navigate('/');
+      }
+    }
+  };
 
   return (
     <div className="">
@@ -31,7 +57,7 @@ const NewsView = () => {
                 <th></th>
                 <th>Nosaukums</th>
                 <th>Izveidošanas datums</th>
-                <th>Tagi</th>
+                <th>Saturs</th>
                 <th></th>
               </tr>
             </thead>
@@ -40,25 +66,31 @@ const NewsView = () => {
                 <tr key={index} className="hover">
                   <th>{index + 1}</th>
                   <td>{article.title}</td>
-                  <td>{article.timeCreated.slice(0, 10)}</td>
-                  <td>{article.tags}</td>
+                  <td>{article.publishedAt.slice(0, 10)}</td>
+                  <td>{article.content}</td>
                   <td>
-                    <div className="dropdown relative overflow-visible">
+                    <div className="dropdown dropdown-end">
                       <div tabIndex={0} role="button" className="">
                         <Dots />
                       </div>
                       <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow  bg-white rounded-box w-[150px]  "
+                        className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-white rounded-box w-[150px]"
                       >
-                        <li className="w-full">
-                          <Link className=" text-xl text-center">
+                        <li className="w-full text-center">
+                          <Link
+                            to={`/admin/news/${article._id}`}
+                            className="text-xl text-center"
+                          >
                             <EditIcon />
                             Rediģēt
                           </Link>
                         </li>
-                        <li className="w-full text-center">
-                          <p className="text-xl text-center">
+                        <li
+                          className="w-full text-center"
+                          onClick={() => deleteArticle(article._id)}
+                        >
+                          <p className="text-xl text-center cursor-pointer">
                             <DeleteIcon />
                             Dzēst
                           </p>

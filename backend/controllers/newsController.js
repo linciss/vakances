@@ -11,18 +11,19 @@ export const getNews = async (req, res) => {
 };
 
 export const createNews = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, content } = req.body;
 
-  if (!title || !description) {
+  console.log('Request body:', req.body);  // Debug log
+
+  if (!title || !content) {
     return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
   }
 
   try {
     const news = new News({
       title,
-      description,
+      content,
       publishedAt: new Date(),
-      urlToImage,
     });
 
     await news.save();
@@ -68,9 +69,9 @@ export const deleteNews = async (req, res) => {
 };
 
 export const editNews = async (req, res) => {
-  const { title, description, urlToImage } = req.body;
+  const { title, content } = req.body;
 
-  if (!title || !description) {
+  if (!title || !content) {
     return res.status(400).send('Lūdzu, aizpildiet visus nepieciešamos laukus!');
   }
 
@@ -79,9 +80,8 @@ export const editNews = async (req, res) => {
       req.params.id,
       {
         title,
-        description,
+        content,
         publishedAt: new Date(),
-        urlToImage,
       },
       { new: true }
     );

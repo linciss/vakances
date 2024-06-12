@@ -15,41 +15,37 @@ const NewsForm = () => {
   const { setUser } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    axios
-      .post('/api/news/create', data)
-      .catch((err) => {
-        if (err.response.status === 400) {
-          setError('Lūdzu, aizpildiet visus obligātos laukus!');
-          return;
-        }
-        if (err.response.status === 401) {
-          setUser({ isLoggedIn: false });
-          navigate('/');
-          return;
-        }
-        setError('Kļūda: ' + err.response.status + ' - ' + err.response.statusText);
-      })
-      .then((res) => {
-        if (!res || res.status !== 200) {
-          return;
-        }
-        return res.data;
-      })
-      .then((data) => {
-        if (!data) {
-          return;
-        }
+    setError(null); // Clear any previous error message
+
+    try {
+      const response = await axios.post('/api/news/create', data);
+      if (response.status === 200) {
         setSuccess('Ziņu raksts veiksmīgi izveidots!');
         setTimeout(() => {
           navigate('/admin');
           setIsSubmitting(false);
         }, 2000);
-      });
+      }
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError('Lūdzu, aizpildiet visus obligātos laukus!');
+        } else if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        } else {
+          setError('Kļūda: ' + err.response.status + ' - ' + err.response.statusText);
+        }
+      } else {
+        setError('Servera kļūda, lūdzu mēģiniet vēlreiz!');
+      }
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -116,22 +112,12 @@ const NewsForm = () => {
               <span className="label-text">Saturs</span>
             </div>
             <textarea
-              id="description"
+              id="content"
               className="textarea textarea-bordered h-36 resize-none w-full bg-white"
               required
-              aria-invalid={errors.description ? 'true' : 'false'}
-              {...register('description', { required: true })}
+              aria-invalid={errors.content ? 'true' : 'false'}
+              {...register('content', { required: true })}
             ></textarea>
-          </label>
-          <label className="form-control w-auto m-auto">
-            <div className="label">
-              <span className="label-text">Attēls</span>
-            </div>
-            <input
-              type="file"
-              className="file-input file-input-bordered w-full max-w-xs file-input-base-100 bg-white"
-              {...register('urlToImage')}
-            />
           </label>
           <button
             type="submit"
