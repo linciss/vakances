@@ -5,6 +5,8 @@ import { BookmarkInitialIcon } from '../../assets/BookmarkInitialIcon';
 import { Link } from 'react-router-dom';
 
 export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
+  const tags = vacancy.tags.slice(0, 3);
+
   const date = new Date(vacancy.timeCreated).toLocaleString();
   return (
     <article
@@ -12,9 +14,29 @@ export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
       className="flex max-w-xl flex-col items-start justify-between"
     >
       <div className="flex items-center gap-x-4 text-xs justify-between w-full">
-        <time dateTime={date} className="text-gray-500">
-          {date.slice(0, 9)}
-        </time>
+        <div>
+          <time dateTime={date} className="text-gray-500">
+            {date.slice(0, 9)}
+          </time>
+          {tags && (
+            <div className="flex gap-x-2">
+              {tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="text-gray-500 rounded-[0.5rem] bg-base-100 px-4"
+                >
+                  {tag}
+                </span>
+              ))}
+              {vacancy.tags.length > 3 && (
+                <span className="text-gray-500">
+                  +{vacancy.tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+
         <div
           className="cursor-pointer hover:scale-110 duration-300 transition-all"
           onClick={() => handleBookmark(vacancy._id)}
