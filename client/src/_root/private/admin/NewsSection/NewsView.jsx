@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Dots } from '../../../../assets/Dots';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,9 +12,9 @@ const NewsView = () => {
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const getArticles = async () => {
+  const getArticles = useCallback(async () => {
     try {
-      const res = await axios.get('/api/news/admin');
+      const res = await axios.get('/api/news/all');
       if (res.status === 200) {
         setArticles(res.data);
       }
@@ -25,17 +25,17 @@ const NewsView = () => {
         navigate('/');
       }
     }
-  };
+  }, [setUser, navigate]);
 
   useEffect(() => {
     getArticles();
-  }, []);
+  }, [getArticles]);
 
   const deleteArticle = async (id) => {
     try {
       const res = await axios.delete(`/api/news/${id}`);
       if (res.status === 200) {
-        getArticles();
+        getArticles(); // Re-fetch articles after deletion
       }
     } catch (err) {
       console.log(err);
@@ -57,7 +57,6 @@ const NewsView = () => {
                 <th></th>
                 <th>Nosaukums</th>
                 <th>Izveidošanas datums</th>
-                <th>Saturs</th>
                 <th></th>
               </tr>
             </thead>

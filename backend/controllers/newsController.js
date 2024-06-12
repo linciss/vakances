@@ -1,4 +1,10 @@
+import mongoose from 'mongoose';
 import { News } from '../schemas/newsSchema.js';
+
+// Helper function to validate ObjectId format
+const isValidObjectId = (id) => {
+  return mongoose.Types.ObjectId.isValid(id);
+};
 
 export const getNews = async (req, res) => {
   try {
@@ -13,7 +19,7 @@ export const getNews = async (req, res) => {
 export const createNews = async (req, res) => {
   const { title, content } = req.body;
 
-  console.log('Request body:', req.body);  // Debug log
+  console.log('Request body:', req.body); // Debug log
 
   if (!title || !content) {
     return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
@@ -47,8 +53,15 @@ export const getNewsCount = async (req, res) => {
 export const getSingleNews = async (req, res) => {
   const id = req.params.id;
 
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ message: 'Invalid ID format' });
+  }
+
   try {
     const article = await News.findById(id);
+    if (!article) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
     res.status(200).json(article);
   } catch (err) {
     console.error(err);
@@ -58,6 +71,10 @@ export const getSingleNews = async (req, res) => {
 
 export const deleteNews = async (req, res) => {
   const id = req.params.id;
+
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ message: 'Invalid ID format' });
+  }
 
   try {
     await News.findByIdAndDelete(id);
@@ -70,14 +87,19 @@ export const deleteNews = async (req, res) => {
 
 export const editNews = async (req, res) => {
   const { title, content } = req.body;
+  const id = req.params.id;
 
   if (!title || !content) {
-    return res.status(400).send('Lūdzu, aizpildiet visus nepieciešamos laukus!');
+    return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
+  }
+
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ message: 'Invalid ID format' });
   }
 
   try {
     const updatedNews = await News.findByIdAndUpdate(
-      req.params.id,
+      id,
       {
         title,
         content,
@@ -87,9 +109,9 @@ export const editNews = async (req, res) => {
     );
 
     if (!updatedNews) {
-      return res.status(404).send('Ziņu raksts nav atrasts!');
+      return res.status(404).json({ message: 'Ziņu raksts nav atrasts!' });
     }
-    res.status(200).json('Ziņu raksts veiksmīgi atjaunināts!');
+    res.status(200).json({ message: 'Ziņu raksts veiksmīgi atjaunināts!' });
   } catch (err) {
     console.error(err);
     res.status(500).send('Kļūda, atjauninot datus MongoDB!');
