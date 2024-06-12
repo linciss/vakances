@@ -32,7 +32,7 @@ const ViewNews = () => {
         if (response.status === 200) {
           const allNewsItems = response.data;
           const relatedItems = allNewsItems
-            .filter((item) => item.id !== parseInt(id))
+            .filter((item) => item._id !== id)
             .slice(0, 2);
           setRelatedNewsItems(relatedItems);
         } else {
@@ -82,7 +82,7 @@ const ViewNews = () => {
           <div className="grid gap-8 mt-6">
             {relatedNewsItems.map((relatedNewsItem) => (
               <article
-                key={relatedNewsItem.id}
+                key={relatedNewsItem._id}
                 className="flex flex-col items-start justify-between"
               >
                 <div
@@ -91,17 +91,9 @@ const ViewNews = () => {
                     backgroundImage: `url(${relatedNewsItem.imageUrl})`,
                   }}
                 ></div>
-                {/* <div className="flex items-center gap-x-4 text-xs mt-2">
-                  <time
-                    dateTime={relatedNewsItem.timeCreated}
-                    className="text-gray-500"
-                  >
-                    {new Date(relatedNewsItem.timeCreated).toLocaleDateString()}
-                  </time>
-                </div> */}
                 <div className="group relative">
                   <h3 className="mt-2 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                    <Link to={`/news/${relatedNewsItem.id}`}>
+                    <Link to={`/news/${relatedNewsItem._id}`}>
                       <span className="absolute inset-0" />
                       {relatedNewsItem.title}
                     </Link>

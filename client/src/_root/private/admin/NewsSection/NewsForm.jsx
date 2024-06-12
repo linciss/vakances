@@ -3,15 +3,12 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
-import FileUpload from '../../../../components/FileUpload';
 
 const NewsForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-    control,
   } = useForm();
 
   const navigate = useNavigate();
@@ -23,41 +20,32 @@ const NewsForm = () => {
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    setError(null);
+    setError(null); 
 
-    const formData = new FormData();
-    formData.append('file', data.file);
-    const { file, ...otherData } = data;
-
-    const res = await axios
-      .post('/api/files/upload/image', formData)
-      .catch((err) => {
-        console.log(err);
-      });
-
-    otherData.imgId = res.data;
-
-    await axios
-      .post('/api/news/create', otherData)
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((res) => {
-        if (!res || res.status !== 200) {
-          return;
-        }
-        return res.data;
-      })
-      .then((data) => {
-        if (!data) {
-          return;
-        }
-        setSuccess('Aplikācija veiksmīgi aizsūtīta!');
+    try {
+      const response = await axios.post('/api/news/create', data);
+      if (response.status === 200) {
+        setSuccess('Ziņu raksts veiksmīgi izveidots!');
         setTimeout(() => {
-          navigate('/admin');
+          navigate('/admin'); 
           setIsSubmitting(false);
         }, 2000);
-      });
+      }
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 400) {
+          setError('Lūdzu, aizpildiet visus obligātos laukus!');
+        } else if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        } else {
+          setError('Kļūda: ' + err.response.status + ' - ' + err.response.statusText);
+        }
+      } else {
+        setError('Servera kļūda, lūdzu mēģiniet vēlreiz!');
+      }
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -131,11 +119,6 @@ const NewsForm = () => {
               {...register('content', { required: true })}
             ></textarea>
           </label>
-          <FileUpload
-            control={control}
-            setValue={setValue}
-            fileType={'image/png'}
-          />
           <button
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto"

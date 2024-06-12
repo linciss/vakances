@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { News } from '../schemas/newsSchema.js';
-import { File } from '../schemas/fileSchema.js';
 
 // Helper function to validate ObjectId format
 const isValidObjectId = (id) => {
@@ -9,8 +8,7 @@ const isValidObjectId = (id) => {
 
 export const getNews = async (req, res) => {
   try {
-    const articles = await News.find().populate('imgId');
-    console.log(articles);
+    const articles = await News.find();
     res.status(200).json(articles);
   } catch (err) {
     console.error(err);
@@ -19,18 +17,19 @@ export const getNews = async (req, res) => {
 };
 
 export const createNews = async (req, res) => {
-  const { title, content, imgId } = req.body;
-  if (!title || !content || !imgId) {
-    return res
-      .status(400)
-      .json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
+  const { title, content } = req.body;
+
+  console.log('Request body:', req.body); // Debug log
+
+  if (!title || !content) {
+    return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
   }
 
   try {
     const news = new News({
       title,
       content,
-      imgId,
+      publishedAt: new Date(),
     });
 
     await news.save();
@@ -78,10 +77,7 @@ export const deleteNews = async (req, res) => {
   }
 
   try {
-    const news = await News.findById(id);
-    await File.findByIdAndDelete(news.imgId);
     await News.findByIdAndDelete(id);
-
     res.status(200).json('Ziņu raksts veiksmīgi dzēsts!');
   } catch (err) {
     console.error(err);
@@ -94,9 +90,7 @@ export const editNews = async (req, res) => {
   const id = req.params.id;
 
   if (!title || !content) {
-    return res
-      .status(400)
-      .json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
+    return res.status(400).json({ message: 'Lūdzu, aizpildiet visus nepieciešamos laukus!' });
   }
 
   if (!isValidObjectId(id)) {

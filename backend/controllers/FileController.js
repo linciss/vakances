@@ -1,11 +1,10 @@
 import multer from 'multer';
 import { File } from '../schemas/fileSchema.js';
-import sharp from 'sharp';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-export const uploadPdf = async (req, res) => {
+export const uploadFile = async (req, res) => {
   if (req.file.mimetype !== 'application/pdf') {
     return res.status(418).json('Nepareizs faila formāts');
   }
@@ -14,7 +13,7 @@ export const uploadPdf = async (req, res) => {
   if (req.file.size > 5000000) {
     return res.status(418).json('Faila izmērs ir pārāk liels');
   }
-
+  
   const newFile = new File({
     filename: req.file.originalname,
     contentType: req.file.mimetype,
@@ -52,32 +51,5 @@ export const getFiles = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json('Something went wrong');
-  }
-};
-
-export const uploadPng = async (req, res) => {
-  if (req.file.mimetype !== 'image/png') {
-    return res.status(418).json('Nepareizs faila formāts');
-  }
-
-  //if file size is bigger than 5mb return
-  if (req.file.size > 5000000) {
-    return res.status(418).json('Faila izmērs ir pārāk liels');
-  }
-
-  const avif = await sharp(req.file.buffer).avif().toBuffer();
-
-  const newFile = new File({
-    filename: req.file.originalname,
-    contentType: req.file.mimetype,
-    data: avif,
-    size: req.file.size,
-  });
-
-  try {
-    const savedFile = await newFile.save();
-    res.status(200).json(savedFile._id);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 };

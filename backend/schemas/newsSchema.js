@@ -9,15 +9,13 @@ const newsSchema = new Schema({
     type: String,
     required: true,
   },
-  imgId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'File',
-    required: true,
-  },
-  publishedAt: {
+
+  publishedAt:{
     type: Date,
     default: Date.now,
   },
+
+
 });
 
 export const News = mongoose.model('News', newsSchema, 'news');
