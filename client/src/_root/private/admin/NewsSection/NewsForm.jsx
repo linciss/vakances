@@ -41,6 +41,7 @@ const NewsForm = () => {
       .post('/api/news/create', otherData)
       .catch((err) => {
         console.log(err);
+        setError(err.response.data);
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -52,7 +53,7 @@ const NewsForm = () => {
         if (!data) {
           return;
         }
-        setSuccess('Aplikācija veiksmīgi aizsūtīta!');
+        setSuccess('Ziņu raksts veiksmīgi uztaisīts!');
         setTimeout(() => {
           navigate('/admin');
           setIsSubmitting(false);

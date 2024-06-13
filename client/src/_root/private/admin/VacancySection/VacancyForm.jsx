@@ -67,16 +67,13 @@ const VacancyForm = () => {
     axios
       .post('/api/vacancies/create', data)
       .catch((err) => {
-        if (err.response.status === 400) {
-          setError(!error);
-          return;
-        }
         if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
           return;
         }
-        setError(!error);
+        setError(err.response.data);
+        return;
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -126,10 +123,7 @@ const VacancyForm = () => {
             ''
           )}
           {/* ERROR HANDLING!!!! */}
-          {(errors.title && errors.title.type === 'required') ||
-          (errors.address && errors.address.type === 'required') ||
-          (errors.description && errors.description.type === 'required') ||
-          error ? (
+          {error ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -144,9 +138,7 @@ const VacancyForm = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-white">
-                Lūdzu aizpildiet visus obligātos laukus
-              </span>
+              <span className="text-white">{error}</span>
             </div>
           ) : null}
           <label className="form-control w-full  m-auto">

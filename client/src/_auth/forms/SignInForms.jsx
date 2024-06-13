@@ -45,7 +45,7 @@ const SignInForms = () => {
           return;
         }
         setUser(data);
-        navigate('/');
+        navigate('/admin');
       });
     setTimeout(() => {
       setIsSubmitting(false);

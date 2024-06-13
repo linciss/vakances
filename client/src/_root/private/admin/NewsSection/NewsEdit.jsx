@@ -44,7 +44,6 @@ const NewsEdit = () => {
   }, [fetchNews]);
 
   const onSubmit = async (data) => {
-    console.log('āsdasdasdasdasd');
     if (isSubmitting) return;
     setIsSubmitting(true);
 
