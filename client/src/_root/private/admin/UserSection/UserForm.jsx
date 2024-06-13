@@ -14,7 +14,7 @@ const UserForm = () => {
   const navigate = useNavigate();
 
   const [error, setError] = useState(null);
-  const { setUser } = useContext(AuthContext);
+  const { setUser, user } = useContext(AuthContext);
 
   const onSubmit = async (data) => {
     await axios
@@ -113,7 +113,9 @@ const UserForm = () => {
               <option defaultValue={'mod'} value={'mod'}>
                 Moderators
               </option>
-              <option value={'admin'}>Administrators</option>
+              {user.role === 'root' ? (
+                <option value={'admin'}>Administrators</option>
+              ) : null}
             </select>
           </label>
           <button

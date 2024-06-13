@@ -112,11 +112,16 @@ export const makeUser = async (req, res) => {
   if (username.length < 3) {
     return res.status(418).json('Lietotājvārds par īsu');
   }
+  const { user } = req.session;
+
+  if (user.role !== 'root' && role === 'admin') {
+    return res.status(401).json('Nav autorizācija!');
+  }
 
   //check whether user exists
-  const user = await User.findOne({ username });
+  const userCheck = await User.findOne({ username });
 
-  if (user) {
+  if (userCheck) {
     return res.status(418).send('Lietotājs jau eksistē!');
   }
 
