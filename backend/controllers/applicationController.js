@@ -36,10 +36,9 @@ export const submitApplication = async (req, res) => {
 };
 
 export const getAllApplications = async (req, res) => {
-  console.log('GIT ROTUE!');
   try {
     const applications = await Application.find();
-    res.status(200).send(applications);
+    res.status(200).json(applications);
   } catch (err) {
     console.log(err);
     res.status(500).send('Error');
@@ -71,11 +70,25 @@ export const getApplicationCount = async (req, res) => {
 export const deleteApplication = async (req, res) => {
   const id = req.params.id;
   try {
-    const application = await Application.findById(id);
-    await File.findByIdAndDelete(application.cvId);
-    await Application.findByIdAndDelete(id);
+    await Application.findByIdAndUpdate(id, { status: 2 });
 
     res.status(200).json('Veiksmigi dzesc!');
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Something went wrong!');
+  }
+};
+
+export const updateStatus = async (req, res) => {
+  const id = req.params.id;
+  const { status } = req.body;
+
+  try {
+    if (status === 0) {
+      return res.status(418).json('Lūdzu izvēlieties statusu!');
+    }
+    await Application.findByIdAndUpdate(id, { status });
+    res.status(200).json('Statuss atjaunots!');
   } catch (err) {
     console.log(err);
     res.status(500).json('Something went wrong!');
