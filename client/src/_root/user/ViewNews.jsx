@@ -58,12 +58,14 @@ const ViewNews = () => {
       .join('')
   );
 
+  const date = new Date(article.publishedAt).toLocaleDateString();
+
   return (
     <div className="container max-w-[1280px] mx-auto py-12">
       <img
         src={`data:image/avif;base64,${base64String}`}
         alt={article.title}
-        className="w-full h-96 bg-center bg-cover rounded-t-box"
+        className="w-full h-96 bg-center object-cover rounded-t-box"
       />
 
       <div className="flex flex-col lg:flex-row mt-6">
@@ -71,9 +73,9 @@ const ViewNews = () => {
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             {article.title}
           </h1>
-          <h2>{article.publishedAt}</h2>
+          <h2>{date.slice(0, 9)}</h2>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            {article.description}
+            {article.content}
           </p>
         </div>
         <div className="lg:w-1/3 lg:pl-8 mt-12 lg:mt-0">
@@ -82,6 +84,7 @@ const ViewNews = () => {
           </h2>
           <div className="grid gap-8 mt-6">
             {relatedArticles.map((article) => {
+              const date = new Date(article.publishedAt).toLocaleDateString();
               const base64String = btoa(
                 Array.prototype.map
                   .call(new Uint8Array(article.imgId.data.data), (ch) =>
@@ -97,14 +100,11 @@ const ViewNews = () => {
                   <img
                     src={`data:image/avif;base64,${base64String}`}
                     alt={article.title}
-                    className="w-full h-48 bg-center bg-cover rounded-t-box"
+                    className="w-full h-48 bg-center object-cover rounded-t-box"
                   />
                   <div className="flex items-center gap-x-4 text-xs mt-2">
-                    <time
-                      dateTime={article.publishedAt}
-                      className="text-gray-500"
-                    >
-                      {new Date(article.publishedAt).toLocaleDateString()}
+                    <time dateTime={date} className="text-gray-500">
+                      {date.slice(0, 10)}
                     </time>
                   </div>
                   <div className="group relative">

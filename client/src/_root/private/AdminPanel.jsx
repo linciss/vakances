@@ -5,26 +5,15 @@ import { AuthContext } from '../../context/AuthContext';
 const tables = [
   {
     path: '/admin/applications',
-    text: 'Pieteikumu tabula',
+    text: 'Pieteikumi',
   },
   {
     path: 'admin/vacancies',
-    text: 'Vakances tabula',
+    text: 'Vakances',
   },
   {
     path: '/admin/news',
-    text: 'Jaunumu tabula',
-  },
-];
-
-const forms = [
-  {
-    path: 'admin/vacancies/new',
-    text: 'Vakanču formas',
-  },
-  {
-    path: '/admin/news/new',
-    text: 'Jaunumu formas',
+    text: 'Jaunumi',
   },
 ];
 
@@ -50,66 +39,28 @@ const AdminPanel = () => {
               Admina panelis
             </Link>
           </li>
-
-          <div className="collapse bg-mainBg text-black collapse-arrow">
-            <input type="checkbox" />
-            <div className="collapse-title text-xl font-medium">Formas</div>
-            <div className="collapse-content">
-              {forms.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-xl btn btn-primary shadow-none"
-                  >
-                    {link.text}
-                  </Link>
-                </li>
-              ))}
-              {user.role === 'admin' || user.role === 'root' ? (
-                <li>
-                  <Link
-                    to={'/admin/users/new'}
-                    className="text-xl btn btn-primary shadow-none"
-                  >
-                    Lietotāju formas
-                  </Link>
-                </li>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
-
-          <div className="collapse  bg-primary collapse-arrow">
-            <input type="checkbox" />
-            <div className="collapse-title text-xl font-medium text-black">
-              Tabulas
-            </div>
-            <div className="collapse-content">
-              {tables.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-xl btn btn-primary shadow-none"
-                  >
-                    {link.text}
-                  </Link>
-                </li>
-              ))}
-              {user.role === 'admin' || user.role === 'root' ? (
-                <li>
-                  <Link
-                    to={'/admin/users'}
-                    className="text-xl btn btn-primary shadow-none"
-                  >
-                    Lietotāju tabula
-                  </Link>
-                </li>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
+          {tables.map((link) => (
+            <li key={link.path}>
+              <Link
+                to={link.path}
+                className="text-xl btn btn-primary shadow-none"
+              >
+                {link.text}
+              </Link>
+            </li>
+          ))}
+          {user.role === 'admin' || user.role === 'root' ? (
+            <li>
+              <Link
+                to={'/admin/users'}
+                className="text-xl btn btn-primary shadow-none"
+              >
+                Lietotāji
+              </Link>
+            </li>
+          ) : (
+            ''
+          )}
         </ul>
       </div>
     </div>

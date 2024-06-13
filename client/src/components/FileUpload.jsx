@@ -49,13 +49,15 @@ const FileUpload = ({ setValue, control, fileType }) => {
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
             <span className="font-semibold">Spied, lai augšupielādētu</span>
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">PDF</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {fileType === 'application/pdf' ? 'PDF' : 'PNG'}
+          </p>
         </div>
         <Controller
           control={control}
           name="file"
           defaultValue={null}
-          rules={{ required: true }}
+          rules={{ required: fileType === 'application/pdf' ? true : false }}
           render={({ field }) => (
             <input
               id="dropzone-file"

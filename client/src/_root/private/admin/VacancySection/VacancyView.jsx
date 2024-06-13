@@ -58,7 +58,16 @@ const VacancyView = () => {
 
   return (
     <div className="">
-      <h1 className="text-4xl font-bold">Vakances</h1>
+      <div className="flex justify-between ">
+        <h1 className="text-4xl font-bold">Vakances</h1>
+        <Link
+          to="/admin/vacancies/new"
+          className="btn btn-outline hover:text-black hover:bg-base-100 "
+        >
+          + Izveidot
+        </Link>
+      </div>
+
       <div className="mx-auto border-t border-gray-300 w-full mt-8 px-8">
         {vacancies ? (
           <table className="table mt-8">

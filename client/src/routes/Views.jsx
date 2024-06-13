@@ -61,7 +61,7 @@ export const Views = () => {
         <Route path="/profile/change-username" element={<UsernameForms />} />
         <Route element={<AdminPanel />}>
           <Route path="/admin" element={<Dashboard />} />
-          {/* VACANCIES */}
+          {/* APPLICATIONS */}
           <Route path="/admin/applications" element={<Applications />} />
           <Route path="/admin/applications/:id" element={<Application />} />
           {/* APPLICATIONS */}

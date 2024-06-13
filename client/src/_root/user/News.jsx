@@ -37,12 +37,12 @@ const News = () => {
                     key={article._id}
                     className="flex flex-col items-start justify-between md:col-span-2"
                   >
-                    <div className="w-full h-96 bg-center bg-cover rounded-t-box">
+                    <div className="w-full h-96 bg-center bg-cover rounded-t-box ">
                       {/* DISPLAY THE IMAGE HERE  */}
                       <img
                         src={`data:image/avif;base64,${base64String}`}
                         alt={article.title}
-                        className="w-full h-full bg-cover"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="flex items-center gap-x-4 text-xs mt-4">
@@ -76,7 +76,7 @@ const News = () => {
                   <img
                     src={`data:image/avif;base64,${base64String}`}
                     alt={article.title}
-                    className="w-full h-52 bg-cover"
+                    className="w-full h-52 object-cover"
                   />
                   <div className="flex items-center gap-x-4 text-xs mt-4">
                     <time

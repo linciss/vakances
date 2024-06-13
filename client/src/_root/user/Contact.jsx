@@ -88,7 +88,7 @@ const Contact = () => {
       </div>
       <div className=" container max-w-[1280px]  w-full  mx-auto pt-6  my-10 pb-8 p-5">
         <div className="lg:w-4/5 w-full p-4 grid grid-cols-1 md:grid-cols-2  mx-auto">
-          <div className="flex flex-col  text-start">
+          <div className="flex flex-col  text-start ">
             <h3 className="text-5xl font-bold">Uzraksti mums!</h3>
             <p className="text-lg font-semibold mt-4">
               Ja ir jautājumi, ieteikumi vai vēlaties sazināties ar mums,
@@ -108,7 +108,7 @@ const Contact = () => {
             </div>
           </div>
           <form
-            className=" rounded-lg md:mt-0 mt-8 "
+            className=" rounded-lg md:mt-0 mt-8 ml-0 sm:ml-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col">
