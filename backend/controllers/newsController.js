@@ -59,7 +59,7 @@ export const getSingleNews = async (req, res) => {
   }
 
   try {
-    const article = await News.findById(id);
+    const article = await News.findById(id).populate('imgId');
     if (!article) {
       return res.status(404).json({ message: 'Article not found' });
     }
@@ -90,7 +90,7 @@ export const deleteNews = async (req, res) => {
 };
 
 export const editNews = async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, imgId } = req.body;
   const id = req.params.id;
 
   if (!title || !content) {
@@ -104,15 +104,19 @@ export const editNews = async (req, res) => {
   }
 
   try {
-    const updatedNews = await News.findByIdAndUpdate(
-      id,
-      {
-        title,
-        content,
-        publishedAt: new Date(),
-      },
-      { new: true }
-    );
+    const update = {
+      title,
+      content,
+      publishedAt: new Date(),
+    };
+
+    if (imgId) {
+      const news = await News.findById(id);
+      await File.findByIdAndDelete(news.imgId);
+      update.imgId = imgId;
+    }
+
+    const updatedNews = await News.findByIdAndUpdate(id, update, { new: true });
 
     if (!updatedNews) {
       return res.status(404).json({ message: 'Ziņu raksts nav atrasts!' });

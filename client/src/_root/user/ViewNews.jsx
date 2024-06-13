@@ -1,51 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { ArticlesContext } from '../../context/ArticlesContext';
 
 const ViewNews = () => {
   const { id } = useParams();
-  const [newsItem, setNewsItem] = useState(null);
-  const [relatedNewsItems, setRelatedNewsItems] = useState([]);
+  const { articles } = useContext(ArticlesContext);
+  const [article, setArticle] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchNewsItem = async () => {
-      try {
-        const response = await axios.get(`/api/news/${id}`);
-        if (response.status === 200) {
-          setNewsItem(response.data);
-        } else {
-          setError('Failed to fetch news item');
-        }
-      } catch (err) {
-        console.error('Error fetching news item:', err);
+    setRelatedArticles(
+      articles.filter((article) => article._id !== id).slice(0, 2) || []
+    );
+  }, [articles, id]);
+
+  const fetcharticle = async () => {
+    try {
+      const response = await axios.get(`/api/news/${id}`);
+      if (response.status === 200) {
+        setArticle(response.data);
+      } else {
         setError('Failed to fetch news item');
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching news item:', err);
+      setError('Failed to fetch news item');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const fetchRelatedNewsItems = async () => {
-      try {
-        const response = await axios.get('/api/news/all');
-        if (response.status === 200) {
-          const allNewsItems = response.data;
-          const relatedItems = allNewsItems
-            .filter((item) => item.id !== parseInt(id))
-            .slice(0, 2);
-          setRelatedNewsItems(relatedItems);
-        } else {
-          setError('Failed to fetch related news items');
-        }
-      } catch (err) {
-        console.error('Error fetching related news items:', err);
-        setError('Failed to fetch related news items');
-      }
-    };
-
-    fetchNewsItem();
-    fetchRelatedNewsItems();
+  useEffect(() => {
+    fetcharticle();
   }, [id]);
 
   if (loading) {
@@ -56,23 +46,34 @@ const ViewNews = () => {
     return <div className="text-center text-red-500">{error}</div>;
   }
 
-  if (!newsItem) {
+  if (!article) {
     return <div>News item not found</div>;
   }
 
+  const base64String = btoa(
+    Array.prototype.map
+      .call(new Uint8Array(article.imgId.data.data), (ch) =>
+        String.fromCharCode(ch)
+      )
+      .join('')
+  );
+
   return (
     <div className="container max-w-[1280px] mx-auto py-12">
-      <div
+      <img
+        src={`data:image/avif;base64,${base64String}`}
+        alt={article.title}
         className="w-full h-96 bg-center bg-cover rounded-t-box"
-        style={{ backgroundImage: `url(${newsItem.imageUrl})` }}
-      ></div>
+      />
+
       <div className="flex flex-col lg:flex-row mt-6">
         <div className="lg:w-2/3">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            {newsItem.title}
+            {article.title}
           </h1>
+          <h2>{article.publishedAt}</h2>
           <p className="mt-4 text-lg leading-8 text-gray-600">
-            {newsItem.description}
+            {article.description}
           </p>
         </div>
         <div className="lg:w-1/3 lg:pl-8 mt-12 lg:mt-0">
@@ -80,38 +81,46 @@ const ViewNews = () => {
             Citi jaunumi
           </h2>
           <div className="grid gap-8 mt-6">
-            {relatedNewsItems.map((relatedNewsItem) => (
-              <article
-                key={relatedNewsItem.id}
-                className="flex flex-col items-start justify-between"
-              >
-                <div
-                  className="w-full h-48 bg-center bg-cover rounded-t-box"
-                  style={{
-                    backgroundImage: `url(${relatedNewsItem.imageUrl})`,
-                  }}
-                ></div>
-                <div className="flex items-center gap-x-4 text-xs mt-2">
-                  <time
-                    dateTime={relatedNewsItem.timeCreated}
-                    className="text-gray-500"
-                  >
-                    {new Date(relatedNewsItem.timeCreated).toLocaleDateString()}
-                  </time>
-                </div>
-                <div className="group relative">
-                  <h3 className="mt-2 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                    <Link to={`/news/${relatedNewsItem.id}`}>
-                      <span className="absolute inset-0" />
-                      {relatedNewsItem.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
-                    {relatedNewsItem.description}
-                  </p>
-                </div>
-              </article>
-            ))}
+            {relatedArticles.map((article) => {
+              const base64String = btoa(
+                Array.prototype.map
+                  .call(new Uint8Array(article.imgId.data.data), (ch) =>
+                    String.fromCharCode(ch)
+                  )
+                  .join('')
+              );
+              return (
+                <article
+                  key={article._id}
+                  className="flex flex-col items-start justify-between"
+                >
+                  <img
+                    src={`data:image/avif;base64,${base64String}`}
+                    alt={article.title}
+                    className="w-full h-48 bg-center bg-cover rounded-t-box"
+                  />
+                  <div className="flex items-center gap-x-4 text-xs mt-2">
+                    <time
+                      dateTime={article.publishedAt}
+                      className="text-gray-500"
+                    >
+                      {new Date(article.publishedAt).toLocaleDateString()}
+                    </time>
+                  </div>
+                  <div className="group relative">
+                    <h3 className="mt-2 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      <Link to={`/news/${article._id}`}>
+                        <span className="absolute inset-0" />
+                        {article.title}
+                      </Link>
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
+                      {article.description}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </div>

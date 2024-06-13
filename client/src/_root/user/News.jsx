@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import { ArticlesContext } from '../../context/ArticlesContext';
@@ -23,11 +23,6 @@ const News = () => {
             {articles.map((article, index) => {
               const date = new Date(article.publishedAt).toLocaleString();
 
-              // const base64String = article.imgId.data
-              //   ? `data:image/png;base64,${btoa(
-              //       String.fromCharCode(...new Uint8Array(article.imgId.data))
-              //     )}`
-              //   : '';
               const base64String = btoa(
                 Array.prototype.map
                   .call(new Uint8Array(article.imgId.data.data), (ch) =>
@@ -47,7 +42,7 @@ const News = () => {
                       <img
                         src={`data:image/avif;base64,${base64String}`}
                         alt={article.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full bg-cover"
                       />
                     </div>
                     <div className="flex items-center gap-x-4 text-xs mt-4">
@@ -81,7 +76,7 @@ const News = () => {
                   <img
                     src={`data:image/avif;base64,${base64String}`}
                     alt={article.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full bg-cover"
                   />
                   <div className="flex items-center gap-x-4 text-xs mt-4">
                     <time

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
+import FileUpload from '../../../../components/FileUpload';
 
 const NewsEdit = () => {
   const {
@@ -10,6 +11,7 @@ const NewsEdit = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,6 +46,41 @@ const NewsEdit = () => {
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+    if (data.file) {
+      const formData = new FormData();
+      formData.append('file', data.file);
+      const { file, ...otherData } = data;
+
+      const res = await axios
+        .post('/api/files/upload/image', formData)
+        .catch((err) => {
+          console.log(err);
+        });
+
+        otherData.imgId = res.data;
+
+        try {
+          const res = await axios.put(`/api/news/${id}`, otherData);
+          if (res.status === 200) {
+            setSuccess('Ziņu raksts veiksmīgi atjaunināts!');
+            setTimeout(() => {
+              navigate('/admin/news');
+              setIsSubmitting(false);
+            }, 2000);
+          }
+        } catch (err) {
+          if (err.response.status === 400) {
+            setError(!error);
+          } else if (err.response.status === 401) {
+            setUser({ isLoggedIn: false });
+            navigate('/');
+          } else {
+            setError(!error);
+          }
+        }
+
+    }
+
     try {
       const res = await axios.put(`/api/news/${id}`, data);
       if (res.status === 200) {
@@ -92,9 +129,9 @@ const NewsEdit = () => {
               <span>{success}</span>
             </div>
           ) : null}
-          {((errors.title && errors.title.type === 'required') ||
+          {(errors.title && errors.title.type === 'required') ||
           (errors.content && errors.content.type === 'required') ||
-          error) ? (
+          error ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -139,6 +176,11 @@ const NewsEdit = () => {
               {...register('content', { required: true })}
             ></textarea>
           </label>
+          <FileUpload
+            control={control}
+            setValue={setValue}
+            fileType={'image/png'}
+          />
           <button
             type="submit"
             className="btn btn-base-300 w-1/2 max-w-sm  mx-auto"
