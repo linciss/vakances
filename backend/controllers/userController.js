@@ -15,7 +15,7 @@ export const attemptChangePassword = async (req, res) => {
     newPassword.length < 6 ||
     newPasswordVerify.length < 6
   ) {
-    return res.status(418).json('Parole par īsu');
+    return res.status(418).json('Paroles par īsu');
   }
 
   try {
@@ -28,11 +28,11 @@ export const attemptChangePassword = async (req, res) => {
     }
 
     if (password === newPassword) {
-      return res.status(418).send('Paroles ir vienādas!');
+      return res.status(418).send('Jaunā parole ar veco ir vienādas!');
     }
 
     if (newPassword !== newPasswordVerify) {
-      return res.status(418).send('Paroles nesakrīt!');
+      return res.status(418).send('Jaunās paroles nesakrīt!');
     }
 
     const hash = await bcrypt.hash(newPassword, saltRounds);
@@ -50,16 +50,16 @@ export const attemptChangeUsername = async (req, res) => {
   const { newUsername, password } = req.body;
   const { user } = req.session;
 
-  if (!newUsername) {
-    return res.status(418).send({ error: 'fill_all_fields' });
+  if (!newUsername || !password) {
+    return res.status(418).json('Lūdzu aizpildiet visus laukus!');
   }
 
   if (newUsername === user.username) {
-    return res.status(418).send({ error: 'username_is_the_same' });
+    return res.status(418).send('Lietotājvārds ir tāds pats!');
   }
 
   if (newUsername.length < 3) {
-    return res.status(418).send({ error: 'username_too_short' });
+    return res.status(418).send('Lietotājvārds par īsu');
   }
 
   try {
@@ -71,13 +71,13 @@ export const attemptChangeUsername = async (req, res) => {
     });
 
     if (userExists) {
-      return res.status(418).send({ error: 'user_exists' });
+      return res.status(418).send('Lietotājs jau eksistē!');
     }
 
     const match = await bcrypt.compare(password, dbUser.password);
 
     if (!match) {
-      return res.status(418).send({ error: 'incorrect_password' });
+      return res.status(418).send('Nepareiza parole vai lietotājvārds!');
     }
 
     await User.updateOne(

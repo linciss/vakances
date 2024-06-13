@@ -10,25 +10,19 @@ import {
   makeUser,
   updateUser,
 } from '../controllers/userController.js';
-import {
-  validateAuthentication,
-  validateChangePassword,
-} from '../validation/validateAuth.js';
-import limiter from '../controllers/rateLimiter.js';
 
 const router = express.Router();
 
-router.put('/change-username', requireAuth, limiter(5), attemptChangeUsername);
+router.put('/change-username', requireAuth, attemptChangeUsername);
 
 router.put(
   '/change-password',
-  validateChangePassword,
+
   requireAuth,
-  limiter(5),
   attemptChangePassword
 );
 
-router.post('/new', limiter(10), requireAdmin, makeUser);
+router.post('/new', requireAdmin, makeUser);
 router.get('/count', requireAuth, getUserCount);
 router.get('/all', requireAdmin, getAllUsers);
 router.delete('/:id', requireAdmin, deleteUser);

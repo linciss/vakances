@@ -54,7 +54,7 @@ app.use(`${process.env.prefix}/auth`, auth);
 app.use(`${process.env.prefix}/vacancies`, vacancy);
 app.use(`${process.env.prefix}/applications`, application);
 app.use(`${process.env.prefix}/users`, user);
-app.use(`${process.env.prefix}/files`, file); // Add this line
+app.use(`${process.env.prefix}/files`, file);
 app.use(`${process.env.prefix}/mail`, mailer);
 
 app.get('/', async (req, res) => {

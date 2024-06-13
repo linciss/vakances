@@ -36,7 +36,6 @@ export const attemptLogin = async (req, res) => {
       };
 
       res.status(200).json(req.session.user);
-      console.log(req.session, 'logged in!');
     } else {
       res.status(418).send('Nepareizs lietotājvārds vai parole!');
     }

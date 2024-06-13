@@ -45,7 +45,6 @@ export const downloadFile = async (req, res) => {
 };
 
 export const getFiles = async (req, res) => {
-  console.log(req.params.id);
   try {
     const files = await File.findById(req.params.id);
     res.status(200).json(files);

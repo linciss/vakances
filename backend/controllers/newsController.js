@@ -10,7 +10,7 @@ const isValidObjectId = (id) => {
 export const getNews = async (req, res) => {
   try {
     const articles = await News.find().populate('imgId');
-    console.log(articles);
+
     res.status(200).json(articles);
   } catch (err) {
     console.error(err);

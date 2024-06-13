@@ -34,6 +34,10 @@ const aplicationSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const Application = mongoose.model(
