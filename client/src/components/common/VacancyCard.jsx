@@ -1,11 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BookmarkedIcon } from '../../assets/BookmarkedIcon';
 import { BookmarkInitialIcon } from '../../assets/BookmarkInitialIcon';
 import { Link } from 'react-router-dom';
 
 export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
-  const [tags, setTags] = useState(vacancy.tags.slice(0, 3) || null);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    if (vacancy.tags && vacancy.tags.length > 0) {
+      setTags(vacancy.tags.slice(0, 3));
+    }
+  }, [vacancy.tags]);
 
   const date = new Date(vacancy.timeCreated).toLocaleString();
   return (
@@ -18,9 +24,9 @@ export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
           <time dateTime={date} className="text-gray-500">
             {date.slice(0, 9)}
           </time>
-          {tags && (
+          {tags && tags.length > 0 ? (
             <div className="flex gap-x-2">
-              {tags.map((tag, i) => (
+              {tags.slice(0, 3).map((tag, i) => (
                 <span
                   key={i}
                   className="text-gray-500 rounded-[0.5rem] bg-base-100 px-4"
@@ -28,12 +34,14 @@ export const VacancyCard = ({ vacancy, bookmarked, handleBookmark }) => {
                   {tag}
                 </span>
               ))}
-              {vacancy.tags.length > 3 && (
+              {vacancy.tags && vacancy.tags.length > 3 && (
                 <span className="text-gray-500">
                   +{vacancy.tags.length - 3}
                 </span>
               )}
             </div>
+          ) : (
+            ''
           )}
         </div>
 

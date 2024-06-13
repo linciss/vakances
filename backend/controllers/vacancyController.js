@@ -27,18 +27,23 @@ export const createVacancy = async (req, res) => {
     res.status(418).send('Lūdzu aizpildiet visus obligātos laukus!');
   }
 
+  const newVacancy = {
+    title,
+    description,
+    address,
+    salary,
+    experience,
+    workTime,
+    workType,
+    load,
+  };
+
+  if (tags) {
+    newVacancy.tags = tags;
+  }
+
   try {
-    const vacancy = new Vacancy({
-      title,
-      description,
-      address,
-      salary,
-      experience,
-      workTime,
-      workType,
-      load,
-      tags,
-    });
+    const vacancy = new Vacancy(newVacancy);
 
     await vacancy.save();
     res.status(200).json('Sludinājums izveidots!');
