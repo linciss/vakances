@@ -7,11 +7,8 @@ import { VacancyCard } from '../../components/common/VacancyCard';
 
 const Vacancies = () => {
   const initialVacancies = useContext(VacancyContext);
-  const [vacancies, setVacancies] = useState(
-    initialVacancies.sort(
-      (a, b) => new Date(b.timeCreated) - new Date(a.timeCreated)
-    )
-  );
+  const [vacancies, setVacancies] = useState([]);
+
   const itemsPerPage = 6;
   const [showBookmarked, setShowBookmarked] = useState(false);
   const totalPages = Math.ceil(vacancies.length / 6);
@@ -28,6 +25,14 @@ const Vacancies = () => {
   useEffect(() => {
     setCurrentPage(initialPage);
   }, [initialPage]);
+
+  useEffect(() => {
+    setVacancies(
+      initialVacancies.sort(
+        (a, b) => new Date(b.timeCreated) - new Date(a.timeCreated)
+      )
+    );
+  }, [initialVacancies]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
