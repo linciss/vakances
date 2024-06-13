@@ -31,7 +31,7 @@ const SignInForms = () => {
           setError('Pārāk daudz pieprasījumu! Lūdzu mēģiniet vēlāk!');
           return;
         }
-        setError('Minimālais simbolu skaits nav sasniegts!');
+        setError(err.response.data);
         console.log(err);
       })
       .then((res) => {

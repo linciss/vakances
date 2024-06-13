@@ -25,26 +25,19 @@ const PasswordForms = () => {
       .put('/api/users/change-password', data)
       .catch((err) => {
         if (err.response.status === 401) {
-          console.log(err.response.data);
-          setError(err.response.data);
-          return;
-        } else if (err.response.status === 429) {
-          setError('Pārāk daudz pieprasījumu! Lūdzu mēģiniet vēlāk!');
-          return;
-        } else if (err.response.status === 400) {
-          setError('Parolēm jābūt no 6 līdz 20 simbolu garām!');
+          setUser((prevUser) => ({
+            ...prevUser,
+            ...Object.keys(prevUser).reduce(
+              (acc, key) => ({ ...acc, [key]: null }),
+              {}
+            ),
+            isLoggedIn: false,
+          }));
+          navigate('/login');
+          setSuccess(null);
           return;
         }
-        setUser((prevUser) => ({
-          ...prevUser,
-          ...Object.keys(prevUser).reduce(
-            (acc, key) => ({ ...acc, [key]: null }),
-            {}
-          ),
-          isLoggedIn: false,
-        }));
-        navigate('/login');
-        setSuccess(null);
+        setError(err.response.data);
         return;
       })
       .then((res) => {
@@ -59,7 +52,7 @@ const PasswordForms = () => {
         }
         setSuccess('Parole nomainīta veiksmīgi!');
         setTimeout(() => {
-          navigate('/');
+          navigate('/profile');
           setSuccess(null);
         }, 1000);
         setError(null);
@@ -69,6 +62,8 @@ const PasswordForms = () => {
     }, 2000);
     if (error || errors) {
       setValue('password', '');
+      setValue('newPassword', '');
+      setValue('newPasswordVerify', '');
     }
   };
 

@@ -20,8 +20,7 @@ const Users = () => {
       .catch((err) => {
         navigate('/admin');
         if (err.response.status === 401) {
-          setUser({ isLoggedIn: false });
-          navigate('/');
+          navigate('/admin');
         }
       })
       .then((res) => {
@@ -53,7 +52,15 @@ const Users = () => {
 
   return (
     <div className="">
-      <h1 className="text-4xl font-bold">Lietotāji</h1>
+      <div className="flex justify-between ">
+        <h1 className="text-4xl font-bold">Lietotāji</h1>
+        <Link
+          to="/admin/users/new"
+          className="btn btn-outline hover:text-black hover:bg-base-100"
+        >
+          + Izveidot
+        </Link>
+      </div>
       <div className="mx-auto border-t border-gray-300 w-full mt-8 px-8">
         {users ? (
           <table className="table mt-8">

@@ -52,6 +52,19 @@ const Applications = () => {
     getApplications();
   }, []);
 
+  const getStatus = (status) => {
+    switch (status) {
+      case 0:
+        return 'Iesniegts';
+      case 1:
+        return 'Apstiprināts';
+      case 2:
+        return 'Noraidīts';
+      default:
+        return 'Iesniegts';
+    }
+  };
+
   return (
     <div className="">
       <h1 className="text-4xl font-bold">Pieteikumi</h1>
@@ -65,6 +78,7 @@ const Applications = () => {
                 <th>Pilnais vārds</th>
                 <th>Vakance</th>
                 <th>Pierakstīšanās datums</th>
+                <th>Statuss</th>
                 <th></th>
               </tr>
             </thead>
@@ -85,6 +99,7 @@ const Applications = () => {
                     <td>
                       {date.slice(0, 10)} {date.slice(11, 20)}
                     </td>
+                    <td>{getStatus(application.status)}</td>
                     <td>
                       <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="">

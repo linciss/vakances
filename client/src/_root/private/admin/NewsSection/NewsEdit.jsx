@@ -44,8 +44,10 @@ const NewsEdit = () => {
   }, [fetchNews]);
 
   const onSubmit = async (data) => {
+    console.log('āsdasdasdasdasd');
     if (isSubmitting) return;
     setIsSubmitting(true);
+
     if (data.file) {
       const formData = new FormData();
       formData.append('file', data.file);
@@ -57,28 +59,27 @@ const NewsEdit = () => {
           console.log(err);
         });
 
-        otherData.imgId = res.data;
+      otherData.imgId = res.data;
 
-        try {
-          const res = await axios.put(`/api/news/${id}`, otherData);
-          if (res.status === 200) {
-            setSuccess('Ziņu raksts veiksmīgi atjaunināts!');
-            setTimeout(() => {
-              navigate('/admin/news');
-              setIsSubmitting(false);
-            }, 2000);
-          }
-        } catch (err) {
-          if (err.response.status === 400) {
-            setError(!error);
-          } else if (err.response.status === 401) {
-            setUser({ isLoggedIn: false });
-            navigate('/');
-          } else {
-            setError(!error);
-          }
+      try {
+        const res = await axios.put(`/api/news/${id}`, otherData);
+        if (res.status === 200) {
+          setSuccess('Ziņu raksts veiksmīgi atjaunināts!');
+          setTimeout(() => {
+            navigate('/admin/news');
+            setIsSubmitting(false);
+          }, 2000);
         }
-
+      } catch (err) {
+        if (err.response.status === 400) {
+          setError(!error);
+        } else if (err.response.status === 401) {
+          setUser({ isLoggedIn: false });
+          navigate('/');
+        } else {
+          setError(!error);
+        }
+      }
     }
 
     try {
@@ -129,9 +130,8 @@ const NewsEdit = () => {
               <span>{success}</span>
             </div>
           ) : null}
-          {(errors.title && errors.title.type === 'required') ||
-          (errors.content && errors.content.type === 'required') ||
-          error ? (
+
+          {error ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,9 +146,7 @@ const NewsEdit = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="text-white">
-                Lūdzu aizpildiet visus obligātos laukus
-              </span>
+              <span className="text-white">{error}</span>
             </div>
           ) : null}
           <label className="form-control w-full m-auto">

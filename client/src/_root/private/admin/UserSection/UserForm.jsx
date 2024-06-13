@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,12 @@ const UserForm = () => {
 
   const [error, setError] = useState(null);
   const { setUser, user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!user.isLoggedIn || (user.role !== 'root' && user.role !== 'admin')) {
+      navigate('/admin');
+    }
+  }, []);
 
   const onSubmit = async (data) => {
     await axios

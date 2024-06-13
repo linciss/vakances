@@ -27,36 +27,19 @@ const UsernameForms = () => {
       .put('/api/users/change-username', data)
       .catch((err) => {
         if (err.response.status === 401) {
-          const responseData = err.response.data;
-          if (responseData.error === 'username_is_the_same') {
-            setError(
-              'Jaunais lietotājvārds nedrīkst būt tāds pats kā iepriekšējais!'
-            );
-            return;
-          } else if (responseData.error === 'fill_all_fields') {
-            setError('Lūdzu aizpildiet visus laukus!');
-            return;
-          } else if (responseData.error === 'incorrect_password') {
-            setError('Nepareiza parole!');
-            return;
-          } else if (responseData.error === 'user_exists') {
-            setError('Lietotājs ar šādu lietotājvārdu jau eksistē!');
-            return;
-          } else {
-            setUser((prevUser) => ({
-              ...prevUser,
-              ...Object.keys(prevUser).reduce(
-                (acc, key) => ({ ...acc, [key]: null }),
-                {}
-              ),
-              isLoggedIn: false,
-            }));
-            navigate('/login');
-            return;
-          }
+          setUser((prevUser) => ({
+            ...prevUser,
+            ...Object.keys(prevUser).reduce(
+              (acc, key) => ({ ...acc, [key]: null }),
+              {}
+            ),
+            isLoggedIn: false,
+          }));
+          navigate('/login');
+          setSuccess(null);
+          return;
         }
         setError(err.response.data);
-        navigate('/');
         setSuccess(null);
       })
       .then((res) => {
@@ -72,7 +55,7 @@ const UsernameForms = () => {
         setUser(data);
         setSuccess('Lietotājvārds mainīts!');
         setTimeout(() => {
-          navigate('/');
+          navigate('/profile');
           setSuccess(null);
         }, 1000);
         setError(null);
@@ -82,6 +65,7 @@ const UsernameForms = () => {
     }, 2000);
     if (error || errors) {
       setValue('password', '');
+      setValue('newUsername', '');
     }
   };
 
@@ -108,7 +92,7 @@ const UsernameForms = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="text-white">Please fill in all required fields</span>
+          <span className="text-white">{error}</span>
         </div>
       ) : null}
       {success ? (

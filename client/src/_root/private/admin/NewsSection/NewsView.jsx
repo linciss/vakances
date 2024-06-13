@@ -48,7 +48,16 @@ const NewsView = () => {
 
   return (
     <div className="">
-      <h1 className="text-4xl font-bold">Jaunumi</h1>
+      <div className="flex justify-between ">
+        <h1 className="text-4xl font-bold">Jaunumi</h1>
+        <Link
+          to="/admin/news/new"
+          className="btn btn-outline hover:text-black hover:bg-base-100"
+        >
+          + Izveidot
+        </Link>
+      </div>
+
       <div className="mx-auto border-t border-gray-300 w-full mt-8 px-8">
         {articles ? (
           <table className="table mt-8">
@@ -66,7 +75,7 @@ const NewsView = () => {
                   <th>{index + 1}</th>
                   <td>{article.title}</td>
                   <td>{article.publishedAt.slice(0, 10)}</td>
-                  <td>{article.content}</td>
+
                   <td>
                     <div className="dropdown dropdown-end">
                       <div tabIndex={0} role="button" className="">
