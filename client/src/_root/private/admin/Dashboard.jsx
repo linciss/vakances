@@ -12,7 +12,8 @@ const Dashboard = () => {
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
-  const [pieChartData, setPieChartData] = useState([]);
+  const [pieChartData1, setPieChartData1] = useState([]);
+  const [pieChartData2, setPieChartData2] = useState([]);
 
   const fetchApplicationData = async () => {
     await axios('/api/applications/get', { withCredentials: true })
@@ -36,6 +37,7 @@ const Dashboard = () => {
         setApplications(data);
       });
   };
+
   useEffect(() => {
     if (applications.length > 0) {
       // Process the application data to get counts per vacancy
@@ -50,7 +52,35 @@ const Dashboard = () => {
       }, {});
 
       // Convert the processed data into an array for the pie chart
-      setPieChartData(Object.values(vacancyApplicationCounts));
+      setPieChartData1(Object.values(vacancyApplicationCounts));
+    }
+  }, [applications]);
+
+  const getStatus = (status) => {
+    switch (status) {
+      case 0:
+        return 'Iesniegts';
+      case 1:
+        return 'Apstiprināts';
+      case 2:
+        return 'Noraidīts';
+      default:
+        return 'Iesniegts';
+    }
+  };
+
+  useEffect(() => {
+    if (applications.length > 0) {
+      const applicationStatusCounts = applications.reduce((acc, app) => {
+        const status = app.status;
+        if (!acc[status]) {
+          acc[status] = { name: getStatus(status), value: 0 };
+        }
+        acc[status].value += 1;
+        return acc;
+      }, {});
+
+      setPieChartData2(Object.values(applicationStatusCounts));
     }
   }, [applications]);
 
@@ -184,8 +214,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 mt-8 bg-white p-8 rounded-xl">
-        <PieChart data={pieChartData} />
+      <div className="my-8 p-8 rounded-xl grid grid-cols-2 bg-white">
+        <PieChart title={'Aplikācijas'} data={pieChartData1} />
+        <PieChart title={'Statusi'} data={pieChartData2} />
       </div>
     </>
   );

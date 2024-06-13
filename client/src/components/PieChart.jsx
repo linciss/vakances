@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 
-const PieChart = ({ data }) => {
+const PieChart = ({ data, title }) => {
   const options = {
     title: {
-      text: 'Aplikācijas',
+      text: title,
       left: 'center',
     },
     tooltip: {
