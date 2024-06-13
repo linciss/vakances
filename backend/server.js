@@ -49,13 +49,13 @@ app.use(
   })
 );
 
-app.use(`${process.env.prefix}/news`, newsRouter);
-app.use(`${process.env.prefix}/auth`, auth);
-app.use(`${process.env.prefix}/vacancies`, vacancy);
-app.use(`${process.env.prefix}/applications`, application);
-app.use(`${process.env.prefix}/users`, user);
-app.use(`${process.env.prefix}/files`, file);
-app.use(`${process.env.prefix}/mail`, mailer);
+app.use(`${process.env.PREFIX}/news`, newsRouter);
+app.use(`${process.env.prePREFIXfix}/auth`, auth);
+app.use(`${process.env.PREFIX}/vacancies`, vacancy);
+app.use(`${process.env.PREFIX}/applications`, application);
+app.use(`${process.env.PREFIX}/users`, user);
+app.use(`${process.env.PREFIX}/files`, file);
+app.use(`${process.env.PREFIX}/mail`, mailer);
 
 app.get('/', async (req, res) => {
   res.send('Hello World!');
