@@ -13,6 +13,7 @@ import {
   News,
   ViewNews,
   Vacancy,
+  NotFound,
 } from '../_root/user';
 
 import { PrivateRoutes } from './PrivateRoutes';
@@ -40,7 +41,7 @@ export const Views = () => {
   return user.isLoggedIn === null ? null : (
     <Routes>
       {/* PUBLIC ROUTES  */}
-      <Route path="*" element={<div>404 Not Found</div>} />
+      <Route path="*" element={<NotFound />} />
       <Route element={<AuthLayout />}>
         {/* <Route path="/login" element={<SignInForms />} /> */}
         <Route path="/login" element={<SignInForms />} />

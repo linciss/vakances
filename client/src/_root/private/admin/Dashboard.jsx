@@ -137,7 +137,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1 className="text-6xl font-bold">Dashboard</h1>
+      <h1 className="text-6xl font-bold">Admina Panelis</h1>
       <div className="stats stats-vertical lg:stats-horizontal shadow mt-8">
         {/* STATS */}
         <div className="stat bg-white py-8 gap-2">
@@ -184,7 +184,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 mt-8">
+      <div className="w-1/2 mt-8 bg-white p-8 rounded-xl">
         <PieChart data={pieChartData} />
       </div>
     </>

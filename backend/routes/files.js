@@ -15,7 +15,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // router.post('/upload', uploadFile);
-router.post('/upload', requireAuth, upload.single('file'), uploadPdf);
+router.post('/upload', upload.single('file'), uploadPdf);
 router.post('/upload/image', requireAuth, upload.single('file'), uploadPng);
 router.get('/download/:id', requireAuth, downloadFile);
 router.get('/get/:id', requireAuth, getFiles);

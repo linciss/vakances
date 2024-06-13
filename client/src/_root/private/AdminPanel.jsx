@@ -47,7 +47,7 @@ const AdminPanel = () => {
           {/* Sidebar content here */}
           <li>
             <Link to={'/admin'} className="text-xl btn btn-primary shadow-none">
-              Dashboard
+              Admina panelis
             </Link>
           </li>
 
