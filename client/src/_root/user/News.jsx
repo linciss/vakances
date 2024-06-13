@@ -76,7 +76,7 @@ const News = () => {
                   <img
                     src={`data:image/avif;base64,${base64String}`}
                     alt={article.title}
-                    className="w-full h-full bg-cover"
+                    className="w-full h-52 bg-cover"
                   />
                   <div className="flex items-center gap-x-4 text-xs mt-4">
                     <time

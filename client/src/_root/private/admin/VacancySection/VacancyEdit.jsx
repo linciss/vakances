@@ -60,7 +60,7 @@ const VacancyEdit = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     axios
-      .put(`/api/vacancies/admin/${id}`, data)
+      .put(`/api/vacancies/${id}`, data)
       .catch((err) => {
         if (err.response.status === 400) {
           setError(!error);
