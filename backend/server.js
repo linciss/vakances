@@ -50,7 +50,7 @@ app.use(
 );
 
 app.use(`${process.env.PREFIX}/news`, newsRouter);
-app.use(`${process.env.prePREFIXfix}/auth`, auth);
+app.use(`${process.env.PREFIX}/auth`, auth);
 app.use(`${process.env.PREFIX}/vacancies`, vacancy);
 app.use(`${process.env.PREFIX}/applications`, application);
 app.use(`${process.env.PREFIX}/users`, user);
