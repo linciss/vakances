@@ -100,6 +100,9 @@ const NewsEdit = () => {
         setError(!error);
       }
     }
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
   };
 
   return (

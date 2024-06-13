@@ -86,11 +86,14 @@ const VacancyForm = () => {
           return;
         }
         setSuccess('Vakance izveidota veiksmīgi!');
+        setError(null);
         setTimeout(() => {
-          navigate('/admin');
-          setIsSubmitting(false);
+          navigate('/admin/vacancies');
         }, 2000);
       });
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
   };
 
   return (

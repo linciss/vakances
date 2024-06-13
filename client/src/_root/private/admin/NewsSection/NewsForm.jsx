@@ -59,6 +59,9 @@ const NewsForm = () => {
           setIsSubmitting(false);
         }, 2000);
       });
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
   };
 
   return (

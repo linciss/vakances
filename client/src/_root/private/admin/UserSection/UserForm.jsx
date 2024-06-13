@@ -15,6 +15,8 @@ const UserForm = () => {
 
   const [error, setError] = useState(null);
   const { setUser, user } = useContext(AuthContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     if (!user.isLoggedIn || (user.role !== 'root' && user.role !== 'admin')) {
@@ -23,20 +25,18 @@ const UserForm = () => {
   }, []);
 
   const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     await axios
       .post('/api/users/new', data, { withCredentials: true })
       .catch((err) => {
-        if (err.response.status === 400) {
-          setError(err.response.data);
-          return;
-        }
         if (err.response.status === 401) {
           setUser({ isLoggedIn: false });
           navigate('/');
           return;
         }
         setError(err.response.data);
-        console.log(err);
+        return;
       })
       .then((res) => {
         if (!res || res.status !== 200) {
@@ -48,8 +48,15 @@ const UserForm = () => {
         if (!data) {
           return;
         }
-        navigate('/admin');
+        setSuccess(data);
+        setError(null);
+        setTimeout(() => {
+          navigate('/admin/users');
+        }, 2000);
       });
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
   };
 
   return (
@@ -62,9 +69,7 @@ const UserForm = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="shadow-md px-8 py-10 gap-8  flex flex-col w-[90%] md:w-[80%] lg:w-2/3 m-auto mb-8 mt-8"
         >
-          {(errors.username && errors.username.type === 'required') ||
-          (errors.password && errors.password.type === 'required') ||
-          error ? (
+          {error ? (
             <div role="alert" className="alert alert-error">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,6 +87,26 @@ const UserForm = () => {
               <span className="text-white">{error}</span>
             </div>
           ) : null}
+          {success ? (
+            <div role="alert" className="alert alert-success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{success}</span>
+            </div>
+          ) : (
+            ''
+          )}
           <label className="form-control w-full m-auto">
             <div className="label">
               <span className="label-text">Lietotājvārds</span>

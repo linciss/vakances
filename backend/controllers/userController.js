@@ -220,7 +220,7 @@ export const updateUser = async (req, res) => {
     }
 
     if (user.role === 'root') {
-      return res.status(500).json('Nav privilēģiju!');
+      return res.status(418).json('Nav privilēģiju!');
     }
 
     const match = await bcrypt.compare(password, user.password);
