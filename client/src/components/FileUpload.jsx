@@ -7,7 +7,6 @@ const FileUpload = ({ setValue, control, fileType }) => {
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    console.log('asdasdsad');
 
     if (file.type !== fileType) {
       setError('Nav pareizs faila formāts!');
